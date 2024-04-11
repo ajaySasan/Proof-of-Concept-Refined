@@ -1,0 +1,258 @@
+'use client'
+
+import axios from "axios";
+import { useState, useEffect } from "react";
+import "../../../../../../../../app/App.scss"
+
+interface GenerateCoreMetricsProps {
+  nextBtn: () => void;
+  backBtn: () => void;
+  operatorId: string;
+}
+
+interface DeviceInfo {
+  deviceId: number;
+  mac: string;
+}
+
+interface Metric {
+  deviceId: number;
+  mac: string;
+  signal: string;
+  txBitrate: number;
+  rxBitrate: number;
+  txBytes: number;
+  rxBytes: number;
+  createdAt: any;
+  updatedAt: any;
+  rxBitRateAverage: string;
+  txBitRateAverage: string;
+  signalNum: number;
+}
+
+// Database API
+const apiURL = "https://apistag.blackdice.io";
+const endpointMetrics = "/svc/mock/create-many-device-metrics";
+const endpointThreat = "/svc/mock/create-many-threats";
+const token =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJRCI6NjQ2LCJzZXNzaW9uVG9rZW4iOnsiaWQiOjE3Njk0LCJzZXNzaW9uIjoiMTdiNDk0OWMxYzc4NGRkOWQ3ODE0YzRiZmNkNTBlYzIiLCJ1IjoiYjI4ZWU2MmFhNjgwYmRjZjUwZDNkMGIxZDgwNzczZmQ1MTNhN2JiMiIsInVwZGF0ZWRBdCI6IjIwMjQtMDMtMDdUMTQ6NDE6MjUuNjczWiIsImNyZWF0ZWRBdCI6IjIwMjQtMDMtMDdUMTQ6NDE6MjUuNjczWiJ9LCJpYXQiOjE3MDk4MjI0ODV9.iY7cKJjJEg0UsGySFGdCPrfeg0D9BdKc5RP2TFrvWtY";
+const header = {
+  "auth-token": token,
+};
+
+export const GenerateCoreMetrics: React.FC<GenerateCoreMetricsProps> = ({
+  nextBtn,
+  backBtn,
+  operatorId,
+}) => {
+  // Time
+  const randomTime = () => {
+    const hour = Math.floor(Math.random() * 24);
+    const minute = Math.floor(Math.random() * 60);
+    const second = Math.floor(Math.random() * 60);
+
+    const formatHour = hour < 10 ? "0" + hour : hour;
+    const formatMinute = minute < 10 ? "0" + minute : minute;
+    const formatSecond = second < 10 ? "0" + second : second;
+
+    const formatTime = `${formatHour}:${formatMinute}:${formatSecond}`;
+
+    return formatTime;
+  };
+
+  // Later
+  const addRandomTime = (baseTime: any) => {
+    const addHours = Math.floor(Math.random() * 24);
+    const addMinutes = Math.floor(Math.random() * 60);
+    const addSeconds = Math.floor(Math.random() * 60);
+
+    const [hour, minute, second] = baseTime.split(":").map(Number);
+    const baseTotalSeconds = hour * 3600 + minute * 60 + second;
+
+    const totalSeconds =
+      baseTotalSeconds + addHours * 3600 + addMinutes * 60 + addSeconds;
+
+    const newHour = Math.floor(totalSeconds / 3600) % 24;
+    const newMinute = Math.floor((totalSeconds % 3600) / 60);
+    const newSecond = totalSeconds % 60;
+
+    const formatHour = newHour < 10 ? "0" + newHour : newHour;
+    const formatMinute = newMinute < 10 ? "0" + newMinute : newMinute;
+    const formatSecond = newSecond < 10 ? "0" + newSecond : newSecond;
+
+    const newTime = `${formatHour}:${formatMinute}:${formatSecond}`;
+    return newTime;
+  };
+
+  // Date
+  const todaysDate = new Date();
+  const pastDates: string[] = [];
+  for (let i = 0; i < 60; i++) {
+    const date = new Date(todaysDate);
+    date.setDate(todaysDate.getDate() - i);
+    pastDates.unshift(
+      `${date.getFullYear()}-${(date.getMonth() + 1)
+        .toString()
+        .padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")}`
+    );
+  }
+
+  // Get 1000 - 2000
+  const generateNumberOfDates = (): number[] => {
+    const numOfDates: number[] = [];
+    for (let i = 0; i < 60; i++) {
+      numOfDates.push(Math.floor(Math.random() * (2000 - 1000 + 1) + 1000));
+    }
+    return numOfDates;
+  };
+
+  const repeatDates = (
+    pastDates: string[],
+    generateNumberOfDates: () => number[]
+  ): string[] => {
+    const randomNumbers = generateNumberOfDates();
+
+    const repeatedArray = pastDates.flatMap((date, index) => {
+      const repeatCount = randomNumbers[index];
+      return Array(repeatCount).fill(date);
+    });
+
+    return repeatedArray;
+  };
+  const repeatedDates = repeatDates(pastDates, generateNumberOfDates);
+  const dateAndTime = repeatedDates.map((date) => {
+    const baseTime = randomTime(); // Generate a random base time
+    const newTime = addRandomTime(baseTime); // Generate a new time based on the base time
+    return `${date} ${newTime}`;
+  });
+
+  // deviceId
+  const [shuffledDeviceIds, setShuffledDeviceIds] = useState<DeviceInfo[]>([]);
+  const [deviceInfo, setDeviceInfo] = useState<DeviceInfo[]>([]);
+
+  const deviceIdOperator: any = `/op/operatordevices/${operatorId}?size=100000`;
+  useEffect(() => {
+    const fetchDeviceId = async () => {
+      try {
+        const response = await axios.get(apiURL + deviceIdOperator, {
+          headers: header,
+        });
+        const data = response.data;
+        const deviceInfo: DeviceInfo[] = data.data.map(
+          (item: { ID: number; mac_address: string }) => ({
+            deviceId: item.ID,
+            mac: item.mac_address,
+          })
+        );
+        setShuffledDeviceIds(shuffle(deviceInfo)); // Shuffle device IDs and store them
+        setDeviceInfo(deviceInfo); // Store device info without shuffling
+      } catch (error) {
+        console.log("error");
+      }
+    };
+    fetchDeviceId();
+  }, []);
+
+  // Shuffle function
+  const shuffle = (array: any[]) => {
+    const shuffledArray = [...array];
+    for (let i = shuffledArray.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffledArray[i], shuffledArray[j]] = [
+        shuffledArray[j],
+        shuffledArray[i],
+      ];
+    }
+    return shuffledArray;
+  };
+
+  // Metric Data
+  const randomSignal = () => {
+    const signalStrength = ["weak", "medium", "strong"];
+    const randomIndex = Math.floor(Math.random() * signalStrength.length);
+    return signalStrength[randomIndex];
+  };
+
+  const txBitrate = () => {
+    return Math.floor(Math.random() * 100) + 1;
+  };
+
+  const rxBitrate = () => {
+    return Math.floor(Math.random() * 100) + 1;
+  };
+
+  const txByte = () => {
+    return Math.floor(Math.random() * (1000000000 - 100000 + 1)) + 100000;
+  };
+
+  const rxByte = () => {
+    return Math.floor(Math.random() * (1000000000 - 100000 + 1)) + 100000;
+  };
+
+  const randomRxBitRateAverage = () => {
+    const rxBitRateAverage = ["low", "medium", "high"];
+    const randomRxIndex = Math.floor(Math.random() * rxBitRateAverage.length);
+    return rxBitRateAverage[randomRxIndex];
+  };
+
+  const randomTxBitRateAverage = () => {
+    const txBitRateAverage = ["low", "medium", "high"];
+    const randomTxIndex = Math.floor(Math.random() * txBitRateAverage.length);
+    return txBitRateAverage[randomTxIndex];
+  };
+
+  const signalNum = () => {
+    return Math.floor(Math.random() * (-25 - -90 + 1)) + -90;
+  };
+
+  // Handle submit
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const baseTime = randomTime();
+
+    const metricData: Metric[] = [];
+
+    dateAndTime.forEach((dateTime, index) => {
+      const idIndex = index % shuffledDeviceIds.length;
+      const { deviceId, mac } = shuffledDeviceIds[idIndex];
+      const newTime = addRandomTime(baseTime);
+      const updatedAt = `${dateTime.split(" ")[0]} ${newTime}`;
+
+      const newMetricData: Metric = {
+        deviceId: deviceId,
+        mac: mac,
+        signal: randomSignal(),
+        txBitrate: txBitrate(),
+        rxBitrate: rxBitrate(),
+        txBytes: txByte(),
+        rxBytes: rxByte(),
+        createdAt: dateTime,
+        updatedAt: updatedAt,
+        rxBitRateAverage: randomRxBitRateAverage(),
+        txBitRateAverage: randomTxBitRateAverage(),
+        signalNum: signalNum(),
+      };
+      metricData.push(newMetricData);
+    });
+
+    console.log(metricData);
+  };
+
+  return (
+    <div className="common-container">
+      <div className="common-container-header">
+        <h1>Generate Metric History</h1>
+      </div>
+
+      <form className="common-container-body" onSubmit={handleSubmit}>
+        <label>Generate metric data for the past 60 days</label>
+        <button type="submit">GENERATE METRICS</button>
+      </form>
+
+      <div className="common-container-footer">
+        <button onClick={backBtn}>BACK</button>
+        <button onClick={nextBtn}>NEXT</button>
+      </div>
+    </div>
+  );
+};

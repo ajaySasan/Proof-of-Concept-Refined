@@ -1,0 +1,59 @@
+@import "../app/App.scss";
+
+.taskBar {
+  display: flex;
+  height: 70px;
+  background: $bluish-black;
+  width: 100vw;
+  margin: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 99;
+}
+
+.logo {
+  display: flex;
+  
+}
+
+.blackDiceLogo {
+  position: fixed;
+  top: 8px;
+  left: 40px;
+}
+
+#blackDiceText {
+  margin-left: 50px;
+  margin-top: 10px;
+  width: 180px;
+}
+
+#blackDiceCube {
+  width: 40px;
+  margin-top: 5px;
+}
+
+.links {
+  display: flex;
+  width: 300px;
+  justify-content: flex-end;
+  align-items: center;
+  margin-right: 15px;
+
+  & a {
+    color: $pale-grey;
+  }
+
+  & a:hover {
+    color: $pale-green;
+  }
+
+  & a:active {
+    color: $green;
+  }
+
+
+  }
+  
+
