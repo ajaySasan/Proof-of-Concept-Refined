@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "../../../../app/App.scss"
+import "../../../../app/App.scss";
 import axios from "axios";
 
 // Email Resend
@@ -96,6 +96,7 @@ export const UserAccount: React.FC<UserAccountProps> = ({
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     if (email.trim() === "" || confirmEmail.trim() === "") {
       window.alert("Please enter and confirm your Email Address");
       return;
@@ -113,8 +114,14 @@ export const UserAccount: React.FC<UserAccountProps> = ({
       email: email,
       pass: generatePassword(),
       serialNumber: serialNumber(),
-      referer: "stag-casa-systems.blackdice.io",
+      referer: "stag.blackdice.io",
     };
+
+    await fetch("api/send", {
+      method: "POST",
+      body: JSON.stringify({ email: userData.email, pass: userData.pass }),
+    });
+
 
     try {
       const response = await axios.post(apiURL + accountEndpoint, userData);

@@ -2,15 +2,18 @@ import { NextResponse } from "next/server";
 import { Resend } from "resend";
 import { EmailTemplate } from "../../../components/password-email/EmailTemplate"
 
-export async function POST() {
+export async function POST(request: Request) {
   const resend = new Resend(process.env.RESEND_API_KEY);
-
+  
   try {
-    const { data } = await resend.emails.send({
-      from: "onboarding@resend.dev",
-      to: "ajay.sasan@blackdice.ai",
+    const body = await request.json();
+    console.log("body", body)
+    const {pass, email} = body;
+    const data = await resend.emails.send({
+      from: "ajay.sasan@blackdice.ai",
+      to: email,
       subject: "Thanks for signing up with BlackDice Cyber",
-      react: EmailTemplate({ pass: "PASSWORD3"}),
+      react: EmailTemplate({ pass: pass }),
     });
     return NextResponse.json({data});
   } catch (error) {
