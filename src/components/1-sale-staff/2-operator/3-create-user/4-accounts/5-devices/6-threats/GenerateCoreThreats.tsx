@@ -1,7 +1,7 @@
-'use client'
+"use client";
 
 import axios from "axios";
-import "../../../../../../../app/App.scss"
+import "../../../../../../../app/App.scss";
 import { useEffect, useState } from "react";
 
 interface GenerateCoreThreatsProps {
@@ -203,9 +203,8 @@ export const GenerateCoreThreats: React.FC<GenerateCoreThreatsProps> = ({
       threatType: "File hosting site blocked",
     },
   ];
-
   // Handle submit
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     // Generate base time for createdAt
@@ -269,9 +268,21 @@ export const GenerateCoreThreats: React.FC<GenerateCoreThreatsProps> = ({
       threatData.push(newThreatData);
     });
 
-    console.log(threatData);
+    const chunkSize = 100;
+    for (let i = 0; i < threatData.length; i += chunkSize) {
+      const chunk = threatData.slice(i, i + chunkSize);
+      try {
+        const response = await axios.post(apiURL + endpointThreat, {
+          threats: chunk,
+        });
+        console.log("Threat data posted:", response.data);
+      } catch (error) {
+        console.error("Error posting threat data:", error);
+      }
+      console.log(chunk);
+    }
   };
-
+  
   return (
     <div className="common-container">
       <div className="common-container-header">

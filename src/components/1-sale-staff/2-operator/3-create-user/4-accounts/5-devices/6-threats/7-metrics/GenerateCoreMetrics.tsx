@@ -25,8 +25,8 @@ interface Metric {
   rxBytes: number;
   createdAt: any;
   updatedAt: any;
-  rxBitRateAverage: string;
-  txBitRateAverage: string;
+  rxBitrateAverage: string;
+  txBitrateAverage: string;
   signalNum: number;
 }
 
@@ -206,7 +206,7 @@ export const GenerateCoreMetrics: React.FC<GenerateCoreMetricsProps> = ({
   };
 
   // Handle submit
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const baseTime = randomTime();
 
@@ -228,14 +228,25 @@ export const GenerateCoreMetrics: React.FC<GenerateCoreMetricsProps> = ({
         rxBytes: rxByte(),
         createdAt: dateTime,
         updatedAt: updatedAt,
-        rxBitRateAverage: randomRxBitRateAverage(),
-        txBitRateAverage: randomTxBitRateAverage(),
+        rxBitrateAverage: randomRxBitRateAverage(),
+        txBitrateAverage: randomTxBitRateAverage(),
         signalNum: signalNum(),
       };
       metricData.push(newMetricData);
     });
 
-    console.log(metricData);
+    const chunkSize = 100;
+    for (let i = 0; i < metricData.length; i += chunkSize) {
+      const chunk = metricData.slice(i, i + chunkSize);
+      try {
+        const response = await axios.post(apiURL + endpointMetrics, {metrics: chunk});
+        console.log("Metric data posted:", response.data);
+      } catch (error) {
+        console.error("Error posting metric data:", error);
+      }
+      console.log(chunk);
+    }
+
   };
 
   return (

@@ -117,17 +117,21 @@ export const UserAccount: React.FC<UserAccountProps> = ({
       referer: "stag.blackdice.io",
     };
 
-    await fetch("api/send", {
-      method: "POST",
-      body: JSON.stringify({ email: userData.email, pass: userData.pass }),
-    });
-
+    try {
+      await axios.post("api/send", {
+        email: userData.email,
+        pass: userData.pass,
+      });
+      console.log("Email sent successfully");
+    } catch (error) {
+      console.error("Error sending email:", error);
+    }
 
     try {
       const response = await axios.post(apiURL + accountEndpoint, userData);
-      console.log("success");
+      console.log("Account created successfully");
     } catch (error) {
-      console.log("error");
+      console.log("Error creating account");
     }
 
     console.log(userData);
