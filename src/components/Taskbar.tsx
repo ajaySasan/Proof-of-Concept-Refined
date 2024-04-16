@@ -1,8 +1,12 @@
 "use client";
 
 import "./taskbar.scss";
+import { WelcomePage } from "./WelcomePage";
 
-export const Taskbar = () => {
+interface TaskbarProps {
+  homepage: (page: number) => void;
+}
+export const Taskbar: React.FC<TaskbarProps> = ({ homepage }) => {
   return (
     <div className="taskBar">
       <div className="logo">
@@ -11,12 +15,16 @@ export const Taskbar = () => {
           alt="Black Dice Logo"
           className="blackDiceLogo"
           id="blackDiceText"
+          onClick={() => homepage(0)}
+          style={{ cursor: "pointer" }}
         />
         <img
           src="/BlackDiceCube.png"
           alt="Black Dice Logo"
           className="blackDiceLogo"
           id="blackDiceCube"
+          onClick={() => homepage(0)}
+          style={{ cursor: "pointer" }}
         />
       </div>
       <div className="links">

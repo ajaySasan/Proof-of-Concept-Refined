@@ -16,12 +16,14 @@ import { Taskbar } from "@/components/Taskbar";
 import { WelcomePage } from "@/components/WelcomePage";
 import { useState } from "react";
 
-import { GET } from "./api/send/route";
-
 export default function Home() {
   const [currentPage, setCurrentPage] = useState(0);
   const [staffNameInput, setStaffNameInput] = useState("");
   const [operatorId, setOperatorId] = useState<string>("");
+
+  const handleImageClick = (page: any) => {
+    setCurrentPage(page);
+  };
 
   const handleStaffName = (staffNameValue: string) => {
     setStaffNameInput(staffNameValue);
@@ -124,7 +126,7 @@ export default function Home() {
 
   return (
     <main>
-      <Taskbar />
+      <Taskbar homepage={handleImageClick}/>
       {renderPage()}
     </main>
   );

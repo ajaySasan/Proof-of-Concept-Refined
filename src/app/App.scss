@@ -27,7 +27,9 @@ $button-gradient: linear-gradient(90deg, #bbcedb, #7b92a3);
 $button-gradient-hover: linear-gradient(90deg, #202d36, #151e24);
 $button-gradient-active: linear-gradient(90deg, #465c6d, #293c47);
 
-$ui-background-gradient: linear-gradient(90deg, #242f36, #597475);
+$ui-background-gradient: linear-gradient(90deg, #2d3b46, #1f2e36);
+$container-bg-gradient: linear-gradient(180deg, #ffffff, #dfe7ec);
+$taskbar: linear-gradient(90deg, #0e1317, #090c0c);
 
 * {
   font-family: "Roboto", sans-serif;
@@ -97,12 +99,14 @@ button {
   transition: border-color 0.25s, background-color 0.25s, color 0.25s;
   padding: 5px 30px;
   margin: 5px;
+  transition: transform 0.3s ease;
 }
 
 button:hover {
   border-color: $pale-green;
   background: $button-gradient-hover;
   color: $pale-green;
+  transform: scale(1.1);
 }
 
 button:active {
@@ -119,9 +123,11 @@ button:active {
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 999;
-  background-color: $white;
-  height: 80vh;
-  width: 35vw;
+  background: $container-bg-gradient;
+  // height: 80vh;
+  // width: 35vw;
+  height: 55vh;
+  width: 40vw;
   border-radius: 18px;
   display: flex;
   flex-direction: column;
@@ -220,4 +226,47 @@ select option {
 
 p {
   color: $bluish-black;
+}
+
+.search {
+  color: red;
+}
+
+// .search-result {
+//   color: $bluish-black;
+//   background-color: $pale-grey;
+//   display: flex;
+//   flex-direction: column;
+//   width: 250px;
+//   padding: 10px;
+//   padding-top: 15px;
+//   margin-bottom: 10px;
+//   position: relative;
+//   bottom: 20px;
+//   z-index: -300;
+//   border-bottom-left-radius: 20px;
+//   border-bottom-right-radius: 20px;
+// }
+
+.list-all {
+  background-color: $medium-grey;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  // fix the radius
+}
+.list {
+  cursor: pointer;
+  width: 260px;
+  padding: 8px 0;
+  overflow: hidden;
+}
+
+.list:hover {
+  color: $white;
+  background-color: $pale-grey;
+}
+
+.list:active {
+  color: $pale-green;
+  background-color: $dark-blue;
 }

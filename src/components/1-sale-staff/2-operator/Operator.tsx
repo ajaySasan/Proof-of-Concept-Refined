@@ -69,6 +69,8 @@ export const Operator: React.FC<OperatorProps> = ({
     setLocalOperatorId(operatorIdProps);
   }, [operatorId]);
 
+  console.log(staffName)
+  
   return (
     <div className="common-container">
       <div className="common-container-header">
@@ -87,7 +89,7 @@ export const Operator: React.FC<OperatorProps> = ({
           value={selectedOperator}
           onChange={handleSelectedOperator}
         >
-          <option value="" disabled selected hidden>
+          <option value="" disabled hidden>
             OPERATOR SELECTION
           </option>
           {operatorList.map((operator) => (

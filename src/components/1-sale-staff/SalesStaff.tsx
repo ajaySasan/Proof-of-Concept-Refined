@@ -1,7 +1,8 @@
-'use client'
+"use client";
 
 import { useState } from "react";
-import "../../app/App.scss"
+import { BsSearch } from "react-icons/bs";
+import "../../app/App.scss";
 
 interface SalesStaffProps {
   backBtn: () => void;
@@ -15,6 +16,15 @@ export const SalesStaff: React.FC<SalesStaffProps> = ({
   staffName,
 }) => {
   const [staffNameInput, setStaffNameInput] = useState<string>("");
+  const [inputValue, setInputValue] = useState<string>("");
+
+  const names: { label: string; value: string }[] = [
+    { label: "First Name", value: "first person" },
+    { label: "Second Name", value: "second person" },
+    { label: "Third Name", value: "third person" },
+    { label: "Fourth Name", value: "fourth person" },
+    { label: "Fifth Name", value: "fifth person" },
+  ];
 
   const handleStaffName = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const staffNameValue = event.target.value;
@@ -22,33 +32,68 @@ export const SalesStaff: React.FC<SalesStaffProps> = ({
     setStaffNameInput(staffNameValue);
   };
 
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const staffNameValue = event.target.value;
+    setInputValue(staffNameValue);
+  };
+
+  const handleSelectValue = (value: string) => {
+    setStaffNameInput(value);
+    setInputValue("");
+    staffName(value);
+  };
+
+  const filteredNames = names.filter((name) =>
+    name.label.toLowerCase().includes(inputValue.toLowerCase())
+  );
+
+
   return (
     <div className="common-container">
       <div className="common-container-header">
         <h1>Sales Staff Member</h1>
       </div>
 
-      <div className="common-container-body">
+      <form className="common-container-body">
         <label>What is your name?</label>
         <p>
           Please select your name as a member of the BlackDice Cyber sales team.
         </p>
-        <input type="text" placeholder="search names"/>
-        <select
-          value={staffNameInput}
-          onChange={handleStaffName}
-          className="select-container"
-        >
-          <option value="" disabled selected hidden>
-            NAME SELECTION
+
+        <input
+          type="text"
+          value={inputValue}
+          onChange={handleInputChange}
+          placeholder="Type here..."
+        />
+        {inputValue && (
+          <div className="list-all">
+            {filteredNames.map((name, index) => (
+              <p
+                className="list"
+                key={index}
+                onClick={() => handleSelectValue(name.value)}
+              >
+                {name.label}
+              </p>
+            ))}
+          </div>
+        )}
+
+        <select id="selectOption" value={staffNameInput} onChange={handleStaffName}>
+          <option value="" disabled hidden>
+            OPERATOR SELECTION
           </option>
-          <option value="First Name">First Name</option>
-          <option value="Second Name">Second Name</option>
-          <option value="Third Name">Third Name</option>
+          {names.map((name) => (
+            <option key={name.value} value={name.value}>
+              {name.label}
+            </option>
+          ))}
         </select>
-        <div className="select-arrow">
-        </div>
-      </div>
+
+        {staffNameInput && <p>Your name is: {staffNameInput}</p>}
+
+      </form>
 
       <div className="common-container-footer">
         <button onClick={backBtn}>BACK</button>
