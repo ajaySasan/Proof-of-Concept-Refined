@@ -83,7 +83,7 @@ export const Operator: React.FC<OperatorProps> = ({
   const handleSelectValue = (value: string) => {
     setSelectedOperator(value);
     setInputValue("");
-    setOperatorId(value);
+    setOperatorId(value); 
   };
 
   const filteredOperators = operatorList.filter((op) =>

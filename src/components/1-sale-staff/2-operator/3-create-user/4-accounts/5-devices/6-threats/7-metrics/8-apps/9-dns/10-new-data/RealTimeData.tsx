@@ -64,27 +64,6 @@ export const RealTimeData: React.FC<RealTimeDataProps> = ({
     }
   };
 
-  // Date
-  const [currentDateTime, setCurrentDateTime] = useState("");
-
-  useEffect(() => {
-    const currentDateTime = () => {
-      const currentDate = new Date();
-
-      const year = currentDate.getFullYear();
-      const month = String(currentDate.getMonth() + 1).padStart(2, "0");
-      const day = String(currentDate.getDate()).padStart(2, "0");
-
-      const hours = String(currentDate.getHours()).padStart(2, "0");
-      const minutes = String(currentDate.getMinutes()).padStart(2, "0");
-      const seconds = String(currentDate.getSeconds()).padStart(2, "0");
-
-      const formattedDateTime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-      setCurrentDateTime(formattedDateTime);
-    };
-    currentDateTime();
-  }, []);
-
   // deviceId
   const [deviceInfo, setDeviceInfo] = useState<DeviceInfo[]>([]);
 
@@ -109,10 +88,22 @@ export const RealTimeData: React.FC<RealTimeDataProps> = ({
     };
     fetchDeviceId();
   }, []);
+  const [currentDateTime, setCurrentDateTime] = useState("");
 
   // Handle submit
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+    const currentDate = new Date();
+
+    const year = currentDate.getFullYear();
+    const month = String(currentDate.getMonth() + 1).padStart(2, "0");
+    const day = String(currentDate.getDate()).padStart(2, "0");
+
+    const hours = String(currentDate.getHours()).padStart(2, "0");
+    const minutes = String(currentDate.getMinutes()).padStart(2, "0");
+    const seconds = String(currentDate.getSeconds()).padStart(2, "0");
+
+    const formattedDateTime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+    setCurrentDateTime(formattedDateTime);
     const randomNumber = Math.floor(Math.random() * 16) + 4;
 
     // Threats
@@ -192,8 +183,8 @@ export const RealTimeData: React.FC<RealTimeDataProps> = ({
         key: randomThreat.key,
         description: `demo.${randomThreat.key}.com blocked by BlackDice Shield `,
         action: "WARN:BLOCK_SITE",
-        createdAt: currentDateTime,
-        updatedAt: currentDateTime,
+        createdAt: formattedDateTime,
+        updatedAt: formattedDateTime,
       };
       threatData.push(newThreatData);
     }
@@ -260,8 +251,8 @@ export const RealTimeData: React.FC<RealTimeDataProps> = ({
         rxBitrate: rxBitrate(),
         txBytes: txByte(),
         rxBytes: rxByte(),
-        createdAt: currentDateTime,
-        updatedAt: currentDateTime,
+        createdAt: formattedDateTime,
+        updatedAt: formattedDateTime,
         rxBitrateAverage: randomRxBitRateAverage(),
         txBitrateAverage: randomTxBitRateAverage(),
         signalNum: signalNum(),
@@ -296,7 +287,7 @@ export const RealTimeData: React.FC<RealTimeDataProps> = ({
     setDemoRunning(true);
     handleSubmit(startDemo);
     console.log("Entering Demo mode");
-    const newInterval = setInterval(handleSubmit, 3000);
+    const newInterval = setInterval(handleSubmit, 5000);
     setDemoInterval(newInterval);
 
     setTimeout(() => {
@@ -334,7 +325,9 @@ export const RealTimeData: React.FC<RealTimeDataProps> = ({
           Upon selecting "Stop Demo," incoming data will cease, terminating the
           demonstration.
         </p>
-        <button type="button" onClick={stopDemoLoop}>STOP DEMO</button>
+        <button type="button" onClick={stopDemoLoop}>
+          STOP DEMO
+        </button>
       </form>
 
       <div className="common-container-footer">

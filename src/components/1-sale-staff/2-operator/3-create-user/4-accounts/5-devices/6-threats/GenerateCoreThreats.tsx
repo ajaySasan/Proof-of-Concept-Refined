@@ -114,7 +114,7 @@ export const GenerateCoreThreats: React.FC<GenerateCoreThreatsProps> = ({
     const newTime = addRandomTime(baseTime); // Generate a new time based on the base time
     return `${date} ${newTime}`;
   });
-  
+
   // deviceId
   const [deviceId, setDeviceId] = useState<number[]>([]);
   const deviceIdOperator: any = `/op/operatordevices/${operatorId}?size=100000`;
@@ -207,9 +207,7 @@ export const GenerateCoreThreats: React.FC<GenerateCoreThreatsProps> = ({
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // Generate base time for createdAt
     const baseTime = randomTime();
-
     const threatData: Threats[] = [];
     const totalItems = dateAndTime.length;
     const totalPercentage = 100;
@@ -251,9 +249,7 @@ export const GenerateCoreThreats: React.FC<GenerateCoreThreatsProps> = ({
       const threatKey = threatKeys[index % threatKeys.length];
       const threatType =
         threat.find((item) => item.key === threatKey)?.threatType || "";
-      const newTime = addRandomTime(baseTime); // Generate a new time based on the base time
-
-      // Concatenate date and time for updatedAt
+      const newTime = addRandomTime(baseTime);
       const updatedAt = `${dateTime.split(" ")[0]} ${newTime}`;
 
       const newThreatData: Threats = {
@@ -282,7 +278,7 @@ export const GenerateCoreThreats: React.FC<GenerateCoreThreatsProps> = ({
       console.log(chunk);
     }
   };
-  
+
   return (
     <div className="common-container">
       <div className="common-container-header">
