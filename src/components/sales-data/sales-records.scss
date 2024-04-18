@@ -1,15 +1,29 @@
 @import "../../app/App.scss";
 
 .sale-data-container {
-    width: 80vw;
-    height: 80vh;
-    background-color: white;
-    border-radius: 50px;
+  width: 80vw;
+  height: 80vh;
+  background-color: white;
+  border-radius: 50px;
+  overflow-y: scroll;
 
-    & .sale-data-container-header {
+  & .sale-data-container-header {
     background-color: $medium-grey;
     border-top-left-radius: 50px;
     border-top-right-radius: 50px;
     padding: 10px;
+    width: 80vw;
+  }
+
+  & .sale-data-body {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    & h2 {
+      color: $bluish-black;
+      font-size: 18px;
+      padding: 5px;
+      width: 100%;
     }
+  }
 }

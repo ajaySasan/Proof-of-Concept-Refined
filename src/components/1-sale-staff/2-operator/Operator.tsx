@@ -76,6 +76,7 @@ export const Operator: React.FC<OperatorProps> = ({
     if (selectedOperator) {
       setSelectedOperator(selectedOperator.Name);
       setOperatorId(operatorId);
+      setInputValue("")
     }
   };
 
