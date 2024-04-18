@@ -1,8 +1,8 @@
-'use client'
+"use client";
 
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import "../../../app/App.scss"
+import "../../../app/App.scss";
 
 interface OperatorProps {
   backBtn: () => void;
@@ -33,6 +33,7 @@ export const Operator: React.FC<OperatorProps> = ({
   setOperatorId,
 }) => {
   const [newOperator, setNewOperator] = useState<boolean>(false);
+  const [inputValue, setInputValue] = useState<string>("");
   const [operatorList, setOperatorList] = useState<OperatorGetData[]>([]);
   const [selectedOperator, setSelectedOperator] = useState<string>("");
   const [operatorId, setLocalOperatorId] = useState<string>(operatorIdProps);
@@ -45,8 +46,13 @@ export const Operator: React.FC<OperatorProps> = ({
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
     const operatorId = event.target.value;
-    setSelectedOperator(operatorId);
-    setOperatorId(operatorId);
+    const selectedOperator = operatorList.find(
+      (operator) => operator.ID === Number(operatorId)
+    );
+    if (selectedOperator) {
+      setSelectedOperator(selectedOperator.Name);
+      setOperatorId(operatorId);
+    }
   };
 
   useEffect(() => {
@@ -69,8 +75,21 @@ export const Operator: React.FC<OperatorProps> = ({
     setLocalOperatorId(operatorIdProps);
   }, [operatorId]);
 
-  console.log(staffName)
-  
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const operatorValue = event.target.value;
+    setInputValue(operatorValue);
+  };
+
+  const handleSelectValue = (value: string) => {
+    setSelectedOperator(value);
+    setInputValue("");
+    setOperatorId(value);
+  };
+
+  const filteredOperators = operatorList.filter((op) =>
+    op.Name.toLowerCase().includes(inputValue.toLowerCase())
+  );
+
   return (
     <div className="common-container">
       <div className="common-container-header">
@@ -83,7 +102,30 @@ export const Operator: React.FC<OperatorProps> = ({
           Please select your operator's name. Once chosen, we will add data to
           illustrate the functionality and interactivity of our UI and software.
         </p>
-        <input type="text" placeholder="search operators" />
+
+        <input
+          type="text"
+          value={inputValue}
+          onChange={handleInputChange}
+          placeholder="Type here..."
+        />
+
+        {inputValue && (
+          <div className="list-all">
+            {filteredOperators.map((operator) => (
+              <p
+                className="list"
+                key={operator.ID}
+                onClick={() => handleSelectValue(operator.Name)}
+              >
+                {operator.Name}
+              </p>
+            ))}
+          </div>
+        )}
+
+        {selectedOperator && <p>Your operator is: {selectedOperator}</p>}
+
         <select
           id="selectOption"
           value={selectedOperator}

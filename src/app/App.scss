@@ -77,6 +77,8 @@ input {
   font-size: 18px;
   background-color: $white;
   color: $bluish-black;
+  z-index: 999;
+
 }
 
 input::placeholder {
@@ -128,6 +130,8 @@ button:active {
   // width: 35vw;
   height: 55vh;
   width: 40vw;
+  min-width: 400px;
+  min-height: 600px;
   border-radius: 18px;
   display: flex;
   flex-direction: column;
@@ -193,6 +197,7 @@ button:active {
 }
 
 select {
+  transition: transform 0.3s ease;
   border-radius: 18px;
   width: 300px;
   margin-bottom: 10px;
@@ -201,11 +206,26 @@ select {
   font-size: 18px;
   background-color: $medium-grey;
   color: $white;
+  cursor: pointer;
+}
+
+select:hover {
+  border-color: $pale-green;
+  background: $button-gradient-hover;
+  color: $pale-green;
+  transform: scale(1.1);
+}
+
+select:active {
+  border-color: $green;
+  background: $button-gradient-active;
+  color: $green;
 }
 
 select option {
   background-color: $white;
   color: $medium-grey;
+  cursor: pointer;
 }
 
 .select-arrow {
@@ -232,27 +252,17 @@ p {
   color: red;
 }
 
-// .search-result {
-//   color: $bluish-black;
-//   background-color: $pale-grey;
-//   display: flex;
-//   flex-direction: column;
-//   width: 250px;
-//   padding: 10px;
-//   padding-top: 15px;
-//   margin-bottom: 10px;
-//   position: relative;
-//   bottom: 20px;
-//   z-index: -300;
-//   border-bottom-left-radius: 20px;
-//   border-bottom-right-radius: 20px;
-// }
-
 .list-all {
-  background-color: $medium-grey;
+  background-color: $silver;
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
-  // fix the radius
+  position: relative;
+  bottom: 11px;
+  
+}
+
+.list:nth-child(odd) {
+  background-color: $pale-silver;
 }
 .list {
   cursor: pointer;
@@ -261,12 +271,19 @@ p {
   overflow: hidden;
 }
 
+.list:last-child {
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+
 .list:hover {
   color: $white;
-  background-color: $pale-grey;
+  background-color: $dark-grey;
+  border: 1px solid $pale-green;
 }
 
 .list:active {
   color: $pale-green;
+  border: 1px solid $okay-green;
   background-color: $dark-blue;
 }
