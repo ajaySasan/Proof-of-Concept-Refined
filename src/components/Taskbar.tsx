@@ -1,12 +1,14 @@
 "use client";
 
 import "./taskbar.scss";
-import { WelcomePage } from "./WelcomePage";
+
 
 interface TaskbarProps {
   homepage: (page: number) => void;
+  sales: () => void;
 }
-export const Taskbar: React.FC<TaskbarProps> = ({ homepage }) => {
+export const Taskbar: React.FC<TaskbarProps> = ({ homepage, sales }) => {
+
   return (
     <div className="taskBar">
       <div className="logo">
@@ -34,6 +36,7 @@ export const Taskbar: React.FC<TaskbarProps> = ({ homepage }) => {
         <a href="https://dev.blackdice.io/login" target="_blank">
           <h3>BlackDice</h3>
         </a>
+        <h3 onClick={sales} id="sales-tab">Sales</h3>
       </div>
     </div>
   );

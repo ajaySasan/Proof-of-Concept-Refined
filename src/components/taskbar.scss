@@ -41,15 +41,16 @@
   align-items: center;
   margin-right: 15px;
 
-  & a {
+  & a, #sales-tab {
     color: $pale-grey;
+    cursor: pointer;
   }
 
-  & a:hover {
+  & a:hover, #sales-tab:hover {
     color: $pale-green;
   }
 
-  & a:active {
+  & a:active, #sales-tab:active {
     color: $green;
   }
 

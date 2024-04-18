@@ -6,6 +6,7 @@ import axios from "axios";
 import { EmailTemplate } from "../../../password-email/EmailTemplate";
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
+import Campbell from "@/components/sales-data/SalesRecords";
 
 interface UserAccountProps {
   backBtn: () => void;

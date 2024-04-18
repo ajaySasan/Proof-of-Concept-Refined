@@ -17,6 +17,12 @@ interface OperatorGetData {
   Name: string;
 }
 
+interface SalesRecord {
+  staffName: string;
+  operatorId: string;
+  date: string;
+}
+
 const apiUrl: string = "https://apibeta.blackdice.io";
 const operatorEndpoint: string = "/op/table?page=1&size=1000";
 const token: string =
@@ -38,6 +44,24 @@ export const Operator: React.FC<OperatorProps> = ({
   const [selectedOperator, setSelectedOperator] = useState<string>("");
   const [operatorId, setLocalOperatorId] = useState<string>(operatorIdProps);
 
+  const formatDate = new Date();
+  const date = formatDate.toLocaleString();
+
+  useEffect(() => {
+    if (staffName && selectedOperator) {
+      const existingRecords = JSON.parse(
+        localStorage.getItem("salesRecord") || "[]"
+      ) as SalesRecord[];
+      const newRecord: SalesRecord = {
+        staffName,
+        operatorId: selectedOperator,
+        date,
+      };
+      const updatedRecords = [...existingRecords, newRecord];
+      localStorage.setItem("salesRecord", JSON.stringify(updatedRecords));
+    }
+  }, [staffName, selectedOperator, date]);
+
   const handleNewOperator = () => {
     setNewOperator(!newOperator);
   };
@@ -54,6 +78,8 @@ export const Operator: React.FC<OperatorProps> = ({
       setOperatorId(operatorId);
     }
   };
+
+  // bug here is the select option changes default and the operatorid returns on value when page changed and returned to
 
   useEffect(() => {
     const fetchOperators = async () => {
@@ -83,7 +109,7 @@ export const Operator: React.FC<OperatorProps> = ({
   const handleSelectValue = (value: string) => {
     setSelectedOperator(value);
     setInputValue("");
-    setOperatorId(value); 
+    setOperatorId(value);
   };
 
   const filteredOperators = operatorList.filter((op) =>

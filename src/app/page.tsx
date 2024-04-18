@@ -1,6 +1,5 @@
-'use client'
-import "../app/App.scss"
-
+"use client";
+import "../app/App.scss";
 
 import { RealTimeData } from "@/components/1-sale-staff/2-operator/3-create-user/4-accounts/5-devices/6-threats/7-metrics/8-apps/9-dns/10-new-data/RealTimeData";
 import { DnsHistory } from "@/components/1-sale-staff/2-operator/3-create-user/4-accounts/5-devices/6-threats/7-metrics/8-apps/9-dns/DnsHistory";
@@ -12,6 +11,7 @@ import { GenerateRandomAccounts } from "@/components/1-sale-staff/2-operator/3-c
 import { UserAccount } from "@/components/1-sale-staff/2-operator/3-create-user/UserAccount";
 import { Operator } from "@/components/1-sale-staff/2-operator/Operator";
 import { SalesStaff } from "@/components/1-sale-staff/SalesStaff";
+import { SalesRecords } from "@/components/sales-data/SalesRecords";
 import { Taskbar } from "@/components/Taskbar";
 import { WelcomePage } from "@/components/WelcomePage";
 import { useState } from "react";
@@ -20,9 +20,14 @@ export default function Home() {
   const [currentPage, setCurrentPage] = useState(0);
   const [staffNameInput, setStaffNameInput] = useState("");
   const [operatorId, setOperatorId] = useState<string>("");
+  const [salesPage, setSalesPage] = useState<boolean>(false);
+  const handleSalesPage = () => {
+    setSalesPage(!salesPage);
+  };
 
   const handleImageClick = (page: any) => {
     setCurrentPage(page);
+    setSalesPage(false);
   };
 
   const handleStaffName = (staffNameValue: string) => {
@@ -126,8 +131,8 @@ export default function Home() {
 
   return (
     <main>
-      <Taskbar homepage={handleImageClick}/>
-      {renderPage()}
+      <Taskbar homepage={handleImageClick} sales={handleSalesPage} />
+      {(salesPage && <SalesRecords />) || renderPage()}
     </main>
   );
 }
