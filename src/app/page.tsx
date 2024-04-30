@@ -55,7 +55,6 @@ export default function Home() {
           <Operator
             nextBtn={nextPage}
             backBtn={prevPage}
-            staffName={staffNameInput}
             operatorId={operatorId}
             setOperatorId={setOperatorId}
           />
@@ -66,6 +65,7 @@ export default function Home() {
             nextBtn={nextPage}
             backBtn={prevPage}
             operatorId={operatorId}
+            staffName={staffNameInput}
           />
         );
       case 4:

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "../../../../app/App.scss";
 import axios from "axios";
 
@@ -6,12 +6,13 @@ import axios from "axios";
 import { EmailTemplate } from "../../../password-email/EmailTemplate";
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
-import Campbell from "@/components/sales-data/SalesRecords";
+// import Campbell from "@/components/sales-data/SalesRecords";
 
 interface UserAccountProps {
   backBtn: () => void;
   nextBtn: () => void;
   operatorId: string;
+  staffName: string;
 }
 
 interface Register {
@@ -21,6 +22,12 @@ interface Register {
   referer: string;
 }
 
+interface SalesRecord {
+  staffName: string;
+  operatorId: string;
+  date: string;
+}
+
 const apiURL = "https://apibeta.blackdice.io";
 const accountEndpoint = "/pa/auth/register";
 
@@ -28,7 +35,26 @@ export const UserAccount: React.FC<UserAccountProps> = ({
   backBtn,
   nextBtn,
   operatorId,
+  staffName,
 }) => {
+  const formatDate = new Date();
+  const date = formatDate.toLocaleString();
+
+  useEffect(() => {
+  if (staffName && operatorId) {
+    const existingRecords = JSON.parse(
+      localStorage.getItem("salesRecord") || "[]"
+    ) as SalesRecord[];
+    const newRecord: SalesRecord = {
+      staffName,
+      operatorId,
+      date,
+    };
+    const updatedRecords = [...existingRecords, newRecord];
+    localStorage.setItem("salesRecord", JSON.stringify(updatedRecords));
+  }
+}, [staffName, operatorId]);
+
   const [email, setEmail] = useState<string>("");
   const [confirmEmail, setConfirmEmail] = useState<string>("");
 

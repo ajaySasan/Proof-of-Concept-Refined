@@ -7,7 +7,6 @@ import "../../../app/App.scss";
 interface OperatorProps {
   backBtn: () => void;
   nextBtn: () => void;
-  staffName: string;
   operatorId: string;
   setOperatorId: (operatorId: string) => void; // Add setOperatorId prop
 }
@@ -34,51 +33,32 @@ const header = {
 export const Operator: React.FC<OperatorProps> = ({
   backBtn,
   nextBtn,
-  staffName,
   operatorId: operatorIdProps,
   setOperatorId,
 }) => {
   const [newOperator, setNewOperator] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState<string>("");
   const [operatorList, setOperatorList] = useState<OperatorGetData[]>([]);
-  const [selectedOperator, setSelectedOperator] = useState<string>("");
   const [operatorId, setLocalOperatorId] = useState<string>(operatorIdProps);
+  const [selectedOperator, setSelectedOperator] = useState<string>("");
 
-  const formatDate = new Date();
-  const date = formatDate.toLocaleString();
-
-  useEffect(() => {
-    if (staffName && selectedOperator) {
-      const existingRecords = JSON.parse(
-        localStorage.getItem("salesRecord") || "[]"
-      ) as SalesRecord[];
-      const newRecord: SalesRecord = {
-        staffName,
-        operatorId: selectedOperator,
-        date,
-      };
-      const updatedRecords = [...existingRecords, newRecord];
-      localStorage.setItem("salesRecord", JSON.stringify(updatedRecords));
-    }
-  }, [staffName, selectedOperator, date]);
 
   const handleNewOperator = () => {
     setNewOperator(!newOperator);
   };
 
-  const handleSelectedOperator = (
-    event: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    const operatorId = event.target.value;
-    const selectedOperator = operatorList.find(
-      (operator) => operator.ID === Number(operatorId)
-    );
-    if (selectedOperator) {
-      setSelectedOperator(selectedOperator.Name);
-      setOperatorId(operatorId);
-      setInputValue("")
-    }
-  };
+const handleSelectedOperator = (
+  event: React.ChangeEvent<HTMLSelectElement>
+) => {
+  const operatorId = event.target.value;
+  const selectedOperator = operatorList.find(
+    (operator) => operator.ID === Number(operatorId)
+  );
+  if (selectedOperator) {
+    setSelectedOperator(operatorId);
+    setOperatorId(operatorId);
+  }
+};
 
   // bug here is the select option changes default and the operatorid returns on value when page changed and returned to
 
