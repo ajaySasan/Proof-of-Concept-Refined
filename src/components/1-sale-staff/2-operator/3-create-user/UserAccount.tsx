@@ -15,6 +15,13 @@ interface UserAccountProps {
   staffName: string;
 }
 
+interface OperatorGetData {
+  id: string;
+  ID: number;
+  Name: string;
+  domain: string;
+}
+
 interface Register {
   email: string;
   pass: string;
@@ -41,19 +48,19 @@ export const UserAccount: React.FC<UserAccountProps> = ({
   const date = formatDate.toLocaleString();
 
   useEffect(() => {
-  if (staffName && operatorId) {
-    const existingRecords = JSON.parse(
-      localStorage.getItem("salesRecord") || "[]"
-    ) as SalesRecord[];
-    const newRecord: SalesRecord = {
-      staffName,
-      operatorId,
-      date,
-    };
-    const updatedRecords = [...existingRecords, newRecord];
-    localStorage.setItem("salesRecord", JSON.stringify(updatedRecords));
-  }
-}, [staffName, operatorId]);
+    if (staffName && operatorId) {
+      const existingRecords = JSON.parse(
+        localStorage.getItem("salesRecord") || "[]"
+      ) as SalesRecord[];
+      const newRecord: SalesRecord = {
+        staffName,
+        operatorId,
+        date,
+      };
+      const updatedRecords = [...existingRecords, newRecord];
+      localStorage.setItem("salesRecord", JSON.stringify(updatedRecords));
+    }
+  }, [staffName, operatorId]);
 
   const [email, setEmail] = useState<string>("");
   const [confirmEmail, setConfirmEmail] = useState<string>("");

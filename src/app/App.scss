@@ -17,7 +17,7 @@ $silver: #c3d1db;
 $pale-silver: #d6e0e8;
 
 $alert-red: #ff6565;
-$alert-red-backgroun: #ffd6d6;
+$alert-red-background: #ffd6d6;
 $amber-orange: #ff8a48;
 $amber-orange-background: #ffdab8;
 $okay-green: #35b83a;
@@ -78,7 +78,6 @@ input {
   background-color: $white;
   color: $bluish-black;
   z-index: 999;
-
 }
 
 input::placeholder {
@@ -98,6 +97,7 @@ button {
   cursor: pointer;
   font-size: 20px;
   background-color: $medium-grey;
+  color: $white;
   transition: border-color 0.25s, background-color 0.25s, color 0.25s;
   padding: 5px 30px;
   margin: 5px;
@@ -258,7 +258,6 @@ p {
   border-bottom-right-radius: 20px;
   position: relative;
   bottom: 11px;
-  
 }
 
 .list:nth-child(odd) {
@@ -286,4 +285,9 @@ p {
   color: $pale-green;
   border: 1px solid $okay-green;
   background-color: $dark-blue;
+}
+
+.form-submit {
+  display: flex;
+  flex-direction: column;
 }

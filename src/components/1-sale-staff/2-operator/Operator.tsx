@@ -14,6 +14,7 @@ interface OperatorProps {
 interface OperatorGetData {
   ID: number;
   Name: string;
+  Domain: string;
 }
 
 interface SalesRecord {
@@ -41,24 +42,33 @@ export const Operator: React.FC<OperatorProps> = ({
   const [operatorList, setOperatorList] = useState<OperatorGetData[]>([]);
   const [operatorId, setLocalOperatorId] = useState<string>(operatorIdProps);
   const [selectedOperator, setSelectedOperator] = useState<string>("");
-
+  const [selectedSubdomain, setSelectedSubdomain] = useState<string>(""); // Add subdomain state
+  const [showNewOperator, setShowNewOperator] = useState<boolean>(false);
 
   const handleNewOperator = () => {
     setNewOperator(!newOperator);
+    setShowNewOperator(!showNewOperator);
   };
 
-const handleSelectedOperator = (
-  event: React.ChangeEvent<HTMLSelectElement>
-) => {
-  const operatorId = event.target.value;
-  const selectedOperator = operatorList.find(
-    (operator) => operator.ID === Number(operatorId)
-  );
-  if (selectedOperator) {
-    setSelectedOperator(operatorId);
-    setOperatorId(operatorId);
-  }
-};
+  const handleSubmitNewOperator = () => {
+    setShowNewOperator(!showNewOperator);
+  };
+
+  const handleSelectedOperator = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    const operatorId = event.target.value;
+    const selectedOperator = operatorList.find(
+      (operator) => operator.ID === Number(operatorId)
+    );
+    if (selectedOperator) {
+      setSelectedOperator(selectedOperator.Name);
+      setSelectedSubdomain(selectedOperator.Domain); // Update selectedSubdomain state
+      setOperatorId(operatorId);
+    }
+  };
+
+  console.log(selectedSubdomain);
 
   // bug here is the select option changes default and the operatorid returns on value when page changed and returned to
 
@@ -96,6 +106,8 @@ const handleSelectedOperator = (
   const filteredOperators = operatorList.filter((op) =>
     op.Name.toLowerCase().includes(inputValue.toLowerCase())
   );
+
+  console.log("Selected Operator Subdomain:", selectedSubdomain); // Log selected operator Subdomain
 
   return (
     <div className="common-container">
@@ -149,11 +161,18 @@ const handleSelectedOperator = (
         </select>
         <p>If you do not have an existing operator, please sign up below.</p>
         <button onClick={handleNewOperator}>NEW OPERATOR?</button>
-        {newOperator && (
+        {showNewOperator && (
           <>
-            <input type="text" placeholder="domain" />
-            <p>Please enter your domain name.</p>
-            <button>CREATE OPERATOR</button>
+            <form className="form-submit" onSubmit={handleSubmitNewOperator}>
+              <label>Please enter the name of your Organization.</label>
+              <input type="text" placeholder="name" />
+              <label>Please create a subdomain</label>
+              <input
+                type="text"
+                placeholder="e.g 'beta' / 'local' / 'mercku' "
+              />
+              <button type="submit">CREATE OPERATOR</button>
+            </form>
           </>
         )}
       </div>
