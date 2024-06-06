@@ -8,6 +8,8 @@ interface GenerateCoreThreatsProps {
   nextBtn: () => void;
   backBtn: () => void;
   operatorId: string;
+  apiURL: string;
+  token: string;
 }
 
 interface Threats {
@@ -21,29 +23,19 @@ interface Threats {
 }
 
 // // Database API
-const apiURL = "https://apistag.blackdice.io";
 const endpointThreat = "/svc/mock/create-many-threats";
-const token =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJRCI6NjQ2LCJzZXNzaW9uVG9rZW4iOnsiaWQiOjE3Njk0LCJzZXNzaW9uIjoiMTdiNDk0OWMxYzc4NGRkOWQ3ODE0YzRiZmNkNTBlYzIiLCJ1IjoiYjI4ZWU2MmFhNjgwYmRjZjUwZDNkMGIxZDgwNzczZmQ1MTNhN2JiMiIsInVwZGF0ZWRBdCI6IjIwMjQtMDMtMDdUMTQ6NDE6MjUuNjczWiIsImNyZWF0ZWRBdCI6IjIwMjQtMDMtMDdUMTQ6NDE6MjUuNjczWiJ9LCJpYXQiOjE3MDk4MjI0ODV9.iY7cKJjJEg0UsGySFGdCPrfeg0D9BdKc5RP2TFrvWtY";
-const header = {
-  "auth-token": token,
-};
-
-// // Database API
-// const apiURL = "https://apidev.blackdice.io";
-// const endpointThreat = "/svc/mock/create-many-threats";
-// const token =
-//   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJRCI6NTYzLCJzZXNzaW9uVG9rZW4iOnsiaWQiOjcyNDEsInNlc3Npb24iOiIzMGMzMDc2NDcyZjIwMDIzMDRiNmE5OGYzYjRmZGZhNSIsInUiOiI5YmQ3YTcyMGQzN2FkZjUyZDI4YjJlYjY0ZTlmZTBlMzMzMWZiODk4IiwidXBkYXRlZEF0IjoiMjAyNC0wMi0yM1QxMzoyODoxOS42OTlaIiwiY3JlYXRlZEF0IjoiMjAyNC0wMi0yM1QxMzoyODoxOS42OTlaIn0sImlhdCI6MTcwODY5NDg5OX0.LRa-nCJUd_AuoUVyGClwhmX_ujYxkwTGdrjzjLk_lWg";
-
-// const header = {
-//   "auth-token": token,
-// };
 
 export const GenerateCoreThreats: React.FC<GenerateCoreThreatsProps> = ({
   nextBtn,
   backBtn,
   operatorId,
+  apiURL,
+  token,
 }) => {
+  const header = {
+    "auth-token": token,
+  };
+
   // Time
   const randomTime = () => {
     const hour = Math.floor(Math.random() * 24);

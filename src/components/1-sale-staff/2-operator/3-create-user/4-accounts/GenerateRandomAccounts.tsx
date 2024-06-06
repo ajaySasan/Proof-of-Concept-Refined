@@ -1,13 +1,16 @@
-'use client'
+"use client";
 
 import { useState } from "react";
-import "../../../../../app/App.scss"
+import "../../../../../app/App.scss";
 import axios from "axios";
 
 interface GenerateRandomAccountsProps {
   nextBtn: () => void;
   backBtn: () => void;
   operatorId: string;
+  operatorDomain: string;
+  apiURL: string;
+  token: string;
 }
 
 interface Register {
@@ -17,14 +20,20 @@ interface Register {
   referer: string;
 }
 
-const apiURL = "https://apibeta.blackdice.io";
 const accountEndpoint = "/pa/auth/register";
 
 export const GenerateRandomAccounts: React.FC<GenerateRandomAccountsProps> = ({
   nextBtn,
   backBtn,
   operatorId,
+  operatorDomain,
+  apiURL,
+  token,
 }) => {
+  const header = {
+    "auth-token": token,
+  };
+
   const [numOfAccounts, setNumOfAccounts] = useState<number>(0);
 
   const handleNumOfAccounts = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -192,7 +201,7 @@ export const GenerateRandomAccounts: React.FC<GenerateRandomAccountsProps> = ({
         email: emailAddress(),
         pass: generatePassword(),
         serialNumber: serialNumber(),
-        referer: "stag-casa-systems.blackdice.io",
+        referer: operatorDomain,
       };
 
       console.log(randomUserData);

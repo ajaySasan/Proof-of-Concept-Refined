@@ -1,13 +1,15 @@
-'use client'
+"use client";
 
 import { useEffect, useState } from "react";
-import "../../../../../../app/App.scss"
+import "../../../../../../app/App.scss";
 import axios from "axios";
 
 interface GenerateRandomDevicesProps {
   nextBtn: () => void;
   backBtn: () => void;
   operatorId: string;
+  apiURL: string;
+  token: string;
 }
 
 interface Device {
@@ -23,20 +25,20 @@ interface Device {
 
 // Databse API
 let numOfHaandles = 50000;
-const apiURL = "https://apibeta.blackdice.io";
 const endpointThreat75 = "/pa/devices";
 const endpointThreat25 = "/pa/devices/unconfirmed";
-const token =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJRCI6NjQ2LCJzZXNzaW9uVG9rZW4iOnsiaWQiOjE3NjkzLCJzZXNzaW9uIjoiMTM5MDhhZDI4MDM0NmYxYjBmNzM4MmQwMGM1ZGMwYzkiLCJ1IjoiYjI4ZWU2MmFhNjgwYmRjZjUwZDNkMGIxZDgwNzczZmQ1MTNhN2JiMiIsInVwZGF0ZWRBdCI6IjIwMjQtMDMtMDdUMTQ6MTg6NDcuNTE2WiIsImNyZWF0ZWRBdCI6IjIwMjQtMDMtMDdUMTQ6MTg6NDcuNTE2WiJ9LCJpYXQiOjE3MDk4MjExMjd9.V1SVEvjG9lHZiQdrZaU_FBiuzXOpKOiUVgUQ2DQEMEo";
-const header = {
-  "auth-token": token,
-};
 
 export const GenerateRandomDevices: React.FC<GenerateRandomDevicesProps> = ({
   nextBtn,
   backBtn,
   operatorId,
+  apiURL,
+  token,
 }) => {
+  const header = {
+    "auth-token": token,
+  };
+
   const [numOfDevices, setNumOfDevices] = useState<number>(0);
   const handleNumOfDevices = (e: React.ChangeEvent<HTMLInputElement>) => {
     const deviceValue = parseInt(e.target.value);
@@ -310,6 +312,9 @@ export const GenerateRandomDevices: React.FC<GenerateRandomDevicesProps> = ({
       }
     }
   };
+
+  console.log(`${apiURL}${getHaandleId}`);
+
   return (
     <div className="common-container">
       <div className="common-container-header">

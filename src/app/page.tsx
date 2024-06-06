@@ -16,11 +16,17 @@ import { Taskbar } from "@/components/Taskbar";
 import { WelcomePage } from "@/components/WelcomePage";
 import { useState } from "react";
 
+const apiURL: string = "https://api-dev.blackdice.ai";
+const token: string =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJRCI6OTExLCJhY2NvdW50SWQiOjEyMDIsIm9wZXJhdG9ySWQiOm51bGwsInNlc3Npb25Ub2tlbiI6eyJpZCI6ODcwOSwic2Vzc2lvbiI6IjY0OGU2MDZiMTA3NTE2NmVhNzdjMTdlOTM2OWIwMzcyIiwidSI6IjMzZDQzNGJlNDI1M2ZjMDBhYjVhODU5N2VlNzQ3NTZiNTNhOGI5ZWIiLCJ1cGRhdGVkQXQiOiIyMDI0LTA2LTA2VDEzOjI4OjA3LjIwMFoiLCJjcmVhdGVkQXQiOiIyMDI0LTA2LTA2VDEzOjI4OjA3LjIwMFoifSwiaWF0IjoxNzE3NjgwNDg3fQ.lH9lmCGiXm8Z6P8_rfaIpbzVc1p4zYud8NaeDwJCVD8";
+
 export default function Home() {
   const [currentPage, setCurrentPage] = useState(0);
   const [staffNameInput, setStaffNameInput] = useState("");
   const [operatorId, setOperatorId] = useState<string>("");
   const [salesPage, setSalesPage] = useState<boolean>(false);
+  const [selectedSubdomain, setSelectedSubdomain] = useState<string>("");
+
   const handleSalesPage = () => {
     setSalesPage(!salesPage);
   };
@@ -57,6 +63,10 @@ export default function Home() {
             backBtn={prevPage}
             operatorId={operatorId}
             setOperatorId={setOperatorId}
+            selectedSubdomain={selectedSubdomain}
+            setSelectedSubdomain={setSelectedSubdomain}
+            apiURL={apiURL}
+            token={token}
           />
         );
       case 3:
@@ -66,6 +76,9 @@ export default function Home() {
             backBtn={prevPage}
             operatorId={operatorId}
             staffName={staffNameInput}
+            operatorDomain={selectedSubdomain}
+            apiURL={apiURL}
+            token={token}
           />
         );
       case 4:
@@ -74,6 +87,9 @@ export default function Home() {
             nextBtn={nextPage}
             backBtn={prevPage}
             operatorId={operatorId}
+            operatorDomain={selectedSubdomain}
+            apiURL={apiURL}
+            token={token}
           />
         );
       case 5:
@@ -82,6 +98,8 @@ export default function Home() {
             nextBtn={nextPage}
             backBtn={prevPage}
             operatorId={operatorId}
+            apiURL={apiURL}
+            token={token}
           />
         );
       case 6:
@@ -90,6 +108,8 @@ export default function Home() {
             nextBtn={nextPage}
             backBtn={prevPage}
             operatorId={operatorId}
+            apiURL={apiURL}
+            token={token}
           />
         );
       case 7:
@@ -98,6 +118,8 @@ export default function Home() {
             nextBtn={nextPage}
             backBtn={prevPage}
             operatorId={operatorId}
+            apiURL={apiURL}
+            token={token}
           />
         );
       case 8:
@@ -106,6 +128,8 @@ export default function Home() {
             nextBtn={nextPage}
             backBtn={prevPage}
             operatorId={operatorId}
+            apiURL={apiURL}
+            token={token}
           />
         );
       case 9:
@@ -114,6 +138,8 @@ export default function Home() {
             nextBtn={nextPage}
             backBtn={prevPage}
             operatorId={operatorId}
+            apiURL={apiURL}
+            token={token}
           />
         );
       case 10:
@@ -122,6 +148,8 @@ export default function Home() {
             exitBtn={exitDemo}
             backBtn={prevPage}
             operatorId={operatorId}
+            apiURL={apiURL}
+            token={token}
           />
         );
       default:

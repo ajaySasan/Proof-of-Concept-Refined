@@ -13,6 +13,9 @@ interface UserAccountProps {
   nextBtn: () => void;
   operatorId: string;
   staffName: string;
+  operatorDomain: string;
+  apiURL: string;
+  token: string;
 }
 
 interface OperatorGetData {
@@ -35,18 +38,24 @@ interface SalesRecord {
   date: string;
 }
 
-const apiURL = "https://apibeta.blackdice.io";
-const accountEndpoint = "/pa/auth/register";
+const blackDiceEndpoint = "/op/auth/register";
+const retinaEndpoint = "/pa/auth/register";
 
 export const UserAccount: React.FC<UserAccountProps> = ({
   backBtn,
   nextBtn,
   operatorId,
   staffName,
+  operatorDomain,
+  apiURL,
+  token,
 }) => {
+  const header = {
+    "auth-token": token,
+  };
+
   const formatDate = new Date();
   const date = formatDate.toLocaleString();
-
   useEffect(() => {
     if (staffName && operatorId) {
       const existingRecords = JSON.parse(
@@ -64,6 +73,8 @@ export const UserAccount: React.FC<UserAccountProps> = ({
 
   const [email, setEmail] = useState<string>("");
   const [confirmEmail, setConfirmEmail] = useState<string>("");
+  const [isBlackDiceChecked, setIsBlackDiceChecked] = useState<boolean>(false);
+  const [isRetinaChecked, setIsRetinaChecked] = useState<boolean>(false);
 
   // Password
 
@@ -128,6 +139,15 @@ export const UserAccount: React.FC<UserAccountProps> = ({
     }
   };
 
+  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, checked } = e.target;
+    if (name === "blackDice") {
+      setIsBlackDiceChecked(checked);
+    } else if (name === "retina") {
+      setIsRetinaChecked(checked);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -148,7 +168,7 @@ export const UserAccount: React.FC<UserAccountProps> = ({
       email: email,
       pass: generatePassword(),
       serialNumber: serialNumber(),
-      referer: "stag.blackdice.io",
+      referer: operatorDomain,
     };
 
     try {
@@ -161,17 +181,28 @@ export const UserAccount: React.FC<UserAccountProps> = ({
       console.error("Error sending email:", error);
     }
 
-    try {
-      const response = await axios.post(apiURL + accountEndpoint, userData);
-      console.log("Account created successfully");
-    } catch (error) {
-      console.log("Error creating account");
+    const postToEndpoint = async (endpoint: string) => {
+      try {
+        const response = await axios.post(apiURL + endpoint, userData);
+        console.log("Account created successfully");
+      } catch (error) {
+        console.log("Error creating account");
+      }
+    };
+
+    if (isBlackDiceChecked) {
+      await postToEndpoint(blackDiceEndpoint);
+    }
+    if (isRetinaChecked) {
+      await postToEndpoint(retinaEndpoint);
     }
 
     console.log(userData);
 
     setEmail("");
     setConfirmEmail("");
+    setIsBlackDiceChecked(false);
+    setIsRetinaChecked(false);
   };
 
   return (
@@ -199,12 +230,24 @@ export const UserAccount: React.FC<UserAccountProps> = ({
           required
         />
         <div>
-          <input type="checkbox" id="checkbox" />
-          <label>User Account</label>
+          <input
+            type="checkbox"
+            id="checkbox"
+            name="blackDice"
+            checked={isBlackDiceChecked}
+            onChange={handleCheckboxChange}
+          />
+          <label>BlackDice UI</label>
         </div>
         <div>
-          <input type="checkbox" id="checkbox" />
-          <label>Operator Account</label>
+          <input
+            type="checkbox"
+            id="checkbox"
+            name="retina"
+            checked={isRetinaChecked}
+            onChange={handleCheckboxChange}
+          />
+          <label>Retina</label>
         </div>
         <button type="submit">CREATE ACCOUNT</button>
       </form>

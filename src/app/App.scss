@@ -7,6 +7,7 @@ $white: #ffffff;
 $dark-blue: #32404a;
 $deep-blue: #202d36;
 $bluish-black: #121c23;
+$dark-green: #1a6769;
 $green: #35b888;
 $pale-green: #81dab9;
 
@@ -23,9 +24,10 @@ $amber-orange-background: #ffdab8;
 $okay-green: #35b83a;
 $okay-green-background: #81dab9;
 
+$main-button-gradient: linear-gradient(90deg, #546977, #516370);
 $button-gradient: linear-gradient(90deg, #bbcedb, #7b92a3);
 $button-gradient-hover: linear-gradient(90deg, #202d36, #151e24);
-$button-gradient-active: linear-gradient(90deg, #465c6d, #293c47);
+$button-gradient-active: linear-gradient(90deg, #2d3c47, #1a2931);
 
 $ui-background-gradient: linear-gradient(90deg, #2d3b46, #1f2e36);
 $container-bg-gradient: linear-gradient(180deg, #ffffff, #dfe7ec);
@@ -96,7 +98,7 @@ button {
   transition: border-color 0.25s;
   cursor: pointer;
   font-size: 20px;
-  background-color: $medium-grey;
+  background: $main-button-gradient;
   color: $white;
   transition: border-color 0.25s, background-color 0.25s, color 0.25s;
   padding: 5px 30px;
@@ -131,7 +133,7 @@ button:active {
   height: 55vh;
   width: 40vw;
   min-width: 400px;
-  min-height: 600px;
+  min-height: 700px;
   border-radius: 18px;
   display: flex;
   flex-direction: column;
@@ -174,12 +176,14 @@ button:active {
 }
 
 .common-container-footer {
-  padding: 20px;
+  background-color: $medium-grey;
+  border-bottom-left-radius: 18px;
+  border-bottom-right-radius: 18px;
+  width: 100%;
+  padding: 20px 0;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   display: flex;
-  justify-content: space-between;
-  width: 45%;
 }
 
 .select-container {
@@ -204,7 +208,7 @@ select {
   padding: 5px 30px;
   border: 1px solid $medium-grey;
   font-size: 18px;
-  background-color: $medium-grey;
+  background: $main-button-gradient;
   color: $white;
   cursor: pointer;
 }
@@ -290,4 +294,30 @@ p {
 .form-submit {
   display: flex;
   flex-direction: column;
+}
+
+#newOperatorBtn {
+  transition: border-color 0.25s;
+  background: $green !important;
+  color: $white;
+  transition: border-color 0.25s, background-color 0.25s, color 0.25s;
+  transition: transform 0.3s ease;
+}
+
+#newOperatorBtn:hover {
+  border-color: $pale-green;
+  transform: scale(1.1);
+  background: $dark-green !important;
+  color: $white;
+}
+
+#newOperatorBtn:active {
+  border-color: $green;
+  background: $pale-green;
+  color: $white;
+}
+
+#newOperatorText {
+  color: $medium-grey;
+  margin-top: 20px;
 }

@@ -8,7 +8,11 @@ interface OperatorProps {
   backBtn: () => void;
   nextBtn: () => void;
   operatorId: string;
-  setOperatorId: (operatorId: string) => void; // Add setOperatorId prop
+  setOperatorId: (operatorId: string) => void;
+  selectedSubdomain: string;
+  setSelectedSubdomain: (subdomain: string) => void;
+  apiURL: string;
+  token: string;
 }
 
 interface OperatorGetData {
@@ -17,32 +21,29 @@ interface OperatorGetData {
   Domain: string;
 }
 
-interface SalesRecord {
-  staffName: string;
-  operatorId: string;
-  date: string;
-}
-
-const apiUrl: string = "https://apibeta.blackdice.io";
 const operatorEndpoint: string = "/op/table?page=1&size=1000";
-const token: string =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im9wZXJhdG9yQGNhc2Etc3lzdGVtcy5jb20iLCJvcGVyYXRvcktleSI6MjIsIm9wZXJhdG9ySWQiOjIyLCJkYXNoYm9hcmQiOjAsImlhdCI6MTcxMTExMzE3N30.QQCPXOAQX3CAd7A4lnCGAOW_FoJIPBAYkLppmidixR8";
-const header = {
-  "auth-token": token,
-};
 
 export const Operator: React.FC<OperatorProps> = ({
   backBtn,
   nextBtn,
   operatorId: operatorIdProps,
   setOperatorId,
+  selectedSubdomain: selectedSubdomainProps,
+  setSelectedSubdomain,
+  apiURL,
+  token,
 }) => {
+  const header = {
+    "auth-token": token,
+  };
+
   const [newOperator, setNewOperator] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState<string>("");
   const [operatorList, setOperatorList] = useState<OperatorGetData[]>([]);
   const [operatorId, setLocalOperatorId] = useState<string>(operatorIdProps);
-  const [selectedOperator, setSelectedOperator] = useState<string>("");
-  const [selectedSubdomain, setSelectedSubdomain] = useState<string>(""); // Add subdomain state
+  const [selectedOperator, setSelectedOperator] = useState<string>(
+    selectedSubdomainProps
+  );
   const [showNewOperator, setShowNewOperator] = useState<boolean>(false);
 
   const handleNewOperator = () => {
@@ -63,19 +64,15 @@ export const Operator: React.FC<OperatorProps> = ({
     );
     if (selectedOperator) {
       setSelectedOperator(selectedOperator.Name);
-      setSelectedSubdomain(selectedOperator.Domain); // Update selectedSubdomain state
+      setSelectedSubdomain(selectedOperator.Domain);
       setOperatorId(operatorId);
     }
   };
 
-  console.log(selectedSubdomain);
-
-  // bug here is the select option changes default and the operatorid returns on value when page changed and returned to
-
   useEffect(() => {
     const fetchOperators = async () => {
       try {
-        const response = await axios.get(`${apiUrl}${operatorEndpoint}`, {
+        const response = await axios.get(`${apiURL}${operatorEndpoint}`, {
           headers: header,
         });
         const data: OperatorGetData[] = response.data.data;
@@ -107,8 +104,37 @@ export const Operator: React.FC<OperatorProps> = ({
     op.Name.toLowerCase().includes(inputValue.toLowerCase())
   );
 
-  console.log("Selected Operator Subdomain:", selectedSubdomain); // Log selected operator Subdomain
-
+  const handleCreateNewOperator = async (
+    e: React.FormEvent<HTMLFormElement>
+  ) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const newOperatorName = formData.get("name") as string;
+    const newOperatorSubdomain = formData.get("subdomain") as string;
+    const operatorData = {
+      name: newOperatorName,
+      domain: `${newOperatorSubdomain}.blackdice.io`,
+      subdomain: newOperatorSubdomain,
+    };
+    try {
+      const response = await axios.post(
+        `${apiURL}/v2/op/demo-suite/operators`,
+        operatorData,
+        {
+          headers: header,
+        }
+      );
+      console.log(response.data);
+      setShowNewOperator(false);
+      setNewOperator(false);
+      setOperatorId(newOperatorName);
+      setSelectedOperator(newOperatorName);
+      setSelectedSubdomain(newOperatorSubdomain);
+      setInputValue("");
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div className="common-container">
       <div className="common-container-header">
@@ -116,63 +142,70 @@ export const Operator: React.FC<OperatorProps> = ({
       </div>
 
       <div className="common-container-body">
-        <label>The operator name</label>
-        <p>
-          Please select your operator's name. Once chosen, we will add data to
-          illustrate the functionality and interactivity of our UI and software.
-        </p>
-
-        <input
-          type="text"
-          value={inputValue}
-          onChange={handleInputChange}
-          placeholder="Type here..."
-        />
-
-        {inputValue && (
-          <div className="list-all">
-            {filteredOperators.map((operator) => (
-              <p
-                className="list"
-                key={operator.ID}
-                onClick={() => handleSelectValue(operator.Name)}
-              >
-                {operator.Name}
-              </p>
-            ))}
-          </div>
-        )}
-
-        {selectedOperator && <p>Your operator is: {selectedOperator}</p>}
-
-        <select
-          id="selectOption"
-          value={selectedOperator}
-          onChange={handleSelectedOperator}
-        >
-          <option value="" disabled hidden>
-            OPERATOR SELECTION
-          </option>
-          {operatorList.map((operator) => (
-            <option key={operator.ID} value={operator.ID}>
-              {operator.Name}
-            </option>
-          ))}
-        </select>
-        <p>If you do not have an existing operator, please sign up below.</p>
-        <button onClick={handleNewOperator}>NEW OPERATOR?</button>
-        {showNewOperator && (
+        {showNewOperator ? (
+          <form
+            className="form-submit"
+            onSubmit={handleCreateNewOperator}
+            id="new-operator"
+          >
+            <label>Please enter the name of your Organization.</label>
+            <input type="text" name="name" placeholder="name" />
+            <label>Please create a subdomain</label>
+            <input
+              type="text"
+              name="subdomain"
+              placeholder="e.g 'beta' / 'local' / 'ercku'"
+            />
+            <button type="submit">CREATE OPERATOR</button>
+          </form>
+        ) : (
           <>
-            <form className="form-submit" onSubmit={handleSubmitNewOperator}>
-              <label>Please enter the name of your Organization.</label>
-              <input type="text" placeholder="name" />
-              <label>Please create a subdomain</label>
-              <input
-                type="text"
-                placeholder="e.g 'beta' / 'local' / 'mercku' "
-              />
-              <button type="submit">CREATE OPERATOR</button>
-            </form>
+            <label>The operator name</label>
+            <p>
+              Please select your operator's name. Once chosen, we will add data
+              to illustrate the functionality and interactivity of our UI and
+              software.
+            </p>
+            <input
+              type="text"
+              value={inputValue}
+              onChange={handleInputChange}
+              placeholder="Type here..."
+            />
+            {inputValue && (
+              <div className="list-all">
+                {filteredOperators.map((operator) => (
+                  <p
+                    className="list"
+                    key={operator.ID}
+                    onClick={() => handleSelectValue(operator.Name)}
+                  >
+                    {operator.Name}
+                  </p>
+                ))}
+              </div>
+            )}
+            {selectedOperator && <p>Your operator is: {selectedOperator}</p>}
+            <select
+              id="selectOption"
+              value={selectedOperator}
+              onChange={handleSelectedOperator}
+            >
+              <option value="" disabled hidden>
+                OPERATOR SELECTION
+              </option>
+              {operatorList.map((operator) => (
+                <option key={operator.ID} value={operator.ID}>
+                  {operator.Name}
+                </option>
+              ))}
+            </select>
+            <p id="newOperatorText">
+              If you do not have an existing operator, please sign up below.
+            </p>
+            <button onClick={handleNewOperator} id="newOperatorBtn">
+              NEW OPERATOR?
+            </button>
           </>
         )}
       </div>

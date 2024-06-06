@@ -47,7 +47,6 @@ export const SalesStaff: React.FC<SalesStaffProps> = ({
     name.label.toLowerCase().includes(inputValue.toLowerCase())
   );
 
-
   return (
     <div className="common-container">
       <div className="common-container-header">
@@ -80,7 +79,11 @@ export const SalesStaff: React.FC<SalesStaffProps> = ({
           </div>
         )}
 
-        <select id="selectOption" value={staffNameInput} onChange={handleStaffName}>
+        <select
+          id="selectOption"
+          value={staffNameInput}
+          onChange={handleStaffName}
+        >
           <option value="" disabled hidden>
             NAME SELECTION
           </option>
@@ -92,7 +95,6 @@ export const SalesStaff: React.FC<SalesStaffProps> = ({
         </select>
 
         {staffNameInput && <p>Your name is: {staffNameInput}</p>}
-
       </form>
 
       <div className="common-container-footer">
