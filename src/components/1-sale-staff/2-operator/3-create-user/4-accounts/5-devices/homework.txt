@@ -1,0 +1,12 @@
+haandles table (router) - assigned to accountId
+endpoint to allow to change accountId that is assigned to a router
+
+holding phase
+
+12
+237
+
+
+pov 
+operator 1
+training
