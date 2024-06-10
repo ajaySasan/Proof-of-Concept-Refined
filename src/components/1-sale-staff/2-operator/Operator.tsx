@@ -37,6 +37,8 @@ export const Operator: React.FC<OperatorProps> = ({
     "auth-token": token,
   };
 
+  useEffect(() => {}, [apiURL, token, header]);
+
   const [newOperator, setNewOperator] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState<string>("");
   const [operatorList, setOperatorList] = useState<OperatorGetData[]>([]);

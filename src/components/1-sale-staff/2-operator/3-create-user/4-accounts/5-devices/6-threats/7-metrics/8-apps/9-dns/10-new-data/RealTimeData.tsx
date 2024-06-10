@@ -307,6 +307,8 @@ export const RealTimeData: React.FC<RealTimeDataProps> = ({
     }
   };
 
+  useEffect(() => {}, [apiURL, token, deviceIdOperator, header]);
+
   return (
     <div className="common-container">
       <div className="common-container-header">

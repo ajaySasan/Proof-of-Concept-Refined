@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "../../../../../app/App.scss";
 import axios from "axios";
 
@@ -33,6 +33,8 @@ export const GenerateRandomAccounts: React.FC<GenerateRandomAccountsProps> = ({
   const header = {
     "auth-token": token,
   };
+
+  useEffect(() => {}, [apiURL, token, operatorDomain, header]);
 
   const [numOfAccounts, setNumOfAccounts] = useState<number>(0);
 

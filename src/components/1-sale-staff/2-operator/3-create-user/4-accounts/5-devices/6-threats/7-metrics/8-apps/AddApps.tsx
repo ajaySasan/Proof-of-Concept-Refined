@@ -103,6 +103,8 @@ export const AddApps: React.FC<AddAppsProps> = ({
     }
   };
 
+  useEffect(() => {}, [apiURL, token, deviceIdOperator, header]);
+
   return (
     <div className="common-container">
       <div className="common-container-header">
