@@ -26,7 +26,6 @@ export const DnsHistory: React.FC<DnsHistoryProps> = ({
   const [mobileApps, setMobileApps] = useState<any[]>([]);
 
   const deviceIdOperator: any = `/op/operatordevices/${operatorId}?size=100000`;
-
   useEffect(() => {
     const fetchDeviceId = async () => {
       try {
@@ -61,48 +60,9 @@ export const DnsHistory: React.FC<DnsHistoryProps> = ({
     fetchMobileApps();
   }, []);
 
-  // const platformOne = 1000;
-  // const platformTwo = 2;
-  // const randomPlatform =
-  //   Math.floor(Math.random() * 2) === 0 ? platformOne : platformTwo;
-
-  // const categories = ["10005", "10005-10415", "10094", "10096-10115"];
-
-  // const randomCategoryIndex = Math.floor(Math.random() * categories.length);
-  // const randomCategory = categories[randomCategoryIndex];
-
-  // const allowTrue = true;
-  // const allowFalse = false;
-  // const randomAllow =
-  //   Math.floor(Math.random() * 2) === 0 ? allowTrue : allowFalse;
-
-  // // const handleSubmit = async () => {
-  //   const newDnsRecord = {
-  //     requester: deviceId,
-  //     fqdn: mobileApps,
-  //     allow: randomAllow,
-  //     reason: randomPlatform,
-  //     categories: randomCategory,
-  //     tld: mobileApps,
-  //   };
-
-  //   try {
-  //     const response = await axios.post(
-  //       `${apiURL}/v2/op/dns-records/create`,
-  //       newDnsRecord,
-  //       {
-  //         headers: header,
-  //       }
-  //     );
-  //     console.log(`Device with Apps Created Successfully:`, response.data);
-  //   } catch (err) {
-  //     console.log(`Error adding apps to devices: ${err}`);
-  //   }
-  // };
-
   const handleSubmit = async () => {
     const newDnsRecords: any[] = [];
-    const numberOfRecordsPerDevice = 23;
+    const numberOfRecordsPerDevice = 2;
 
     // Loop through each deviceId
     for (const id of deviceId) {
@@ -120,15 +80,19 @@ export const DnsHistory: React.FC<DnsHistoryProps> = ({
 
         const randomPlatform = Math.floor(Math.random() * 2) === 0 ? 1000 : 2;
 
-        const allow = Math.floor(Math.random() * 2) === 0;
+        const profile = ["68hj1h1q7", "66ATCUL1C", "66atcul1c"];
+        const randomProfileIndex = Math.floor(Math.random() * profile.length);
+        const randomProfile = profile[randomProfileIndex];
 
+        const allow = Math.floor(Math.random() * 2) === 0;
         const newDnsRecord = {
           requester: id,
-          fqdn: randomMobileApp.fqdn,
+          fqdn: randomMobileApp.packageName,
+          profile: randomProfile,
           allow: allow,
           reason: randomPlatform,
           categories: randomCategory,
-          tld: randomMobileApp.tld,
+          tld: randomMobileApp.packageName,
         };
 
         newDnsRecords.push(newDnsRecord);
