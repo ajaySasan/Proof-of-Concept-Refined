@@ -60,9 +60,17 @@ export const DnsHistory: React.FC<DnsHistoryProps> = ({
     fetchMobileApps();
   }, []);
 
+  const chunkArray = (array: any[], chunkSize: number) => {
+    const chunks = [];
+    for (let i = 0; i < array.length; i += chunkSize) {
+      chunks.push(array.slice(i, i + chunkSize));
+    }
+    return chunks;
+  };
+
   const handleSubmit = async () => {
     const newDnsRecords: any[] = [];
-    const numberOfRecordsPerDevice = 2;
+    const numberOfRecordsPerDevice = 33;
 
     // Loop through each deviceId
     for (const id of deviceId) {
@@ -99,15 +107,21 @@ export const DnsHistory: React.FC<DnsHistoryProps> = ({
       }
     }
 
+    const chunkSize = 100; // Adjust the chunk size if needed
+    const chunks = chunkArray(newDnsRecords, chunkSize);
+
     try {
-      const response = await axios.post(
-        `${apiURL}/v2/op/dns-records/create`,
-        newDnsRecords,
-        {
-          headers: header,
-        }
-      );
-      console.log(`DNS Records Created Successfully:`, response.data);
+      for (const chunk of chunks) {
+        const response = await axios.post(
+          `${apiURL}/v2/op/dns-records/create`,
+          chunk,
+          {
+            headers: header,
+          }
+        );
+        console.log(`Chunk created successfully:`, response.data);
+      }
+      console.log("All DNS records created successfully.");
     } catch (err) {
       console.log(`Error adding DNS records: ${err}`);
     }
