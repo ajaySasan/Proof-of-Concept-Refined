@@ -39,8 +39,6 @@ export const GenerateRandomDevices: React.FC<GenerateRandomDevicesProps> = ({
     "auth-token": token,
   };
 
-  useEffect(() => {}, [apiURL, token, header]);
-
   const [numOfDevices, setNumOfDevices] = useState<number>(0);
   const handleNumOfDevices = (e: React.ChangeEvent<HTMLInputElement>) => {
     const deviceValue = parseInt(e.target.value);

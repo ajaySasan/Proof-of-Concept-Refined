@@ -54,8 +54,6 @@ export const UserAccount: React.FC<UserAccountProps> = ({
     "auth-token": token,
   };
 
-  useEffect(() => {}, [apiURL, token, operatorDomain, header]);
-
   const formatDate = new Date();
   const date = formatDate.toLocaleString();
   useEffect(() => {

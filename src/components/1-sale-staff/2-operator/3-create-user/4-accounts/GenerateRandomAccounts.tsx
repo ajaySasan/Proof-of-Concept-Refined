@@ -30,12 +30,6 @@ export const GenerateRandomAccounts: React.FC<GenerateRandomAccountsProps> = ({
   apiURL,
   token,
 }) => {
-  const header = {
-    "auth-token": token,
-  };
-
-  useEffect(() => {}, [apiURL, token, operatorDomain, header]);
-
   const [numOfAccounts, setNumOfAccounts] = useState<number>(0);
 
   const handleNumOfAccounts = (e: React.ChangeEvent<HTMLInputElement>) => {
