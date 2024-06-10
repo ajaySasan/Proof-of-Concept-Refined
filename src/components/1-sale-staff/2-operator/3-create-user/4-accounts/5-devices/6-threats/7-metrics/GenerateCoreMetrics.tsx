@@ -251,6 +251,8 @@ export const GenerateCoreMetrics: React.FC<GenerateCoreMetricsProps> = ({
     }
   };
 
+  useEffect(() => {}, [apiURL, token, deviceIdOperator, header]);
+
   return (
     <div className="common-container">
       <div className="common-container-header">
