@@ -30,6 +30,7 @@ interface Register {
   pass: string;
   serialNumber: string;
   referer: string;
+  operatorId?: string;
 }
 
 interface SalesRecord {
@@ -170,6 +171,10 @@ export const UserAccount: React.FC<UserAccountProps> = ({
       serialNumber: serialNumber(),
       referer: operatorDomain,
     };
+
+    if (isRetinaChecked) {
+      userData.operatorId = operatorId;
+    }
 
     try {
       await axios.post("api/send", {

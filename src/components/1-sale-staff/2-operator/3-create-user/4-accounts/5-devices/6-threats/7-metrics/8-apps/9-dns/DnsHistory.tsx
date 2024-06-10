@@ -102,13 +102,10 @@ export const DnsHistory: React.FC<DnsHistoryProps> = ({
 
   const handleSubmit = async () => {
     const newDnsRecords: any[] = [];
-
-    // Variable to determine the number of new DNS records per deviceId
-    const numberOfRecordsPerDevice = 5; // You can change this value as per your requirement
+    const numberOfRecordsPerDevice = 23;
 
     // Loop through each deviceId
     for (const id of deviceId) {
-      // Generate specified number of DNS records for each deviceId
       for (let i = 0; i < numberOfRecordsPerDevice; i++) {
         const randomMobileAppIndex = Math.floor(
           Math.random() * mobileApps.length

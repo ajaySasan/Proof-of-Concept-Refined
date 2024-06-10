@@ -9,7 +9,6 @@ interface GenerateRandomDevicesProps {
   backBtn: () => void;
   operatorId: string;
   apiURL: string;
-  token: string;
 }
 
 interface Device {
@@ -33,8 +32,9 @@ export const GenerateRandomDevices: React.FC<GenerateRandomDevicesProps> = ({
   backBtn,
   operatorId,
   apiURL,
-  token,
 }) => {
+
+  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJRCI6NjYsImFjY291bnRJZCI6NjcsIm9wZXJhdG9ySWQiOjAsInNlc3Npb25Ub2tlbiI6eyJpZCI6MTIsInNlc3Npb24iOiJmY2E1MmFlYzk0NzdlYjNhZjU3NTEzYjRiYjUwMDU2YSIsInUiOiI0NWVmZDgwMjAxNzVhMmVhMGVjNTdiNTcyZWNkY2M5ZGE1YTBkYjhjIiwidXBkYXRlZEF0IjoiMjAyNC0wNi0xMFQxMTo1NzoxOC43MjFaIiwiY3JlYXRlZEF0IjoiMjAyNC0wNi0xMFQxMTo1NzoxOC43MjFaIn0sImlhdCI6MTcxODAyMDYzOH0.f7mw9nbBDwkMqG9TCAgIhumb-CifgKq8jMfXg4iRKRE"
   const header = {
     "auth-token": token,
   };

@@ -16,9 +16,13 @@ import { Taskbar } from "@/components/Taskbar";
 import { WelcomePage } from "@/components/WelcomePage";
 import { useState } from "react";
 
-const apiURL: string = "https://api-dev.blackdice.ai";
+// const apiURL: string = "https://api-dev.blackdice.ai";
+// const token: string =
+//   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJRCI6OTExLCJhY2NvdW50SWQiOjEyMDIsIm9wZXJhdG9ySWQiOm51bGwsInNlc3Npb25Ub2tlbiI6eyJpZCI6ODcwOSwic2Vzc2lvbiI6IjY0OGU2MDZiMTA3NTE2NmVhNzdjMTdlOTM2OWIwMzcyIiwidSI6IjMzZDQzNGJlNDI1M2ZjMDBhYjVhODU5N2VlNzQ3NTZiNTNhOGI5ZWIiLCJ1cGRhdGVkQXQiOiIyMDI0LTA2LTA2VDEzOjI4OjA3LjIwMFoiLCJjcmVhdGVkQXQiOiIyMDI0LTA2LTA2VDEzOjI4OjA3LjIwMFoifSwiaWF0IjoxNzE3NjgwNDg3fQ.lH9lmCGiXm8Z6P8_rfaIpbzVc1p4zYud8NaeDwJCVD8";
+
+const apiURL: string = "https://api-pov.blackdice.ai";
 const token: string =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJRCI6OTExLCJhY2NvdW50SWQiOjEyMDIsIm9wZXJhdG9ySWQiOm51bGwsInNlc3Npb25Ub2tlbiI6eyJpZCI6ODcwOSwic2Vzc2lvbiI6IjY0OGU2MDZiMTA3NTE2NmVhNzdjMTdlOTM2OWIwMzcyIiwidSI6IjMzZDQzNGJlNDI1M2ZjMDBhYjVhODU5N2VlNzQ3NTZiNTNhOGI5ZWIiLCJ1cGRhdGVkQXQiOiIyMDI0LTA2LTA2VDEzOjI4OjA3LjIwMFoiLCJjcmVhdGVkQXQiOiIyMDI0LTA2LTA2VDEzOjI4OjA3LjIwMFoifSwiaWF0IjoxNzE3NjgwNDg3fQ.lH9lmCGiXm8Z6P8_rfaIpbzVc1p4zYud8NaeDwJCVD8";
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRyYWluQGJsYWNrZGljZS5haSIsIm9wZXJhdG9yS2V5IjoxLCJvcGVyYXRvcklkIjoxLCJkYXNoYm9hcmQiOjAsImlhdCI6MTcxODAxOTkwOX0.WEmBTXNV5tLmsHLiN9c0KMAkLvJfV3q2wRzCDUl5cJs";
 
 export default function Home() {
   const [currentPage, setCurrentPage] = useState(0);
@@ -99,7 +103,6 @@ export default function Home() {
             backBtn={prevPage}
             operatorId={operatorId}
             apiURL={apiURL}
-            token={token}
           />
         );
       case 6:

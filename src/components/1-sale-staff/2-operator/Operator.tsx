@@ -69,18 +69,19 @@ export const Operator: React.FC<OperatorProps> = ({
     }
   };
 
+  const fetchOperators = async () => {
+    try {
+      const response = await axios.get(`${apiURL}${operatorEndpoint}`, {
+        headers: header,
+      });
+      const data: OperatorGetData[] = response.data.data;
+      setOperatorList(data);
+    } catch (error) {
+      console.log("Error fetching operator");
+    }
+  };
+
   useEffect(() => {
-    const fetchOperators = async () => {
-      try {
-        const response = await axios.get(`${apiURL}${operatorEndpoint}`, {
-          headers: header,
-        });
-        const data: OperatorGetData[] = response.data.data;
-        setOperatorList(data);
-      } catch (error) {
-        console.log("Error fetching operator");
-      }
-    };
     fetchOperators();
   }, []);
 
@@ -127,14 +128,18 @@ export const Operator: React.FC<OperatorProps> = ({
       console.log(response.data);
       setShowNewOperator(false);
       setNewOperator(false);
-      setOperatorId(newOperatorName);
-      setSelectedOperator(newOperatorName);
+      setOperatorId("");
+      setSelectedOperator("");
       setSelectedSubdomain(newOperatorSubdomain);
       setInputValue("");
+
+      // Refetch the list of operators
+      await fetchOperators();
     } catch (error) {
       console.log(error);
     }
   };
+
   return (
     <div className="common-container">
       <div className="common-container-header">

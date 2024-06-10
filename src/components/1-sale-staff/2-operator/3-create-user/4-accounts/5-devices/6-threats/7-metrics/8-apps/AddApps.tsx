@@ -90,14 +90,24 @@ export const AddApps: React.FC<AddAppsProps> = ({
 
   const handleSubmit = async () => {
     try {
-      const response = await axios.post(
-        `${apiURL}/v2/op/demo-suite/device-apps`,
-        deviceAppMapping,
-        {
-          headers: header,
-        }
-      );
-      console.log(`Device with Apps Created Successfully:`, response.data);
+      const chunkSize = 100;
+      const chunks = [];
+      for (let i = 0; i < deviceAppMapping.length; i += chunkSize) {
+        chunks.push(deviceAppMapping.slice(i, i + chunkSize));
+      }
+
+      for (let i = 0; i < chunks.length; i++) {
+        const response = await axios.post(
+          `${apiURL}/v2/op/demo-suite/device-apps`,
+          chunks[i],
+          {
+            headers: header,
+          }
+        );
+        console.log(`Chunk ${i + 1} posted successfully:`, response.data);
+      }
+
+      console.log("All chunks posted successfully");
     } catch (err) {
       console.log(`Error adding apps to devices: ${err}`);
     }
