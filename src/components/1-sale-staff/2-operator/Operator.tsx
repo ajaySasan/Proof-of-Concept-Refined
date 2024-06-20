@@ -84,6 +84,7 @@ export const Operator: React.FC<OperatorProps> = ({
     fetchOperators();
   }, []);
 
+  
   useEffect(() => {
     operatorIdProps && setSelectedOperator(operatorId);
     setLocalOperatorId(operatorIdProps);
