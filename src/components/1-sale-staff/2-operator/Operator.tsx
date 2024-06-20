@@ -85,7 +85,7 @@ export const Operator: React.FC<OperatorProps> = ({
 
   useEffect(() => {
     fetchOperators();
-  }, [fetchOperators]);
+  }, []);
 
   useEffect(() => {
     operatorIdProps && setSelectedOperator(operatorId);
