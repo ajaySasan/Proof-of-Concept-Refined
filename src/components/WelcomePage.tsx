@@ -1,6 +1,7 @@
 "use client";
 
 import "./welcome-page.scss";
+import Image from "next/image";
 
 interface WelcomePageProps {
   nextBtn: () => void;
@@ -9,10 +10,12 @@ interface WelcomePageProps {
 export const WelcomePage: React.FC<WelcomePageProps> = ({ nextBtn }) => {
   return (
     <div className="welcome-page">
-      <img
+      <Image
         src="/BlackDiceCube.png"
         alt="Black Dice Logo"
         className="b-d-cube"
+        width={100}
+        height={120}
       />
       <div className="welcome-section">
         <i className="bi bi-door-open" id="door" />
