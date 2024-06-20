@@ -1,7 +1,6 @@
-'use client'
+"use client";
 
 import "./welcome-page.scss";
-
 
 interface WelcomePageProps {
   nextBtn: () => void;
@@ -36,7 +35,7 @@ export const WelcomePage: React.FC<WelcomePageProps> = ({ nextBtn }) => {
         <i className="bi bi-pen" />
       </button>
       <h2 className="welcomeBio Bio" id="description">
-        Welcome to BlackDice Cyber's Demo Suite—a versatile environment for
+        Welcome to BlackDice Cyber&apos;s Demo Suite—a versatile environment for
         developing proof of concept for our software.
       </h2>
     </div>

@@ -10,6 +10,9 @@ interface RealTimeDataProps {
   operatorId: string;
   apiURL: string;
   token: string;
+  header: {
+    "auth-token": string;
+  };
 }
 
 interface DeviceInfo {
@@ -52,11 +55,8 @@ export const RealTimeData: React.FC<RealTimeDataProps> = ({
   operatorId,
   apiURL,
   token,
+  header,
 }) => {
-  const header = {
-    "auth-token": token,
-  };
-
   const handleExitMessage = () => {
     const confirmExit = window.confirm(
       "Are you sure you want to exit the demo?"

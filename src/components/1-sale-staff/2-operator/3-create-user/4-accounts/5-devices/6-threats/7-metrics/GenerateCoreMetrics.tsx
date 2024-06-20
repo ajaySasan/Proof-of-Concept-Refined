@@ -10,6 +10,9 @@ interface GenerateCoreMetricsProps {
   operatorId: string;
   apiURL: string;
   token: string;
+  header: {
+    "auth-token": string;
+  };
 }
 
 interface DeviceInfo {
@@ -41,11 +44,8 @@ export const GenerateCoreMetrics: React.FC<GenerateCoreMetricsProps> = ({
   operatorId,
   apiURL,
   token,
+  header,
 }) => {
-  const header = {
-    "auth-token": token,
-  };
-
   // Time
   const randomTime = () => {
     const hour = Math.floor(Math.random() * 24);

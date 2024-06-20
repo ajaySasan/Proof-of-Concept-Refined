@@ -10,6 +10,9 @@ interface AddAppsProps {
   operatorId: string;
   apiURL: string;
   token: string;
+  header: {
+    "auth-token": string;
+  };
 }
 
 export const AddApps: React.FC<AddAppsProps> = ({
@@ -18,11 +21,8 @@ export const AddApps: React.FC<AddAppsProps> = ({
   operatorId,
   apiURL,
   token,
+  header,
 }) => {
-  const header = {
-    "auth-token": token,
-  };
-
   const [mobileApps, setMobileApps] = useState<any[]>([]);
   const [deviceId, setDeviceId] = useState<number[]>([]);
   const [deviceAppMapping, setDeviceAppMapping] = useState<

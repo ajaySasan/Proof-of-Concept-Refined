@@ -34,7 +34,7 @@ export const EmailTemplate = ({ pass }: EmailTemplateProps) => (
         <Heading style={h1}>Thanks for signing up with BlackDice Cyber</Heading>
         <Text style={heroText}>
           Your password is below - enter it in your open browser window and
-          you'll be signed in.
+          you&apos;ll be signed in.
         </Text>
 
         <Section style={codeBox}>
@@ -42,8 +42,8 @@ export const EmailTemplate = ({ pass }: EmailTemplateProps) => (
         </Section>
 
         <Text style={text}>
-          If you didn't request this email, there's nothing to worry about, you
-          can safely ignore it.
+          If you didn&apos;t request this email, there&apos;s nothing to worry
+          about, you can safely ignore it.
         </Text>
 
         <Section>

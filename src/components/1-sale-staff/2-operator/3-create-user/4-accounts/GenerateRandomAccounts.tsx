@@ -11,6 +11,9 @@ interface GenerateRandomAccountsProps {
   operatorDomain: string;
   apiURL: string;
   token: string;
+  header: {
+    "auth-token": string;
+  };
 }
 
 interface Register {
@@ -29,11 +32,8 @@ export const GenerateRandomAccounts: React.FC<GenerateRandomAccountsProps> = ({
   operatorDomain,
   apiURL,
   token,
+  header,
 }) => {
-  const header = {
-    "auth-token": token,
-  };
-
   useEffect(() => {}, [apiURL, token, operatorDomain, header]);
 
   const [numOfAccounts, setNumOfAccounts] = useState<number>(0);

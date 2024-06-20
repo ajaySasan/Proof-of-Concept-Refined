@@ -10,6 +10,9 @@ interface DnsHistoryProps {
   operatorId: string;
   apiURL: string;
   token: string;
+  header: {
+    "auth-token": string;
+  };
 }
 
 export const DnsHistory: React.FC<DnsHistoryProps> = ({
@@ -18,10 +21,8 @@ export const DnsHistory: React.FC<DnsHistoryProps> = ({
   operatorId,
   apiURL,
   token,
+  header,
 }) => {
-  const header = {
-    "auth-token": token,
-  };
   const [deviceId, setDeviceId] = useState<number[]>([]);
   const [mobileApps, setMobileApps] = useState<any[]>([]);
 

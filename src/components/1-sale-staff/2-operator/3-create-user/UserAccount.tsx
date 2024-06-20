@@ -16,6 +16,9 @@ interface UserAccountProps {
   operatorDomain: string;
   apiURL: string;
   token: string;
+  header: {
+    "auth-token": string;
+  };
 }
 
 interface OperatorGetData {
@@ -50,11 +53,8 @@ export const UserAccount: React.FC<UserAccountProps> = ({
   operatorDomain,
   apiURL,
   token,
+  header,
 }) => {
-  const header = {
-    "auth-token": token,
-  };
-
   useEffect(() => {}, [apiURL, token, operatorDomain, header]);
 
   const formatDate = new Date();

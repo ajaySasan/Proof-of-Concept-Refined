@@ -13,6 +13,9 @@ interface OperatorProps {
   setSelectedSubdomain: (subdomain: string) => void;
   apiURL: string;
   token: string;
+  header: {
+    "auth-token": string;
+  };
 }
 
 interface OperatorGetData {
@@ -32,11 +35,8 @@ export const Operator: React.FC<OperatorProps> = ({
   setSelectedSubdomain,
   apiURL,
   token,
+  header,
 }) => {
-  const header = {
-    "auth-token": token,
-  };
-
   useEffect(() => {}, [apiURL, token, header]);
 
   const [newOperator, setNewOperator] = useState<boolean>(false);

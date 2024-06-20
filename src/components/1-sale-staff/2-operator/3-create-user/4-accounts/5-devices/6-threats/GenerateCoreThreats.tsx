@@ -10,6 +10,9 @@ interface GenerateCoreThreatsProps {
   operatorId: string;
   apiURL: string;
   token: string;
+  header: {
+    "auth-token": string;
+  };
 }
 
 interface Threats {
@@ -31,11 +34,8 @@ export const GenerateCoreThreats: React.FC<GenerateCoreThreatsProps> = ({
   operatorId,
   apiURL,
   token,
+  header,
 }) => {
-  const header = {
-    "auth-token": token,
-  };
-
   // Time
   const randomTime = () => {
     const hour = Math.floor(Math.random() * 24);
