@@ -14,7 +14,6 @@
 
 .logo {
   display: flex;
-  
 }
 
 .blackDiceLogo {
@@ -26,11 +25,9 @@
 #blackDiceText {
   margin-left: 50px;
   margin-top: 10px;
-  width: 160px;
 }
 
 #blackDiceCube {
-  width: 35px;
   margin-top: 5px;
 }
 
@@ -41,20 +38,19 @@
   align-items: center;
   margin-right: 15px;
 
-  & a, #sales-tab {
+  & a,
+  #sales-tab {
     color: $pale-grey;
     cursor: pointer;
   }
 
-  & a:hover, #sales-tab:hover {
+  & a:hover,
+  #sales-tab:hover {
     color: $pale-green;
   }
 
-  & a:active, #sales-tab:active {
+  & a:active,
+  #sales-tab:active {
     color: $green;
   }
-
-
-  }
-  
-
+}

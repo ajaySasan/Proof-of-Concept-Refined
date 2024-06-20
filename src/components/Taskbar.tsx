@@ -18,7 +18,7 @@ export const Taskbar: React.FC<TaskbarProps> = ({ homepage, sales }) => {
           id="blackDiceText"
           onClick={() => homepage(0)}
           style={{ cursor: "pointer" }}
-          width={999}
+          width={140}
           height={30}
         />
         <Image
@@ -28,7 +28,7 @@ export const Taskbar: React.FC<TaskbarProps> = ({ homepage, sales }) => {
           id="blackDiceCube"
           onClick={() => homepage(0)}
           style={{ cursor: "pointer" }}
-          width={999}
+          width={40}
           height={40}
         />
       </div>
