@@ -152,7 +152,7 @@ export const GenerateCoreMetrics: React.FC<GenerateCoreMetricsProps> = ({
       }
     };
     fetchDeviceId();
-  }, []);
+  }, [apiURL, deviceIdOperator, header]);
 
   // Shuffle function
   const shuffle = (array: any[]) => {

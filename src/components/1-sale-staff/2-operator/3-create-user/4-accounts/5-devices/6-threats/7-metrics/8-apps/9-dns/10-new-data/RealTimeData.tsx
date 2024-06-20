@@ -89,7 +89,8 @@ export const RealTimeData: React.FC<RealTimeDataProps> = ({
       }
     };
     fetchDeviceId();
-  }, []);
+  }, [apiURL, deviceIdOperator, header]);
+
   const [currentDateTime, setCurrentDateTime] = useState("");
 
   // Handle submit
@@ -318,16 +319,16 @@ export const RealTimeData: React.FC<RealTimeDataProps> = ({
       <form className="common-container-body">
         <label>Create new threats and metrics in real time</label>
         <p>
-          Once "Start Demo" is selected, new threat and metric data will be
-          added dynamically to showcase how our software and UI detect incoming
-          threats live and in real time.
+          Once &quot;Start Demo&quot; is selected, new threat and metric data
+          will be added dynamically to showcase how our software and UI detect
+          incoming threats live and in real time.
         </p>
         <button type="button" onClick={startDemoLoop}>
           START DEMO
         </button>
         <p>
-          Upon selecting "Stop Demo," incoming data will cease, terminating the
-          demonstration.
+          Upon selecting &quot;Stop Demo&quot;, incoming data will cease,
+          terminating the demonstration.
         </p>
         <button type="button" onClick={stopDemoLoop}>
           STOP DEMO

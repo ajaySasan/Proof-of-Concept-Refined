@@ -47,7 +47,7 @@ export const AddApps: React.FC<AddAppsProps> = ({
       }
     };
     fetchDeviceId();
-  }, []);
+  }, [apiURL, deviceIdOperator, header]);
 
   useEffect(() => {
     const fetchMobileApps = async () => {
@@ -65,7 +65,7 @@ export const AddApps: React.FC<AddAppsProps> = ({
     };
 
     fetchMobileApps();
-  }, []);
+  }, [apiURL, header]);
 
   useEffect(() => {
     if (deviceId.length > 0 && mobileApps.length > 0 && randomNum > 0) {

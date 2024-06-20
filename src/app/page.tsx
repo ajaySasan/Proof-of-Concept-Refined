@@ -110,6 +110,8 @@ export default function Home() {
             backBtn={prevPage}
             operatorId={operatorId}
             apiURL={apiURL}
+            token={token}
+            header={header}
           />
         );
       case 6:

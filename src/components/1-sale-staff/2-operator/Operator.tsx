@@ -85,12 +85,12 @@ export const Operator: React.FC<OperatorProps> = ({
 
   useEffect(() => {
     fetchOperators();
-  }, []);
+  }, [fetchOperators]);
 
   useEffect(() => {
     operatorIdProps && setSelectedOperator(operatorId);
     setLocalOperatorId(operatorIdProps);
-  }, [operatorId]);
+  }, [operatorId, operatorIdProps]);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const operatorValue = event.target.value;
@@ -169,9 +169,9 @@ export const Operator: React.FC<OperatorProps> = ({
           <>
             <label>The operator name</label>
             <p>
-              Please select your operator's name. Once chosen, we will add data
-              to illustrate the functionality and interactivity of our UI and
-              software.
+              Please select your operator&aspos;s name. Once chosen, we will add
+              data to illustrate the functionality and interactivity of our UI
+              and software.
             </p>
             <input
               type="text"

@@ -134,7 +134,7 @@ export const GenerateCoreThreats: React.FC<GenerateCoreThreatsProps> = ({
       }
     };
     fetchDeviceId();
-  }, []);
+  }, [apiURL, deviceIdOperator, header]);
 
   const shuffledIds = [...deviceId];
   for (let i = shuffledIds.length - 1; i > 0; i--) {

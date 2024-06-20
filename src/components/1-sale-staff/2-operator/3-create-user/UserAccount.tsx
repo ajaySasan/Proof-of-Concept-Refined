@@ -72,7 +72,7 @@ export const UserAccount: React.FC<UserAccountProps> = ({
       const updatedRecords = [...existingRecords, newRecord];
       localStorage.setItem("salesRecord", JSON.stringify(updatedRecords));
     }
-  }, [staffName, operatorId]);
+  }, [date, staffName, operatorId]);
 
   const [email, setEmail] = useState<string>("");
   const [confirmEmail, setConfirmEmail] = useState<string>("");

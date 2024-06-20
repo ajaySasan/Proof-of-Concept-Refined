@@ -9,6 +9,10 @@ interface GenerateRandomDevicesProps {
   backBtn: () => void;
   operatorId: string;
   apiURL: string;
+  token: string;
+  header: {
+    "auth-token": string;
+  };
 }
 
 interface Device {
@@ -32,15 +36,9 @@ export const GenerateRandomDevices: React.FC<GenerateRandomDevicesProps> = ({
   backBtn,
   operatorId,
   apiURL,
+  token,
+  header,
 }) => {
-
-  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJRCI6NjYsImFjY291bnRJZCI6NjcsIm9wZXJhdG9ySWQiOjAsInNlc3Npb25Ub2tlbiI6eyJpZCI6MTIsInNlc3Npb24iOiJmY2E1MmFlYzk0NzdlYjNhZjU3NTEzYjRiYjUwMDU2YSIsInUiOiI0NWVmZDgwMjAxNzVhMmVhMGVjNTdiNTcyZWNkY2M5ZGE1YTBkYjhjIiwidXBkYXRlZEF0IjoiMjAyNC0wNi0xMFQxMTo1NzoxOC43MjFaIiwiY3JlYXRlZEF0IjoiMjAyNC0wNi0xMFQxMTo1NzoxOC43MjFaIn0sImlhdCI6MTcxODAyMDYzOH0.f7mw9nbBDwkMqG9TCAgIhumb-CifgKq8jMfXg4iRKRE"
-  const header = {
-    "auth-token": token,
-  };
-
-  useEffect(() => {}, [apiURL, token, header]);
-
   const [numOfDevices, setNumOfDevices] = useState<number>(0);
   const handleNumOfDevices = (e: React.ChangeEvent<HTMLInputElement>) => {
     const deviceValue = parseInt(e.target.value);
@@ -243,7 +241,7 @@ export const GenerateRandomDevices: React.FC<GenerateRandomDevicesProps> = ({
 
   useEffect(() => {
     fetchRandomId();
-  }, []);
+  }, [fetchRandomId]);
 
   // 75% confirmed, 25% unconfirmed
   const threat75Percentage = 0.75;

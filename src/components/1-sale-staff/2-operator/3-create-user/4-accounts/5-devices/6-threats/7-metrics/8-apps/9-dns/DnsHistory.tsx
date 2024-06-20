@@ -41,7 +41,7 @@ export const DnsHistory: React.FC<DnsHistoryProps> = ({
       }
     };
     fetchDeviceId();
-  }, []);
+  }, [apiURL, deviceIdOperator, header]);
 
   useEffect(() => {
     const fetchMobileApps = async () => {
@@ -59,7 +59,7 @@ export const DnsHistory: React.FC<DnsHistoryProps> = ({
     };
 
     fetchMobileApps();
-  }, []);
+  }, [apiURL, header]);
 
   const chunkArray = (array: any[], chunkSize: number) => {
     const chunks = [];
