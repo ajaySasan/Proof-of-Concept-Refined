@@ -33,6 +33,7 @@ export const Home: React.FC<HomeProps> = ({ token, paToken }) => {
 
   console.log(token);
   console.log(paToken);
+
   const apiURL: string = "https://api-pov.blackdice.ai";
 
   const header = useMemo(() => {
