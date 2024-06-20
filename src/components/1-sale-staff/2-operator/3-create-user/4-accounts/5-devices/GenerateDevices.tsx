@@ -313,8 +313,6 @@ export const GenerateRandomDevices: React.FC<GenerateRandomDevicesProps> = ({
     }
   };
 
-  console.log(`${apiURL}${getHaandleId}`);
-
   return (
     <div className="common-container">
       <div className="common-container-header">
