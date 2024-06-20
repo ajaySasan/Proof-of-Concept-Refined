@@ -31,8 +31,8 @@ export const Home: React.FC<HomeProps> = ({ token, paToken }) => {
   const [salesPage, setSalesPage] = useState<boolean>(false);
   const [selectedSubdomain, setSelectedSubdomain] = useState<string>("");
 
-  console.log(token);
-  console.log(paToken);
+  console.log(`Operator Token = ${paToken}`);
+  console.log(`Service Platform Token = ${token}`);
 
   const apiURL: string = "https://api-pov.blackdice.ai";
 
