@@ -169,7 +169,7 @@ export const Operator: React.FC<OperatorProps> = ({
           <>
             <label>The operator name</label>
             <p>
-              Please select your operator&aspos;s name. Once chosen, we will add
+              Please select your operator&#39;s name. Once chosen, we will add
               data to illustrate the functionality and interactivity of our UI
               and software.
             </p>
