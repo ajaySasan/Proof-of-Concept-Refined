@@ -43,9 +43,8 @@ export const Operator: React.FC<OperatorProps> = ({
   const [inputValue, setInputValue] = useState<string>("");
   const [operatorList, setOperatorList] = useState<OperatorGetData[]>([]);
   const [operatorId, setLocalOperatorId] = useState<string>(operatorIdProps);
-  const [selectedOperator, setSelectedOperator] = useState<string>(
-    selectedSubdomainProps
-  );
+  const [selectedOperator, setSelectedOperator] =
+    useState<OperatorGetData | null>(null);
   const [showNewOperator, setShowNewOperator] = useState<boolean>(false);
 
   const handleNewOperator = () => {
@@ -65,7 +64,7 @@ export const Operator: React.FC<OperatorProps> = ({
       (operator) => operator.ID === Number(operatorId)
     );
     if (selectedOperator) {
-      setSelectedOperator(selectedOperator.Name);
+      setSelectedOperator(selectedOperator);
       setSelectedSubdomain(selectedOperator.Domain);
       setOperatorId(operatorId);
     }
@@ -88,19 +87,26 @@ export const Operator: React.FC<OperatorProps> = ({
   }, []);
 
   useEffect(() => {
-    operatorIdProps && setSelectedOperator(operatorId);
+    if (operatorIdProps && operatorList.length) {
+      const operator = operatorList.find(
+        (op) => op.ID === Number(operatorIdProps)
+      );
+      if (operator) {
+        setSelectedOperator(operator);
+      }
+    }
     setLocalOperatorId(operatorIdProps);
-  }, [operatorId, operatorIdProps]);
+  }, [operatorId, operatorIdProps, operatorList]);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const operatorValue = event.target.value;
     setInputValue(operatorValue);
   };
 
-  const handleSelectValue = (value: string) => {
+  const handleSelectValue = (value: OperatorGetData) => {
     setSelectedOperator(value);
     setInputValue("");
-    setOperatorId(value);
+    setOperatorId(value.ID.toString());
   };
 
   const filteredOperators = operatorList.filter((op) =>
@@ -131,7 +137,7 @@ export const Operator: React.FC<OperatorProps> = ({
       setShowNewOperator(false);
       setNewOperator(false);
       setOperatorId("");
-      setSelectedOperator("");
+      setSelectedOperator(null);
       setSelectedSubdomain(newOperatorSubdomain);
       setInputValue("");
 
@@ -185,17 +191,19 @@ export const Operator: React.FC<OperatorProps> = ({
                   <p
                     className="list"
                     key={operator.ID}
-                    onClick={() => handleSelectValue(operator.Name)}
+                    onClick={() => handleSelectValue(operator)}
                   >
                     {operator.Name}
                   </p>
                 ))}
               </div>
             )}
-            {selectedOperator && <p>Your operator is: {selectedOperator}</p>}
+            {selectedOperator && (
+              <p>Your operator is: {selectedOperator.Name}</p>
+            )}
             <select
               id="selectOption"
-              value={selectedOperator}
+              value={selectedOperator ? selectedOperator.ID : ""}
               onChange={handleSelectedOperator}
             >
               <option value="" disabled hidden>
