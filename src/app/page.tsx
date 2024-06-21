@@ -1,7 +1,7 @@
 import axios from "axios";
 import Home from "./home";
 
-export const Page = async () => {
+const Page = async () => {
   try {
     const operatorTokenResponse = await axios.post(
       "https://api-pov.blackdice.ai/op/auth/login",
@@ -16,10 +16,17 @@ export const Page = async () => {
       pass: "123456",
     });
 
+    console.log("Operator Token:", operatorTokenResponse.data);
+    console.log("PA Token:", uiToken.data.token);
+
     return (
       <Home token={operatorTokenResponse.data} paToken={uiToken.data.token} />
     );
   } catch (err) {
     console.log(err);
+    // Handle error or return fallback UI
+    return <div>Error loading data</div>;
   }
 };
+
+export default Page;
