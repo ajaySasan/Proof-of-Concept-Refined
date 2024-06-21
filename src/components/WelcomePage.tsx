@@ -11,7 +11,7 @@ export const WelcomePage: React.FC<WelcomePageProps> = ({ nextBtn }) => {
   return (
     <div className="welcome-page">
       <Image
-        src="/BlackDiceCube.png"
+        src="/proof-of-concept-suite/BlackDiceCube.png"
         alt="Black Dice Logo"
         className="b-d-cube"
         width={100}

@@ -12,7 +12,7 @@ export const Taskbar: React.FC<TaskbarProps> = ({ homepage, sales }) => {
     <div className="taskBar">
       <div className="logo">
         <Image
-          src="/BlackDiceText.png"
+          src="/proof-of-concept-suite/BlackDiceText.png"
           alt="Black Dice Logo"
           className="blackDiceLogo"
           id="blackDiceText"
@@ -22,7 +22,7 @@ export const Taskbar: React.FC<TaskbarProps> = ({ homepage, sales }) => {
           height={30}
         />
         <Image
-          src="/BlackDiceCube.png"
+          src="/proof-of-concept-suite/BlackDiceCube.png"
           alt="Black Dice Logo"
           className="blackDiceLogo"
           id="blackDiceCube"
