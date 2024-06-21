@@ -4,7 +4,8 @@ import { EmailTemplate } from "../../../components/password-email/EmailTemplate"
 // import EmailTemplate from "@src/components/password-email/EmailTemplate";
 
 export async function POST(request: Request) {
-  const resend = new Resend(process.env.RESEND_API_KEY);
+  const RESEND_API_KEY="re_KPjuHRTv_Jv5BzPnEtshPsccoCMgxefnR"
+  const resend = new Resend(RESEND_API_KEY);
 
   try {
     const body = await request.json();
