@@ -1,10 +1,28 @@
-"use client";
+import axios from "axios";
+import Main from "./home";
+import "../app/App.scss";
 
-import { Token } from "./token";
+const Home = async () => {
+  try {
+    const operatorTokenResponse = await axios.post(
+      "https://api-pov.blackdice.ai/op/auth/login",
+      {
+        email: "operator@demo.com",
+        pass: "123456",
+      }
+    );
 
-const Page = () => {
-  console.log("test");
-  return <Token />;
+    const uiToken = await axios.post("https://api-pov.blackdice.ai/pa/auth", {
+      email: "te@demo.com",
+      pass: "123456",
+    });
+
+    return (
+      <Main token={operatorTokenResponse.data} paToken={uiToken.data.token} />
+    );
+  } catch (err) {
+    console.log(err);
+  }
 };
 
-export default Page;
+export default Home;

@@ -24,7 +24,7 @@ interface HomeProps {
   paToken: string;
 }
 
-export const Home: React.FC<HomeProps> = ({ token, paToken }) => {
+export const Main: React.FC<HomeProps> = ({ token, paToken }) => {
   const [currentPage, setCurrentPage] = useState(0);
   const [staffNameInput, setStaffNameInput] = useState("");
   const [operatorId, setOperatorId] = useState<string>("");
@@ -191,4 +191,4 @@ export const Home: React.FC<HomeProps> = ({ token, paToken }) => {
   );
 };
 
-export default Home;
+export default Main;
