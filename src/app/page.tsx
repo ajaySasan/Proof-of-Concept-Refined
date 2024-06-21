@@ -1,8 +1,9 @@
-import axios from "axios";
-import Home from "./home";
-import Token from "./token";
+"use client";
+
+import { Token } from "./token";
 
 const Page = () => {
+  console.log("test");
   return <Token />;
 };
 
