@@ -19,11 +19,8 @@ export const SalesStaff: React.FC<SalesStaffProps> = ({
   const [inputValue, setInputValue] = useState<string>("");
 
   const names: { label: string; value: string }[] = [
-    { label: "Jon Snow", value: "Jon Snow" },
-    { label: "Dany Targaryen", value: "Dany Targaryen" },
-    { label: "Katerina Petrova", value: "Katerina Petrova" },
-    { label: "Niklaus Mikaelson", value: "Niklaus Mikaelson" },
-    { label: "Elijah Mikaelson", value: "Elijah Mikaelson" },
+    { label: "Campbell Ferrier", value: "Campbell Ferrier" },
+    { label: "Ajay Sasan", value: "Ajay Sasan" },
   ];
 
   const handleStaffName = (event: React.ChangeEvent<HTMLSelectElement>) => {
