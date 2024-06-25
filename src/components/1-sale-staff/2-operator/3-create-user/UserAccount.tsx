@@ -260,7 +260,7 @@ export const UserAccount: React.FC<UserAccountProps> = ({
           />
           <label>Retina</label>
         </div>
-        <button type="submit">CREATE ACCOUNT</button>
+        <button type="submit">CREATE ACCOUNT!</button>
       </form>
 
       <div className="common-container-footer">
