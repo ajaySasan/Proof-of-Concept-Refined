@@ -13,7 +13,7 @@ const Home = async () => {
     );
 
     const uiToken = await axios.post("https://api-pov.blackdice.ai/pa/auth", {
-      email: "te@demo.com",
+      email: "service-platform@demo.com",
       pass: "123456",
     });
 
