@@ -3,7 +3,7 @@ import { Resend } from "resend";
 import { EmailTemplate } from "../../../components/password-email/EmailTemplate";
 // import EmailTemplate from "@src/components/password-email/EmailTemplate";
 
-export async function POST(request: Request) {
+export async function GET(request: Request) {
   const RESEND_API_KEY="re_KPjuHRTv_Jv5BzPnEtshPsccoCMgxefnR"
   const resend = new Resend(RESEND_API_KEY);
 
