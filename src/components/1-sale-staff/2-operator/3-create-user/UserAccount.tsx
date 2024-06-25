@@ -29,7 +29,8 @@ interface Register {
   email: string;
   pass: string;
   serialNumber: string;
-  referer: string;
+  referer?: string;
+  operatorId?: string;
 }
 
 interface SalesRecord {
@@ -167,8 +168,13 @@ export const UserAccount: React.FC<UserAccountProps> = ({
       referer: operatorDomain,
     };
 
+    if (isRetinaChecked) {
+      userData.serialNumber = serialNumber();
+      userData.operatorId = operatorId;
+    }
+
     try {
-      await axios.post("/api/send", {
+      await axios.post("api/send", {
         email: userData.email,
         pass: userData.pass,
       });
@@ -177,20 +183,23 @@ export const UserAccount: React.FC<UserAccountProps> = ({
       console.error("Error sending email:", error);
     }
 
-    const postToEndpoint = async (endpoint: string) => {
+    const postToEndpoint = async (endpoint: string, data: Register) => {
       try {
-        const response = await axios.post(apiURL + endpoint, userData);
-        console.log("Account created successfully");
+        const response = await axios.post(apiURL + endpoint, data);
+        console.log(`Account created successfully at ${endpoint}`);
       } catch (error) {
-        console.log("Error creating account");
+        console.log(`Error creating account at ${endpoint}`);
       }
     };
 
     if (isBlackDiceChecked) {
-      await postToEndpoint(blackDiceEndpoint);
+      const { operatorId, ...userDataBlackDice } = userData;
+      userDataBlackDice.serialNumber = serialNumber();
+      userDataBlackDice.pass = generatePassword();
+      await postToEndpoint(blackDiceEndpoint, userDataBlackDice);
     }
     if (isRetinaChecked) {
-      await postToEndpoint(retinaEndpoint);
+      await postToEndpoint(retinaEndpoint, userData);
     }
 
     console.log(userData);
@@ -200,6 +209,8 @@ export const UserAccount: React.FC<UserAccountProps> = ({
     setIsBlackDiceChecked(false);
     setIsRetinaChecked(false);
   };
+
+
 
   return (
     <div className="common-container">
