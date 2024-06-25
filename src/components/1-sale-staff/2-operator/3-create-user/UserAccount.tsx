@@ -39,7 +39,7 @@ interface SalesRecord {
 }
 
 const blackDiceEndpoint = "/pa/auth/register";
-const retinaEndpoint = "/op/auth/register";
+const retinaEndpoint = "/op/auth/register/demo";
 
 export const UserAccount: React.FC<UserAccountProps> = ({
   backBtn,
