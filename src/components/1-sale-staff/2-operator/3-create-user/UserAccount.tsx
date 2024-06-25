@@ -172,7 +172,7 @@ export const UserAccount: React.FC<UserAccountProps> = ({
     };
 
     try {
-      await axios.post("/api/send", {
+      await axios.post("api/send", {
         email: userData.email,
         pass: userData.pass,
       });
