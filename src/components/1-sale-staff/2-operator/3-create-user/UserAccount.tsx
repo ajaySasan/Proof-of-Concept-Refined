@@ -16,9 +16,6 @@ interface UserAccountProps {
   operatorDomain: string;
   apiURL: string;
   token: string;
-  header: {
-    "auth-token": string;
-  };
 }
 
 interface OperatorGetData {
@@ -33,7 +30,6 @@ interface Register {
   pass: string;
   serialNumber: string;
   referer: string;
-  operatorId?: string;
 }
 
 interface SalesRecord {
@@ -53,9 +49,10 @@ export const UserAccount: React.FC<UserAccountProps> = ({
   operatorDomain,
   apiURL,
   token,
-  header,
 }) => {
-  useEffect(() => {}, [apiURL, token, operatorDomain, header]);
+  const header = {
+    "auth-token": token,
+  };
 
   const formatDate = new Date();
   const date = formatDate.toLocaleString();
@@ -72,7 +69,7 @@ export const UserAccount: React.FC<UserAccountProps> = ({
       const updatedRecords = [...existingRecords, newRecord];
       localStorage.setItem("salesRecord", JSON.stringify(updatedRecords));
     }
-  }, [date, staffName, operatorId]);
+  }, [staffName, operatorId]);
 
   const [email, setEmail] = useState<string>("");
   const [confirmEmail, setConfirmEmail] = useState<string>("");
@@ -174,13 +171,8 @@ export const UserAccount: React.FC<UserAccountProps> = ({
       referer: operatorDomain,
     };
 
-    if (isRetinaChecked) {
-      userData.serialNumber = serialNumber();
-      userData.operatorId = operatorId;
-    }
-
     try {
-      await axios.post("/proof-of-concept-suite/api/send", {
+      await axios.post("/api/send", {
         email: userData.email,
         pass: userData.pass,
       });
@@ -189,23 +181,20 @@ export const UserAccount: React.FC<UserAccountProps> = ({
       console.error("Error sending email:", error);
     }
 
-    const postToEndpoint = async (endpoint: string, data: Register) => {
+    const postToEndpoint = async (endpoint: string) => {
       try {
-        const response = await axios.post(apiURL + endpoint, data);
-        console.log(`Account created successfully at ${endpoint}`);
+        const response = await axios.post(apiURL + endpoint, userData);
+        console.log("Account created successfully");
       } catch (error) {
-        console.log(`Error creating account at ${endpoint}`);
+        console.log("Error creating account");
       }
     };
 
     if (isBlackDiceChecked) {
-      const { operatorId, ...userDataBlackDice } = userData;
-      userDataBlackDice.serialNumber = serialNumber();
-      userDataBlackDice.pass = generatePassword();
-      await postToEndpoint(blackDiceEndpoint, userDataBlackDice);
+      await postToEndpoint(blackDiceEndpoint);
     }
     if (isRetinaChecked) {
-      await postToEndpoint(retinaEndpoint, userData);
+      await postToEndpoint(retinaEndpoint);
     }
 
     console.log(userData);
