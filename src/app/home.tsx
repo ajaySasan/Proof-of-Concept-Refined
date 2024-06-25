@@ -94,7 +94,6 @@ export const Main: React.FC<HomeProps> = ({ token, paToken }) => {
             operatorDomain={selectedSubdomain}
             apiURL={apiURL}
             token={token}
-            header={header}
           />
         );
       case 4:
