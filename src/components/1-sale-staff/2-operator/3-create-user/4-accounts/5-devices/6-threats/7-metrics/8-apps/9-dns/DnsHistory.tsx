@@ -3,6 +3,8 @@
 import axios from "axios";
 import "../../../../../../../../../../app/App.scss";
 import { useEffect, useState } from "react";
+import { LoadingSpinner } from "../../../../../../../../../spinner/Spinner";
+import toast from "react-hot-toast";
 
 interface DnsHistoryProps {
   nextBtn: () => void;
@@ -23,6 +25,8 @@ export const DnsHistory: React.FC<DnsHistoryProps> = ({
   token,
   header,
 }) => {
+  const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(true)
+  const [loading, setLoading] = useState<boolean>(false)
   const [deviceId, setDeviceId] = useState<number[]>([]);
   const [mobileApps, setMobileApps] = useState<any[]>([]);
 
@@ -72,8 +76,7 @@ export const DnsHistory: React.FC<DnsHistoryProps> = ({
   const handleSubmit = async () => {
     const newDnsRecords: any[] = [];
     const numberOfRecordsPerDevice = 33;
-
-    // Loop through each deviceId
+    
     for (const id of deviceId) {
       for (let i = 0; i < numberOfRecordsPerDevice; i++) {
         const randomMobileAppIndex = Math.floor(
@@ -108,7 +111,7 @@ export const DnsHistory: React.FC<DnsHistoryProps> = ({
       }
     }
 
-    const chunkSize = 100; // Adjust the chunk size if needed
+    const chunkSize = 100; 
     const chunks = chunkArray(newDnsRecords, chunkSize);
 
     try {
@@ -120,11 +123,16 @@ export const DnsHistory: React.FC<DnsHistoryProps> = ({
             headers: header,
           }
         );
-        console.log(`Chunk created successfully:`, response.data);
+        console.log("Successfully generated DNS Records: ");
+        console.log(response.data);
       }
-      console.log("All DNS records created successfully.");
+        toast.success("Successfully generated DNS Records")
+        setIsButtonDisabled(false);
     } catch (err) {
-      console.log(`Error adding DNS records: ${err}`);
+      console.log(`Failed generating DNS records: ${err}`);
+      toast.error("Failed generating DNS records")
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -141,11 +149,12 @@ export const DnsHistory: React.FC<DnsHistoryProps> = ({
         <button type="button" onClick={handleSubmit}>
           ADD DNS HISTORY
         </button>
+        <LoadingSpinner loading={loading} />
       </div>
 
       <div className="common-container-footer">
         <button onClick={backBtn}>BACK</button>
-        <button onClick={nextBtn}>NEXT</button>
+        <button onClick={nextBtn} type="submit" disabled={isButtonDisabled}>NEXT</button>
       </div>
     </div>
   );

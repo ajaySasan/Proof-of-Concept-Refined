@@ -1,6 +1,7 @@
 import axios from "axios";
 import Main from "./home";
 import "../app/App.scss";
+import { Toaster } from "react-hot-toast";
 
 const Home = async () => {
   try {
@@ -18,7 +19,11 @@ const Home = async () => {
     });
 
     return (
+      <>
       <Main token={operatorTokenResponse.data} paToken={uiToken.data.token} />
+      <Toaster position="top-right"/>
+      </>
+
     );
   } catch (err) {
     console.log(err);

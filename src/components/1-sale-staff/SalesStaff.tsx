@@ -27,11 +27,13 @@ export const SalesStaff: React.FC<SalesStaffProps> = ({
     const staffNameValue = event.target.value;
     staffName(staffNameValue);
     setStaffNameInput(staffNameValue);
+    setInputValue("");
   };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const staffNameValue = event.target.value;
     setInputValue(staffNameValue);
+    setStaffNameInput("");
   };
 
   const handleSelectValue = (value: string) => {
@@ -43,6 +45,8 @@ export const SalesStaff: React.FC<SalesStaffProps> = ({
   const filteredNames = names.filter((name) =>
     name.label.toLowerCase().includes(inputValue.toLowerCase())
   );
+
+  const isButtonDisabled = !staffNameInput && inputValue.trim() === "";
 
   return (
     <div className="common-container">
@@ -96,7 +100,9 @@ export const SalesStaff: React.FC<SalesStaffProps> = ({
 
       <div className="common-container-footer">
         <button onClick={backBtn}>BACK</button>
-        <button onClick={nextBtn}>NEXT</button>
+        <button onClick={nextBtn} type="submit" disabled={isButtonDisabled}>
+          NEXT
+        </button>
       </div>
     </div>
   );

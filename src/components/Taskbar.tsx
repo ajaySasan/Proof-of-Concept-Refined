@@ -33,10 +33,10 @@ export const Taskbar: React.FC<TaskbarProps> = ({ homepage, sales }) => {
         />
       </div>
       <div className="links">
-        <a href="https://retina-dev.blackdice.io/login" target="_blank">
+        <a href="https://retina-pov.blackdice.ai/login" target="_blank">
           <h3>Retina</h3>
         </a>
-        <a href="https://dev.blackdice.io/login" target="_blank">
+        <a href="https://pov.blackdice.ai/login" target="_blank">
           <h3>BlackDice</h3>
         </a>
         <h3 onClick={sales} id="sales-tab">

@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../../../app/App.scss";
+import toast from "react-hot-toast";
 
 interface OperatorProps {
   backBtn: () => void;
@@ -133,6 +134,7 @@ export const Operator: React.FC<OperatorProps> = ({
           headers: header,
         }
       );
+      toast.success("Successfully created operator");
       console.log(response.data);
       setShowNewOperator(false);
       setNewOperator(false);
@@ -141,12 +143,14 @@ export const Operator: React.FC<OperatorProps> = ({
       setSelectedSubdomain(newOperatorSubdomain);
       setInputValue("");
 
-      // Refetch the list of operators
       await fetchOperators();
     } catch (error) {
+      toast.error("Failed creating operator");
       console.log(error);
     }
   };
+
+  const isButtonDisabled = !selectedOperator && inputValue.trim() === "";
 
   return (
     <div className="common-container">
@@ -227,7 +231,9 @@ export const Operator: React.FC<OperatorProps> = ({
 
       <div className="common-container-footer">
         <button onClick={backBtn}>BACK</button>
-        <button onClick={nextBtn}>NEXT</button>
+        <button onClick={nextBtn} type="submit" disabled={isButtonDisabled}>
+          NEXT
+        </button>
       </div>
     </div>
   );

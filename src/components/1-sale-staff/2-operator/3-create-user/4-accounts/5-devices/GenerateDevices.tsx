@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import "../../../../../../app/App.scss";
 import axios from "axios";
+import toast from "react-hot-toast";
+import { LoadingSpinner } from "../../../../../spinner/Spinner";
 
 interface GenerateRandomDevicesProps {
   nextBtn: () => void;
@@ -39,7 +41,9 @@ export const GenerateRandomDevices: React.FC<GenerateRandomDevicesProps> = ({
   token,
   header,
 }) => {
+  const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(true);
   const [numOfDevices, setNumOfDevices] = useState<number>(0);
+  const [loading, setLoading] = useState<boolean>(false);
   const handleNumOfDevices = (e: React.ChangeEvent<HTMLInputElement>) => {
     const deviceValue = parseInt(e.target.value);
     setNumOfDevices(deviceValue);
@@ -252,6 +256,7 @@ export const GenerateRandomDevices: React.FC<GenerateRandomDevicesProps> = ({
   // Submit
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
 
     const haandles: number[] = [];
     const numHaandles = Math.ceil(numOfDevices / 3);
@@ -262,54 +267,57 @@ export const GenerateRandomDevices: React.FC<GenerateRandomDevicesProps> = ({
     }
     const devicesPerHaandle = Math.floor(numOfDevices / haandles.length);
     let remainingDevices = numOfDevices % haandles.length;
+    try {
+      for (let i = 0; i < haandles.length; i++) {
+        let devicesForThisHaandle = devicesPerHaandle;
 
-    for (let i = 0; i < haandles.length; i++) {
-      let devicesForThisHaandle = devicesPerHaandle;
+        if (remainingDevices > 0) {
+          const deviceAdd = Math.floor(Math.random() * 4);
+          const deviceSubtract = Math.floor(Math.random() * 4);
 
-      if (remainingDevices > 0) {
-        const deviceAdd = Math.floor(Math.random() * 4);
-        const deviceSubtract = Math.floor(Math.random() * 4);
-
-        if (
-          deviceAdd !== 0 &&
-          devicesForThisHaandle + deviceAdd <= numOfDevices
-        ) {
-          devicesForThisHaandle += deviceAdd;
-          remainingDevices -= deviceAdd;
-        } else if (
-          deviceSubtract !== 0 &&
-          devicesForThisHaandle - deviceSubtract >= 2
-        ) {
-          devicesForThisHaandle -= deviceSubtract;
-          remainingDevices += deviceSubtract;
+          if (
+            deviceAdd !== 0 &&
+            devicesForThisHaandle + deviceAdd <= numOfDevices
+          ) {
+            devicesForThisHaandle += deviceAdd;
+            remainingDevices -= deviceAdd;
+          } else if (
+            deviceSubtract !== 0 &&
+            devicesForThisHaandle - deviceSubtract >= 2
+          ) {
+            devicesForThisHaandle -= deviceSubtract;
+            remainingDevices += deviceSubtract;
+          }
         }
-      }
 
-      for (let j = 0; j < devicesForThisHaandle; j++) {
-        const randomDeviceDescription = getRandomDeviceDescription();
+        for (let j = 0; j < devicesForThisHaandle; j++) {
+          const randomDeviceDescription = getRandomDeviceDescription();
 
-        const deviceData: Device = {
-          name: `${getRandomDeviceName()} ${randomDeviceDescription.type}`,
-          description: randomDeviceDescription.type,
-          macAddress: serialNumber(),
-          phoneNumber: generatePhoneNumber(),
-          deviceCategoryId: randomDeviceDescription.cat,
-          webFilter: getRandomAgeGroup(),
-          rules: [],
-          haandle: haandles[i],
-        };
+          const deviceData: Device = {
+            name: `${getRandomDeviceName()} ${randomDeviceDescription.type}`,
+            description: randomDeviceDescription.type,
+            macAddress: serialNumber(),
+            phoneNumber: generatePhoneNumber(),
+            deviceCategoryId: randomDeviceDescription.cat,
+            webFilter: getRandomAgeGroup(),
+            rules: [],
+            haandle: haandles[i],
+          };
 
-        console.log(deviceData);
-
-        try {
           const response = await axios.post(apiURL + endpoint, deviceData, {
             headers: header,
           });
-          console.log("success");
-        } catch (error) {
-          console.log("error");
+          console.log("Successfully generated device: ");
+          console.log(response.data);
         }
       }
+      toast.success("Successfully generated devices");
+      setIsButtonDisabled(false);
+    } catch (error) {
+      console.log(`Failed geenrating devices: ${error}`);
+      toast.error("Failed geenrating devices");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -328,11 +336,14 @@ export const GenerateRandomDevices: React.FC<GenerateRandomDevicesProps> = ({
           placeholder="devices"
         />
         <button type="submit">GENERATE DEVICES</button>
+        <LoadingSpinner loading={loading} />
       </form>
 
       <div className="common-container-footer">
         <button onClick={backBtn}>BACK</button>
-        <button onClick={nextBtn}>NEXT</button>
+        <button onClick={nextBtn} type="submit" disabled={isButtonDisabled}>
+          NEXT
+        </button>
       </div>
     </div>
   );

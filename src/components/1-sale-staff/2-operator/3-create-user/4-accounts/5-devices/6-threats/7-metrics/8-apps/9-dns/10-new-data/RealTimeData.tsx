@@ -3,6 +3,8 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import "../../../../../../../../../../../app/App.scss";
+import { LoadingSpinner } from "../../../../../../../../../../spinner/Spinner";
+import toast from "react-hot-toast";
 
 interface RealTimeDataProps {
   exitBtn: () => void;
@@ -57,12 +59,16 @@ export const RealTimeData: React.FC<RealTimeDataProps> = ({
   token,
   header,
 }) => {
+  const [loading, setLoading] = useState<boolean>(false);
   const handleExitMessage = () => {
     const confirmExit = window.confirm(
       "Are you sure you want to exit the demo?"
     );
     if (confirmExit) {
       exitBtn();
+      clearInterval(demoInterval);
+      setDemoRunning(false);
+      setLoading(false);
     }
   };
 
@@ -93,8 +99,13 @@ export const RealTimeData: React.FC<RealTimeDataProps> = ({
 
   const [currentDateTime, setCurrentDateTime] = useState("");
 
+  function delay(ms: any) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
   // Handle submit
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    await delay(2000)
     const currentDate = new Date();
 
     const year = currentDate.getFullYear();
@@ -197,8 +208,10 @@ export const RealTimeData: React.FC<RealTimeDataProps> = ({
         threats: threatData,
       });
       console.log("Threat data posted:", response.data);
+      toast.success("Successfully generated real-time threat data");
     } catch (error) {
       console.error("Error posting threat data:", error);
+      toast.error("Failed to generate real-time threat data");
     }
     console.log(threatData);
 
@@ -268,8 +281,10 @@ export const RealTimeData: React.FC<RealTimeDataProps> = ({
         metrics: metricData,
       });
       console.log("Metric data posted:", response.data);
+      toast.success("Successfully generated real-time metric data");
     } catch (error) {
       console.error("Error posting metric data:", error);
+      toast.error("Failed to generate real-time metric data");
     }
     console.log(metricData);
   };
@@ -287,9 +302,11 @@ export const RealTimeData: React.FC<RealTimeDataProps> = ({
   };
 
   const startDemoLoop = () => {
+    toast("Entering demo mode");
+    setLoading(true);
     setDemoRunning(true);
     handleSubmit(startDemo);
-    console.log("Entering Demo mode");
+    console.log("Entering demo mode");
     const newInterval = setInterval(handleSubmit, 5000);
     setDemoInterval(newInterval);
 
@@ -302,8 +319,12 @@ export const RealTimeData: React.FC<RealTimeDataProps> = ({
 
   const stopDemoLoop = () => {
     if (demoInterval) {
+      toast.error("Demo stopped manually", {
+        icon: "👏",
+      });
       clearInterval(demoInterval);
       setDemoRunning(false);
+      setLoading(false);
       console.log("Demo stopped manually.");
     }
   };
@@ -326,6 +347,7 @@ export const RealTimeData: React.FC<RealTimeDataProps> = ({
         <button type="button" onClick={startDemoLoop}>
           START DEMO
         </button>
+        <LoadingSpinner loading={loading} />
         <p>
           Upon selecting &quot;Stop Demo&quot;, incoming data will cease,
           terminating the demonstration.

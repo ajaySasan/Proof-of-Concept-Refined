@@ -321,3 +321,9 @@ p {
   color: $medium-grey;
   margin-top: 20px;
 }
+
+button:disabled {
+  background: #a2b2be; 
+  color: #bbcedb; 
+  cursor: not-allowed; 
+}

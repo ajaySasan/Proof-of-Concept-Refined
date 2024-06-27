@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import "../../../../../app/App.scss";
 import axios from "axios";
+import toast from "react-hot-toast";
+import { LoadingSpinner } from "../../../../spinner/Spinner";
 
 interface GenerateRandomAccountsProps {
   nextBtn: () => void;
@@ -34,6 +36,8 @@ export const GenerateRandomAccounts: React.FC<GenerateRandomAccountsProps> = ({
   token,
   header,
 }) => {
+  const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
   useEffect(() => {}, [apiURL, token, operatorDomain, header]);
 
   const [numOfAccounts, setNumOfAccounts] = useState<number>(0);
@@ -197,26 +201,30 @@ export const GenerateRandomAccounts: React.FC<GenerateRandomAccountsProps> = ({
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
 
-    for (let i = 0; i < numOfAccounts; i++) {
-      const randomUserData: Register = {
-        email: emailAddress(),
-        pass: generatePassword(),
-        serialNumber: serialNumber(),
-        referer: operatorDomain,
-      };
-
-      console.log(randomUserData);
-
-      try {
+    try {
+      for (let i = 0; i < numOfAccounts; i++) {
+        const randomUserData: Register = {
+          email: emailAddress(),
+          pass: generatePassword(),
+          serialNumber: serialNumber(),
+          referer: operatorDomain,
+        };
         const response = await axios.post(
           apiURL + accountEndpoint,
           randomUserData
         );
-        console.log("success");
-      } catch (error) {
-        console.log("error");
+        console.log("Successfully generated accounts: ");
+        console.log(response.data);
       }
+      toast.success("Accounts generated successfully");
+      setIsButtonDisabled(false);
+    } catch (error) {
+      console.log(`Failed generating account`);
+      toast.error("Failed generating accounts");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -235,11 +243,14 @@ export const GenerateRandomAccounts: React.FC<GenerateRandomAccountsProps> = ({
           onChange={handleNumOfAccounts}
         />
         <button type="submit">GENERATE ACCOUNTS</button>
+        <LoadingSpinner loading={loading} />
       </form>
 
       <div className="common-container-footer">
         <button onClick={backBtn}>BACK</button>
-        <button onClick={nextBtn}>NEXT</button>
+        <button onClick={nextBtn} type="submit" disabled={isButtonDisabled}>
+          NEXT
+        </button>
       </div>
     </div>
   );

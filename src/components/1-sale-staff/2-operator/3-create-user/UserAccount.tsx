@@ -6,6 +6,7 @@ import axios from "axios";
 import { EmailTemplate } from "../../../password-email/EmailTemplate";
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
+import toast from "react-hot-toast";
 // import Campbell from "@/components/sales-data/SalesRecords";
 
 interface UserAccountProps {
@@ -51,6 +52,8 @@ export const UserAccount: React.FC<UserAccountProps> = ({
   apiURL,
   token,
 }) => {
+  const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(true);
+
   const formatDate = new Date();
   const date = formatDate.toLocaleString();
   useEffect(() => {
@@ -173,33 +176,67 @@ export const UserAccount: React.FC<UserAccountProps> = ({
       userData.operatorId = operatorId;
     }
 
-    try {
-      await axios.post("api/send", {
-        email: userData.email,
-        pass: userData.pass,
-      });
-      console.log("Email sent successfully");
-    } catch (error) {
-      console.error("Error sending email:", error);
-    }
+    // try {
+    //   await axios.post("api/send", {
+    //     email: userData.email,
+    //     pass: userData.pass,
+    //   });
+    //   console.log("Email sent successfully");
+    //   toast.success("Successfully sent email!");
+    // } catch (error) {
+    //   console.error("Error sending email:", error);
+    // }
 
     const postToEndpoint = async (endpoint: string, data: Register) => {
       try {
         const response = await axios.post(apiURL + endpoint, data);
         console.log(`Account created successfully at ${endpoint}`);
+        return response.data;
       } catch (error) {
-        console.log(`Error creating account at ${endpoint}`);
+        console.log(`Failed creating account at ${endpoint}`);
+        throw error;
       }
     };
+
+    const promises = [];
 
     if (isBlackDiceChecked) {
       const { operatorId, ...userDataBlackDice } = userData;
       userDataBlackDice.serialNumber = serialNumber();
       userDataBlackDice.pass = generatePassword();
-      await postToEndpoint(blackDiceEndpoint, userDataBlackDice);
+      promises.push(postToEndpoint(blackDiceEndpoint, userDataBlackDice));
     }
+
     if (isRetinaChecked) {
-      await postToEndpoint(retinaEndpoint, userData);
+      promises.push(postToEndpoint(retinaEndpoint, userData));
+    }
+
+    try {
+      const results = await Promise.all(promises);
+      if (isBlackDiceChecked && isRetinaChecked) {
+        console.log("Accounts generated successfully");
+        toast.success("Successfully generated accounts");
+        setIsButtonDisabled(false);
+      } else if (isBlackDiceChecked) {
+        console.log("BlackDice account generated successfully");
+        toast.success("BlackDice Account generated successfully");
+        setIsButtonDisabled(false);
+      } else if (isRetinaChecked) {
+        console.log("Retina account generated successfully");
+        toast.success("Retina Account generated successfully");
+        setIsButtonDisabled(false);
+      }
+    } catch (error) {
+      if (isBlackDiceChecked && isRetinaChecked) {
+        console.error("Failed generating accounts:", error);
+        toast.error("Failed generating accounts");
+      } else if (isBlackDiceChecked) {
+        console.log("Failed generating BlackDice account:", error);
+        toast.error("Failed generating BlackDice account");
+      } else if (isRetinaChecked) {
+        console.log("Failed generating Retina account:", error);
+        toast.error("Failed generating Retina account");
+      }
     }
 
     console.log(userData);
@@ -209,8 +246,6 @@ export const UserAccount: React.FC<UserAccountProps> = ({
     setIsBlackDiceChecked(false);
     setIsRetinaChecked(false);
   };
-
-
 
   return (
     <div className="common-container">
@@ -261,7 +296,9 @@ export const UserAccount: React.FC<UserAccountProps> = ({
 
       <div className="common-container-footer">
         <button onClick={backBtn}>BACK</button>
-        <button onClick={nextBtn}>NEXT</button>
+        <button onClick={nextBtn} type="submit" disabled={isButtonDisabled}>
+          NEXT
+        </button>
       </div>
     </div>
   );

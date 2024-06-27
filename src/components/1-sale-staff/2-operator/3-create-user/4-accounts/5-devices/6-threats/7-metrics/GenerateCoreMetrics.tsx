@@ -3,6 +3,8 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import "../../../../../../../../app/App.scss";
+import { LoadingSpinner } from "../../../../../../../spinner/Spinner";
+import toast from "react-hot-toast";
 
 interface GenerateCoreMetricsProps {
   nextBtn: () => void;
@@ -46,6 +48,8 @@ export const GenerateCoreMetrics: React.FC<GenerateCoreMetricsProps> = ({
   token,
   header,
 }) => {
+  const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
   // Time
   const randomTime = () => {
     const hour = Math.floor(Math.random() * 24);
@@ -209,6 +213,8 @@ export const GenerateCoreMetrics: React.FC<GenerateCoreMetricsProps> = ({
   // Handle submit
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
+
     const baseTime = randomTime();
 
     const metricData: Metric[] = [];
@@ -237,17 +243,24 @@ export const GenerateCoreMetrics: React.FC<GenerateCoreMetricsProps> = ({
     });
 
     const chunkSize = 100;
-    for (let i = 0; i < metricData.length; i += chunkSize) {
-      const chunk = metricData.slice(i, i + chunkSize);
-      try {
+
+    try {
+      for (let i = 0; i < metricData.length; i += chunkSize) {
+        const chunk = metricData.slice(i, i + chunkSize);
+
         const response = await axios.post(apiURL + endpointMetrics, {
           metrics: chunk,
         });
-        console.log("Metric data posted:", response.data);
-      } catch (error) {
-        console.error("Error posting metric data:", error);
+        console.log("Successfully generated metric data: ");
+        console.log(chunk);
       }
-      console.log(chunk);
+      toast.success("Successfully generated metric data");
+      setIsButtonDisabled(false);
+    } catch (error) {
+      console.log(`Failed generating metric data: ${error}`);
+      toast.error("Failed generating metric data");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -262,11 +275,14 @@ export const GenerateCoreMetrics: React.FC<GenerateCoreMetricsProps> = ({
       <form className="common-container-body" onSubmit={handleSubmit}>
         <label>Generate metric data for the past 60 days</label>
         <button type="submit">GENERATE METRICS</button>
+        <LoadingSpinner loading={loading} />
       </form>
 
       <div className="common-container-footer">
         <button onClick={backBtn}>BACK</button>
-        <button onClick={nextBtn}>NEXT</button>
+        <button onClick={nextBtn} type="submit" disabled={isButtonDisabled}>
+          NEXT
+        </button>
       </div>
     </div>
   );

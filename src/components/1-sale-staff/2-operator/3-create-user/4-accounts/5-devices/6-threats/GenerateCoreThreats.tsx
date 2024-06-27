@@ -3,6 +3,8 @@
 import axios from "axios";
 import "../../../../../../../app/App.scss";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
+import { LoadingSpinner } from "../../../../../../spinner/Spinner";
 
 interface GenerateCoreThreatsProps {
   nextBtn: () => void;
@@ -36,6 +38,8 @@ export const GenerateCoreThreats: React.FC<GenerateCoreThreatsProps> = ({
   token,
   header,
 }) => {
+  const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
   // Time
   const randomTime = () => {
     const hour = Math.floor(Math.random() * 24);
@@ -208,6 +212,7 @@ export const GenerateCoreThreats: React.FC<GenerateCoreThreatsProps> = ({
   // Handle submit
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
 
     const baseTime = randomTime();
     const threatData: Threats[] = [];
@@ -267,17 +272,24 @@ export const GenerateCoreThreats: React.FC<GenerateCoreThreatsProps> = ({
     });
 
     const chunkSize = 100;
-    for (let i = 0; i < threatData.length; i += chunkSize) {
-      const chunk = threatData.slice(i, i + chunkSize);
-      try {
+    try {
+      for (let i = 0; i < threatData.length; i += chunkSize) {
+        const chunk = threatData.slice(i, i + chunkSize);
+
         const response = await axios.post(apiURL + endpointThreat, {
           threats: chunk,
         });
-        console.log("Threat data posted:", response.data);
-      } catch (error) {
-        console.error("Error posting threat data:", error);
+        console.log("Successfully generated threat data: ");
+        console.log(chunk);
       }
-      console.log(chunk);
+      console.log("Successfully generated threat data");
+      toast.success("Successfully generated threat data");
+      setIsButtonDisabled(false);
+    } catch (error) {
+      console.log(`Failed generating threat data: ${error}`);
+      toast.error("Failed generating threat data");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -292,11 +304,14 @@ export const GenerateCoreThreats: React.FC<GenerateCoreThreatsProps> = ({
       <form className="common-container-body" onSubmit={handleSubmit}>
         <label>Generate threat data for the past 60 days</label>
         <button type="submit">GENERATE THREATS</button>
+        <LoadingSpinner loading={loading} />
       </form>
 
       <div className="common-container-footer">
         <button onClick={backBtn}>BACK</button>
-        <button onClick={nextBtn}>NEXT</button>
+        <button onClick={nextBtn} type="submit" disabled={isButtonDisabled}>
+          NEXT
+        </button>
       </div>
     </div>
   );

@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import "../../../../../../../../../app/App.scss";
 import axios from "axios";
+import { LoadingSpinner } from "../../../../../../../../spinner/Spinner";
+import toast from "react-hot-toast";
 
 interface AddAppsProps {
   nextBtn: () => void;
@@ -23,13 +25,15 @@ export const AddApps: React.FC<AddAppsProps> = ({
   token,
   header,
 }) => {
+  const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(true)
+  const [loading, setLoading] = useState<boolean>(false);
   const [mobileApps, setMobileApps] = useState<any[]>([]);
   const [deviceId, setDeviceId] = useState<number[]>([]);
   const [deviceAppMapping, setDeviceAppMapping] = useState<
     { deviceId: number; appName: string }[]
   >([]);
 
-  const randomNum = Math.floor(Math.random() * 30) + 15;
+  const randomNum = Math.floor(Math.random() * 3) + 2;
 
   const deviceIdOperator: any = `/op/operatordevices/${operatorId}?size=100000`;
 
@@ -89,9 +93,9 @@ export const AddApps: React.FC<AddAppsProps> = ({
   }, [deviceId, mobileApps, randomNum]);
 
   const handleSubmit = async () => {
+    const chunkSize = 100;
+    const chunks = [];
     try {
-      const chunkSize = 100;
-      const chunks = [];
       for (let i = 0; i < deviceAppMapping.length; i += chunkSize) {
         chunks.push(deviceAppMapping.slice(i, i + chunkSize));
       }
@@ -104,12 +108,16 @@ export const AddApps: React.FC<AddAppsProps> = ({
             headers: header,
           }
         );
-        console.log(`Chunk ${i + 1} posted successfully:`, response.data);
+        console.log("Successfully generated device apps: ");
+        console.log(response.data);
       }
-
-      console.log("All chunks posted successfully");
+      toast.success("Successfully generated device apps");
+      setIsButtonDisabled(false);
     } catch (err) {
-      console.log(`Error adding apps to devices: ${err}`);
+      console.log(`Error generating device apps: ${err}`);
+      toast.error("Failed generating device apps");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -126,11 +134,12 @@ export const AddApps: React.FC<AddAppsProps> = ({
         <button type="submit" onClick={handleSubmit}>
           ADD APPS
         </button>
+        <LoadingSpinner loading={loading} />
       </div>
 
       <div className="common-container-footer">
         <button onClick={backBtn}>BACK</button>
-        <button onClick={nextBtn}>NEXT</button>
+        <button onClick={nextBtn} type="submit" disabled={isButtonDisabled}>NEXT</button>
       </div>
     </div>
   );
