@@ -8,6 +8,7 @@ import toast from "react-hot-toast";
 
 interface GenerateCoreMetricsProps {
   nextBtn: () => void;
+  skipBtn?: () => void;
   backBtn: () => void;
   operatorId: string;
   apiURL: string;
@@ -42,6 +43,7 @@ const endpointMetrics = "/svc/mock/create-many-device-metrics";
 
 export const GenerateCoreMetrics: React.FC<GenerateCoreMetricsProps> = ({
   nextBtn,
+  skipBtn,
   backBtn,
   operatorId,
   apiURL,
@@ -283,6 +285,7 @@ export const GenerateCoreMetrics: React.FC<GenerateCoreMetricsProps> = ({
         <button onClick={nextBtn} type="submit" disabled={isButtonDisabled}>
           NEXT
         </button>
+        <button onClick={skipBtn}>Skip</button>
       </div>
     </div>
   );

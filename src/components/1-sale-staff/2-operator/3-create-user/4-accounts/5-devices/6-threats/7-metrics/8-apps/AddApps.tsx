@@ -8,6 +8,7 @@ import toast from "react-hot-toast";
 
 interface AddAppsProps {
   nextBtn: () => void;
+  skipBtn?: () => void;
   backBtn: () => void;
   operatorId: string;
   apiURL: string;
@@ -20,12 +21,13 @@ interface AddAppsProps {
 export const AddApps: React.FC<AddAppsProps> = ({
   nextBtn,
   backBtn,
+  skipBtn,
   operatorId,
   apiURL,
   token,
   header,
 }) => {
-  const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(true)
+  const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(false);
   const [mobileApps, setMobileApps] = useState<any[]>([]);
   const [deviceId, setDeviceId] = useState<number[]>([]);
@@ -93,6 +95,7 @@ export const AddApps: React.FC<AddAppsProps> = ({
   }, [deviceId, mobileApps, randomNum]);
 
   const handleSubmit = async () => {
+    setLoading(true)
     const chunkSize = 100;
     const chunks = [];
     try {
@@ -139,7 +142,10 @@ export const AddApps: React.FC<AddAppsProps> = ({
 
       <div className="common-container-footer">
         <button onClick={backBtn}>BACK</button>
-        <button onClick={nextBtn} type="submit" disabled={isButtonDisabled}>NEXT</button>
+        <button onClick={nextBtn} type="submit" disabled={isButtonDisabled}>
+          NEXT
+        </button>
+        <button onClick={skipBtn}>Skip</button>
       </div>
     </div>
   );

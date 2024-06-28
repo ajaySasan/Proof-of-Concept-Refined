@@ -66,6 +66,7 @@ export const Main: React.FC<HomeProps> = ({ token, paToken }) => {
         return (
           <SalesStaff
             nextBtn={nextPage}
+            skipBtn={nextPage}
             backBtn={prevPage}
             staffName={handleStaffName}
           />
@@ -74,6 +75,7 @@ export const Main: React.FC<HomeProps> = ({ token, paToken }) => {
         return (
           <Operator
             nextBtn={nextPage}
+            skipBtn={nextPage}
             backBtn={prevPage}
             operatorId={operatorId}
             setOperatorId={setOperatorId}
@@ -88,6 +90,7 @@ export const Main: React.FC<HomeProps> = ({ token, paToken }) => {
         return (
           <UserAccount
             nextBtn={nextPage}
+            skipBtn={nextPage}
             backBtn={prevPage}
             operatorId={operatorId}
             staffName={staffNameInput}
@@ -100,6 +103,7 @@ export const Main: React.FC<HomeProps> = ({ token, paToken }) => {
         return (
           <GenerateRandomAccounts
             nextBtn={nextPage}
+            skipBtn={nextPage}
             backBtn={prevPage}
             operatorId={operatorId}
             operatorDomain={selectedSubdomain}
@@ -112,6 +116,7 @@ export const Main: React.FC<HomeProps> = ({ token, paToken }) => {
         return (
           <GenerateRandomDevices
             nextBtn={nextPage}
+            skipBtn={nextPage}
             backBtn={prevPage}
             operatorId={operatorId}
             apiURL={apiURL}
@@ -123,6 +128,7 @@ export const Main: React.FC<HomeProps> = ({ token, paToken }) => {
         return (
           <GenerateCoreThreats
             nextBtn={nextPage}
+            skipBtn={nextPage}
             backBtn={prevPage}
             operatorId={operatorId}
             apiURL={apiURL}
@@ -134,6 +140,7 @@ export const Main: React.FC<HomeProps> = ({ token, paToken }) => {
         return (
           <GenerateCoreMetrics
             nextBtn={nextPage}
+            skipBtn={nextPage}
             backBtn={prevPage}
             operatorId={operatorId}
             apiURL={apiURL}
@@ -145,6 +152,7 @@ export const Main: React.FC<HomeProps> = ({ token, paToken }) => {
         return (
           <AddApps
             nextBtn={nextPage}
+            skipBtn={nextPage}
             backBtn={prevPage}
             operatorId={operatorId}
             apiURL={apiURL}
@@ -156,6 +164,7 @@ export const Main: React.FC<HomeProps> = ({ token, paToken }) => {
         return (
           <DnsHistory
             nextBtn={nextPage}
+            skipBtn={nextPage}
             backBtn={prevPage}
             operatorId={operatorId}
             apiURL={apiURL}

@@ -8,6 +8,7 @@ import toast from "react-hot-toast";
 
 interface DnsHistoryProps {
   nextBtn: () => void;
+  skipBtn?: () => void;
   backBtn: () => void;
   operatorId: string;
   apiURL: string;
@@ -20,13 +21,14 @@ interface DnsHistoryProps {
 export const DnsHistory: React.FC<DnsHistoryProps> = ({
   nextBtn,
   backBtn,
+  skipBtn,
   operatorId,
   apiURL,
   token,
   header,
 }) => {
-  const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(true)
-  const [loading, setLoading] = useState<boolean>(false)
+  const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
   const [deviceId, setDeviceId] = useState<number[]>([]);
   const [mobileApps, setMobileApps] = useState<any[]>([]);
 
@@ -74,9 +76,10 @@ export const DnsHistory: React.FC<DnsHistoryProps> = ({
   };
 
   const handleSubmit = async () => {
+    setLoading(true)
     const newDnsRecords: any[] = [];
     const numberOfRecordsPerDevice = 33;
-    
+
     for (const id of deviceId) {
       for (let i = 0; i < numberOfRecordsPerDevice; i++) {
         const randomMobileAppIndex = Math.floor(
@@ -111,7 +114,7 @@ export const DnsHistory: React.FC<DnsHistoryProps> = ({
       }
     }
 
-    const chunkSize = 100; 
+    const chunkSize = 100;
     const chunks = chunkArray(newDnsRecords, chunkSize);
 
     try {
@@ -126,11 +129,11 @@ export const DnsHistory: React.FC<DnsHistoryProps> = ({
         console.log("Successfully generated DNS Records: ");
         console.log(response.data);
       }
-        toast.success("Successfully generated DNS Records")
-        setIsButtonDisabled(false);
+      toast.success("Successfully generated DNS Records");
+      setIsButtonDisabled(false);
     } catch (err) {
       console.log(`Failed generating DNS records: ${err}`);
-      toast.error("Failed generating DNS records")
+      toast.error("Failed generating DNS records");
     } finally {
       setLoading(false);
     }
@@ -154,7 +157,10 @@ export const DnsHistory: React.FC<DnsHistoryProps> = ({
 
       <div className="common-container-footer">
         <button onClick={backBtn}>BACK</button>
-        <button onClick={nextBtn} type="submit" disabled={isButtonDisabled}>NEXT</button>
+        <button onClick={nextBtn} type="submit" disabled={isButtonDisabled}>
+          NEXT
+        </button>
+        <button onClick={skipBtn}>Skip</button>
       </div>
     </div>
   );

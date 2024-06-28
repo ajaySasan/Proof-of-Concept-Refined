@@ -7,12 +7,14 @@ import "../../app/App.scss";
 interface SalesStaffProps {
   backBtn: () => void;
   nextBtn: () => void;
+  skipBtn?: () => void;
   staffName: (staffNameValue: string) => any;
 }
 
 export const SalesStaff: React.FC<SalesStaffProps> = ({
   backBtn,
   nextBtn,
+  skipBtn,
   staffName,
 }) => {
   const [staffNameInput, setStaffNameInput] = useState<string>("");
@@ -103,6 +105,7 @@ export const SalesStaff: React.FC<SalesStaffProps> = ({
         <button onClick={nextBtn} type="submit" disabled={isButtonDisabled}>
           NEXT
         </button>
+        <button onClick={skipBtn}>Skip</button>
       </div>
     </div>
   );

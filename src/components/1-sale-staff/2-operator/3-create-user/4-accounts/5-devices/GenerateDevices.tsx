@@ -8,6 +8,7 @@ import { LoadingSpinner } from "../../../../../spinner/Spinner";
 
 interface GenerateRandomDevicesProps {
   nextBtn: () => void;
+  skipBtn?: () => void;
   backBtn: () => void;
   operatorId: string;
   apiURL: string;
@@ -36,6 +37,7 @@ const endpointThreat25 = "/pa/devices/unconfirmed";
 export const GenerateRandomDevices: React.FC<GenerateRandomDevicesProps> = ({
   nextBtn,
   backBtn,
+  skipBtn,
   operatorId,
   apiURL,
   token,
@@ -344,6 +346,7 @@ export const GenerateRandomDevices: React.FC<GenerateRandomDevicesProps> = ({
         <button onClick={nextBtn} type="submit" disabled={isButtonDisabled}>
           NEXT
         </button>
+        <button onClick={skipBtn}>Skip</button>
       </div>
     </div>
   );

@@ -8,6 +8,7 @@ import toast from "react-hot-toast";
 interface OperatorProps {
   backBtn: () => void;
   nextBtn: () => void;
+  skipBtn?: () => void;
   operatorId: string;
   setOperatorId: (operatorId: string) => void;
   selectedSubdomain: string;
@@ -30,6 +31,7 @@ const operatorEndpoint: string = "/op/table?page=1&size=1000";
 export const Operator: React.FC<OperatorProps> = ({
   backBtn,
   nextBtn,
+  skipBtn,
   operatorId: operatorIdProps,
   setOperatorId,
   selectedSubdomain: selectedSubdomainProps,
@@ -234,6 +236,7 @@ export const Operator: React.FC<OperatorProps> = ({
         <button onClick={nextBtn} type="submit" disabled={isButtonDisabled}>
           NEXT
         </button>
+        <button onClick={skipBtn}>Skip</button>
       </div>
     </div>
   );

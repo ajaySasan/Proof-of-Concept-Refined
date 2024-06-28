@@ -9,6 +9,7 @@ import { LoadingSpinner } from "../../../../../../spinner/Spinner";
 interface GenerateCoreThreatsProps {
   nextBtn: () => void;
   backBtn: () => void;
+  skipBtn?: () => void;
   operatorId: string;
   apiURL: string;
   token: string;
@@ -32,6 +33,7 @@ const endpointThreat = "/svc/mock/create-many-threats";
 
 export const GenerateCoreThreats: React.FC<GenerateCoreThreatsProps> = ({
   nextBtn,
+  skipBtn,
   backBtn,
   operatorId,
   apiURL,
@@ -312,6 +314,7 @@ export const GenerateCoreThreats: React.FC<GenerateCoreThreatsProps> = ({
         <button onClick={nextBtn} type="submit" disabled={isButtonDisabled}>
           NEXT
         </button>
+        <button onClick={skipBtn}>Skip</button>
       </div>
     </div>
   );

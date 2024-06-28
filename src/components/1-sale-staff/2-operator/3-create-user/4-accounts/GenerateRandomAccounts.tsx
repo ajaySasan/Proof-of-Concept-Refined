@@ -8,6 +8,7 @@ import { LoadingSpinner } from "../../../../spinner/Spinner";
 
 interface GenerateRandomAccountsProps {
   nextBtn: () => void;
+  skipBtn?: () => void;
   backBtn: () => void;
   operatorId: string;
   operatorDomain: string;
@@ -30,6 +31,7 @@ const accountEndpoint = "/pa/auth/register";
 export const GenerateRandomAccounts: React.FC<GenerateRandomAccountsProps> = ({
   nextBtn,
   backBtn,
+  skipBtn,
   operatorId,
   operatorDomain,
   apiURL,
@@ -251,6 +253,7 @@ export const GenerateRandomAccounts: React.FC<GenerateRandomAccountsProps> = ({
         <button onClick={nextBtn} type="submit" disabled={isButtonDisabled}>
           NEXT
         </button>
+        <button onClick={skipBtn}>Skip</button>
       </div>
     </div>
   );

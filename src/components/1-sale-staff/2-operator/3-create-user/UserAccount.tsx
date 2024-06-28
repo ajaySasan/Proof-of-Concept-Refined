@@ -12,6 +12,7 @@ import toast from "react-hot-toast";
 interface UserAccountProps {
   backBtn: () => void;
   nextBtn: () => void;
+  skipBtn?: () => void;
   operatorId: string;
   staffName: string;
   operatorDomain: string;
@@ -51,6 +52,7 @@ export const UserAccount: React.FC<UserAccountProps> = ({
   operatorDomain,
   apiURL,
   token,
+  skipBtn,
 }) => {
   const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(true);
 
@@ -299,6 +301,7 @@ export const UserAccount: React.FC<UserAccountProps> = ({
         <button onClick={nextBtn} type="submit" disabled={isButtonDisabled}>
           NEXT
         </button>
+        <button onClick={skipBtn}>Skip</button>
       </div>
     </div>
   );
