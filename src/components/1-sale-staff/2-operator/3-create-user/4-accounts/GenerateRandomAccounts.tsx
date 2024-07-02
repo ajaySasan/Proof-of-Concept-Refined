@@ -24,9 +24,10 @@ interface Register {
   pass: string;
   serialNumber: string;
   referer: string;
+  state: number;
 }
 
-const accountEndpoint = "/pa/auth/register";
+const accountEndpoint = "/pa/auth/register/demo";
 
 export const GenerateRandomAccounts: React.FC<GenerateRandomAccountsProps> = ({
   nextBtn,
@@ -212,6 +213,7 @@ export const GenerateRandomAccounts: React.FC<GenerateRandomAccountsProps> = ({
           pass: generatePassword(),
           serialNumber: serialNumber(),
           referer: operatorDomain,
+          state: 1
         };
         const response = await axios.post(
           apiURL + accountEndpoint,
