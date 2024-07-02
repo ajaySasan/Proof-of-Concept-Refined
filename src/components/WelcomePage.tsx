@@ -1,13 +1,25 @@
 "use client";
 
+import { useState } from "react";
 import "./welcome-page.scss";
 import Image from "next/image";
 
 interface WelcomePageProps {
   nextBtn: () => void;
+  apiEnviroment: (apiEnviromentValue: string) => void;
 }
 
-export const WelcomePage: React.FC<WelcomePageProps> = ({ nextBtn }) => {
+export const WelcomePage: React.FC<WelcomePageProps> = ({ nextBtn, apiEnviroment }) => {
+  const [enviroment, setEnviroment] = useState<string>("dev");
+
+  const handleEnviromentChange = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    const newEnviroment = event.target.value;
+    setEnviroment(newEnviroment);
+    apiEnviroment(newEnviroment);
+  };
+
   return (
     <div className="welcome-page">
       <Image
@@ -31,6 +43,13 @@ export const WelcomePage: React.FC<WelcomePageProps> = ({ nextBtn }) => {
           <h1 className="welcomeBio">DEMO SUITE</h1>
           <i className="bi bi-lightning-charge" id="lightning" />
         </div>
+      </div>
+      <div className="enviroment">
+        <select value={enviroment} onChange={handleEnviromentChange}>
+          <option value="dev">Development</option>
+          {/* <option value="-stag">Staging</option> */}
+          <option value="pov">POV</option>
+        </select>
       </div>
       <button onClick={nextBtn} id="beginBtn">
         <i className="bi bi-pen" />

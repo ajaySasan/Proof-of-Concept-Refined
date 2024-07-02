@@ -153,7 +153,7 @@ export const Operator: React.FC<OperatorProps> = ({
   };
 
   const isButtonDisabled = !selectedOperator && inputValue.trim() === "";
-
+  
   return (
     <div className="common-container">
       <div className="common-container-header">

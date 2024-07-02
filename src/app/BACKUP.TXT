@@ -1,3 +1,5 @@
+home.tsx 
+
 "use client";
 import "../app/App.scss";
 
@@ -20,20 +22,20 @@ interface HomeProps {
   token: string;
   paToken: string;
   apiURL: string;
-  setApiEnviroment: (env: string) => void;
 }
 
-export const Main: React.FC<HomeProps> = ({
-  token,
-  paToken,
-  apiURL,
-  setApiEnviroment,
-}) => {
+export const Main: React.FC<HomeProps> = ({ token, paToken, apiURL}) => {
   const [currentPage, setCurrentPage] = useState(0);
   const [staffNameInput, setStaffNameInput] = useState("");
   const [operatorId, setOperatorId] = useState<string>("");
   const [salesPage, setSalesPage] = useState<boolean>(false);
   const [selectedSubdomain, setSelectedSubdomain] = useState<string>("");
+  const [apiEnviroment, setApiEnviroment] = useState<string>("dev");
+  
+  const handleApiEnviromentChange = (enviromentValue: string) => {
+    setApiEnviroment(enviromentValue);
+  };
+
 
   const header = useMemo(() => {
     return { "auth-token": token };
@@ -63,9 +65,7 @@ export const Main: React.FC<HomeProps> = ({
   const renderPage = () => {
     switch (currentPage) {
       case 0:
-        return (
-          <WelcomePage nextBtn={nextPage} apiEnviroment={setApiEnviroment} />
-        );
+        return <WelcomePage nextBtn={nextPage} apiEnviroment={handleApiEnviromentChange} />;
       case 1:
         return (
           <SalesStaff
@@ -201,3 +201,46 @@ export const Main: React.FC<HomeProps> = ({
 };
 
 export default Main;
+
+
+page.tsx
+
+import axios from "axios";
+import Main from "./home";
+import "../app/App.scss";
+import { Toaster } from "react-hot-toast";
+
+const Home = async () => {
+  const apiEnviroment = ["dev", "stag", "pov"];
+  const apiURL: string = `https://api-${apiEnviroment[0]}.blackdice.ai`;
+
+  try {
+    const operatorTokenResponse = await axios.post(`${apiURL}/op/auth/login`, {
+      email: "operator@demo.com",
+      pass: "123456",
+    });
+
+    const uiToken = await axios.post(`${apiURL}/pa/auth`, {
+      email: "dev-service-platform@demo.com",
+      pass: "123456",
+    });
+
+    return (
+      <>
+        <Main
+          token={operatorTokenResponse.data}
+          paToken={uiToken.data.token}
+          apiURL={apiURL}
+        />
+        <Toaster position="top-right" />
+      </>
+    );
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export default Home;
+
+
+home and page are sibling components. pass the value of apiEnviroment from home.tsx to page.tsx. As page.tsx use an async function, i cannot declare "use client" at the top of that file meaning i also cannot useState on page.tsx to call the value of apiEnviroment from 
