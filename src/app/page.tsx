@@ -48,6 +48,7 @@ const Home = () => {
 
   const apiURL = `https://api-${apiEnviroment}.blackdice.ai`;
 
+  
   useEffect(() => {
     const fetchTokens = async () => {
       try {
