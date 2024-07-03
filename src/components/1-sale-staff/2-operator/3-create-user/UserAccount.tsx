@@ -28,6 +28,7 @@ interface OperatorGetData {
 }
 
 interface Register {
+  state?: number;
   email: string;
   pass: string;
   serialNumber: string;
@@ -41,7 +42,7 @@ interface SalesRecord {
   date: string;
 }
 
-const blackDiceEndpoint = "/pa/auth/register";
+const blackDiceEndpoint = "/pa/auth/register/demo";
 const retinaEndpoint = "/op/auth/register/demo";
 
 export const UserAccount: React.FC<UserAccountProps> = ({
@@ -206,6 +207,7 @@ export const UserAccount: React.FC<UserAccountProps> = ({
       const { operatorId, ...userDataBlackDice } = userData;
       userDataBlackDice.serialNumber = serialNumber();
       userDataBlackDice.pass = generatePassword();
+      userDataBlackDice.state = 1;
       promises.push(postToEndpoint(blackDiceEndpoint, userDataBlackDice));
     }
 
