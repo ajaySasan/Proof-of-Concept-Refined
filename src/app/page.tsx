@@ -41,21 +41,27 @@ import axios from "axios";
 import Main from "./home";
 import "../app/App.scss";
 import { Toaster } from "react-hot-toast";
+import { LoadingSpinner } from "@/components/spinner/Spinner";
 
 const Home = () => {
   const [apiEnviroment, setApiEnviroment] = useState("dev");
-  const [tokens, setTokens] = useState<{ operatorToken: string, uiToken: string } | null>(null);
+  const [tokens, setTokens] = useState<{
+    operatorToken: string;
+    uiToken: string;
+  } | null>(null);
 
   const apiURL = `https://api-${apiEnviroment}.blackdice.ai`;
 
-  
   useEffect(() => {
     const fetchTokens = async () => {
       try {
-        const operatorTokenResponse = await axios.post(`${apiURL}/op/auth/login`, {
-          email: "operator@demo.com",
-          pass: "123456",
-        });
+        const operatorTokenResponse = await axios.post(
+          `${apiURL}/op/auth/login`,
+          {
+            email: "operator@demo.com",
+            pass: "123456",
+          }
+        );
 
         const uiTokenResponse = await axios.post(`${apiURL}/pa/auth`, {
           email: "service-platform@demo.com",
@@ -75,7 +81,11 @@ const Home = () => {
   }, [apiURL]);
 
   if (!tokens) {
-    return <div>Loading...</div>;
+    return (
+      <div>
+        <LoadingSpinner />
+      </div>
+    );
   }
 
   return (

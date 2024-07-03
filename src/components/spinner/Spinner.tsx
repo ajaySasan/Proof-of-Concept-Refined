@@ -2,7 +2,7 @@ import React from "react";
 import { PulseLoader } from "react-spinners";
 
 interface LoadingSpinnerProps {
-  loading: boolean;
+  loading?: boolean;
 }
 
 export const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({ loading }) => {
