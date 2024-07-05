@@ -50,6 +50,10 @@ export const SalesStaff: React.FC<SalesStaffProps> = ({
 
   const isButtonDisabled = !staffNameInput && inputValue.trim() === "";
 
+  const handleBackButton = () => {
+    window.location.reload();
+  };
+
   return (
     <div className="common-container">
       <div className="common-container-header">
@@ -101,7 +105,7 @@ export const SalesStaff: React.FC<SalesStaffProps> = ({
       </form>
 
       <div className="common-container-footer">
-        <button onClick={backBtn}>BACK</button>
+        <button onClick={handleBackButton}>BACK</button>
         <button onClick={nextBtn} type="submit" disabled={isButtonDisabled}>
           NEXT
         </button>

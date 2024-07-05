@@ -10,14 +10,16 @@ interface TaskbarProps {
 export const Taskbar: React.FC<TaskbarProps> = ({ homepage, sales }) => {
   return (
     <div className="taskBar">
-      <div className="logo">
+      <div
+        className="logo"
+        onClick={() => homepage(0)}
+        style={{ cursor: "pointer" }}
+      >
         <Image
           src="/proof-of-concept-suite/BlackDiceText.png"
           alt="Black Dice Logo"
           className="blackDiceLogo"
           id="blackDiceText"
-          onClick={() => homepage(0)}
-          style={{ cursor: "pointer" }}
           width={140}
           height={30}
         />

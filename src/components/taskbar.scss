@@ -25,10 +25,18 @@
 #blackDiceText {
   margin-left: 50px;
   margin-top: 10px;
+  transition: border-color 0.25s, background-color 0.25s, color 0.25s;
+  transition: transform 0.3s ease;
+}
+
+#blackDiceText:hover, #blackDiceCube:hover {
+  transform: scale(1.1);
 }
 
 #blackDiceCube {
   margin-top: 5px;
+  transition: border-color 0.25s, background-color 0.25s, color 0.25s;
+  transition: transform 0.3s ease;
 }
 
 .links {
@@ -42,11 +50,15 @@
   #sales-tab {
     color: $pale-grey;
     cursor: pointer;
+    transition: border-color 0.25s, background-color 0.25s, color 0.25s;
+    transition: transform 0.3s ease;
   }
 
   & a:hover,
   #sales-tab:hover {
     color: $pale-green;
+    transform: scale(1.1);
+
   }
 
   & a:active,

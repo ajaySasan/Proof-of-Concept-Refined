@@ -334,7 +334,7 @@ export const RealTimeData: React.FC<RealTimeDataProps> = ({
   return (
     <div className="common-container">
       <div className="common-container-header">
-        <h1>Add New Threats and Metrics</h1>
+        <h1>Add Live Data</h1>
       </div>
 
       <form className="common-container-body">

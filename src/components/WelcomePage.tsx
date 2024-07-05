@@ -20,6 +20,11 @@ export const WelcomePage: React.FC<WelcomePageProps> = ({ nextBtn, apiEnviroment
     apiEnviroment(newEnviroment);
   };
 
+  
+  const handleImageClick = () => {
+    window.location.reload()
+  };
+
   return (
     <div className="welcome-page">
       <Image
@@ -28,7 +33,9 @@ export const WelcomePage: React.FC<WelcomePageProps> = ({ nextBtn, apiEnviroment
         className="b-d-cube"
         width={100}
         height={120}
-      />
+        onClick={handleImageClick}
+        style={{ cursor: "pointer" }}
+        />
       <div className="welcome-section">
         <i className="bi bi-door-open" id="door" />
         <h1 className="welcome">WELCOME</h1>

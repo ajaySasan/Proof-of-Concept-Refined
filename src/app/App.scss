@@ -31,7 +31,7 @@ $button-gradient-active: linear-gradient(90deg, #2d3c47, #1a2931);
 
 $ui-background-gradient: linear-gradient(90deg, #2d3b46, #1f2e36);
 $container-bg-gradient: linear-gradient(180deg, #ffffff, #dfe7ec);
-$taskbar: linear-gradient(90deg, #0e1317, #090c0c);
+$taskbar: linear-gradient(90deg, #1d262ed5, #151b1ba9);
 
 * {
   font-family: "Roboto", sans-serif;
@@ -52,7 +52,7 @@ body {
 
 h1 {
   color: $pale-silver;
-  font-size: 50px;
+  font-size: 40px;
   font-weight: 700;
   display: flex;
   align-items: center;
@@ -123,17 +123,11 @@ button:active {
 
 .common-container {
   position: fixed;
-  top: 50%;
+  top: 55%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 999;
   background: $container-bg-gradient;
-  // height: 80vh;
-  // width: 35vw;
-  height: 55vh;
-  width: 40vw;
-  min-width: 400px;
-  min-height: 700px;
   border-radius: 18px;
   display: flex;
   flex-direction: column;
@@ -141,6 +135,14 @@ button:active {
   align-items: center;
   opacity: 0;
   animation: fadeIn 0.4s ease-in forwards;
+  display: flex;
+  width: 70%;
+  height: 75%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-width: 400px;
+
 }
 
 @keyframes fadeIn {
@@ -160,6 +162,8 @@ button:active {
   height: 18%;
   padding: 10px 0;
   display: flex;
+  flex-shrink: 1;
+
 }
 
 .common-container-body {
@@ -169,10 +173,31 @@ button:active {
   flex-direction: column;
   justify-content: center;
   width: 80%;
+  flex-grow: 1;
+  overflow: auto;
+  
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: $container-bg-gradient;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: $dark-blue;
+    border-radius: 10px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: $dark-grey
+  }
+
   & button {
     width: 300px;
     margin: 10px auto;
   }
+
 }
 
 .common-container-footer {
@@ -184,6 +209,7 @@ button:active {
   display: flex;
   justify-content: space-evenly;
   display: flex;
+  flex-shrink: 0;
 }
 
 .select-container {

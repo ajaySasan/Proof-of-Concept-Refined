@@ -48,8 +48,7 @@ export const Main: React.FC<HomeProps> = ({
   };
 
   const handleImageClick = (page: any) => {
-    setCurrentPage(page);
-    setSalesPage(false);
+    window.location.reload()
   };
 
   const handleStaffName = (staffNameValue: string) => {
