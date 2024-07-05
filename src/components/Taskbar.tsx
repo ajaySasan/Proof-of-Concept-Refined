@@ -16,7 +16,7 @@ export const Taskbar: React.FC<TaskbarProps> = ({ homepage, sales }) => {
         style={{ cursor: "pointer" }}
       >
         <Image
-          src="/proof-of-concept-suite/BlackDiceText.png"
+          src="/BlackDiceText.png"
           alt="Black Dice Logo"
           className="blackDiceLogo"
           id="blackDiceText"
@@ -24,7 +24,7 @@ export const Taskbar: React.FC<TaskbarProps> = ({ homepage, sales }) => {
           height={30}
         />
         <Image
-          src="/proof-of-concept-suite/BlackDiceCube.png"
+          src="/BlackDiceCube.png"
           alt="Black Dice Logo"
           className="blackDiceLogo"
           id="blackDiceCube"

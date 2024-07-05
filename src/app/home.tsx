@@ -13,6 +13,8 @@ import { Operator } from "@/components/1-sale-staff/2-operator/Operator";
 import { SalesStaff } from "@/components/1-sale-staff/SalesStaff";
 import { SalesRecords } from "@/components/sales-data/SalesRecords";
 import { Taskbar } from "@/components/Taskbar";
+import { Vortex } from "@/components/ui/vortex";
+import { VortexDemoSecond } from "@/components/ui/VortexBg";
 import { WelcomePage } from "@/components/WelcomePage";
 import { useState, useMemo } from "react";
 
@@ -48,7 +50,7 @@ export const Main: React.FC<HomeProps> = ({
   };
 
   const handleImageClick = (page: any) => {
-    window.location.reload()
+    window.location.reload();
   };
 
   const handleStaffName = (staffNameValue: string) => {
@@ -192,10 +194,13 @@ export const Main: React.FC<HomeProps> = ({
   };
 
   return (
-    <main>
+    <div className="app-container">
+      <div className="particle-bg">
+        <VortexDemoSecond />
+      </div>
       <Taskbar homepage={handleImageClick} sales={handleSalesPage} />
       {(salesPage && <SalesRecords />) || renderPage()}
-    </main>
+    </div>
   );
 };
 

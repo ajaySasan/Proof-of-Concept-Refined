@@ -3,6 +3,7 @@
 import { useState } from "react";
 import "./welcome-page.scss";
 import Image from "next/image";
+import { Vortex } from "./ui/vortex";
 
 interface WelcomePageProps {
   nextBtn: () => void;
@@ -28,7 +29,7 @@ export const WelcomePage: React.FC<WelcomePageProps> = ({ nextBtn, apiEnviroment
   return (
     <div className="welcome-page">
       <Image
-        src="/proof-of-concept-suite/BlackDiceCube.png"
+        src="/BlackDiceCube.png"
         alt="Black Dice Logo"
         className="b-d-cube"
         width={100}

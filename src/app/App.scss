@@ -24,14 +24,14 @@ $amber-orange-background: #ffdab8;
 $okay-green: #35b83a;
 $okay-green-background: #81dab9;
 
-$main-button-gradient: linear-gradient(90deg, #546977, #516370);
+$main-button-gradient: linear-gradient(90deg, #377b7c, #28596b);
 $button-gradient: linear-gradient(90deg, #bbcedb, #7b92a3);
 $button-gradient-hover: linear-gradient(90deg, #202d36, #151e24);
 $button-gradient-active: linear-gradient(90deg, #2d3c47, #1a2931);
 
 $ui-background-gradient: linear-gradient(90deg, #2d3b46, #1f2e36);
-$container-bg-gradient: linear-gradient(180deg, #ffffff, #dfe7ec);
-$taskbar: linear-gradient(90deg, #1d262ed5, #151b1ba9);
+$container-bg-gradient: linear-gradient(180deg, #ffffff, #dee2eb);
+$taskbar: linear-gradient(270deg, #0000008e, #000000bd);
 
 * {
   font-family: "Roboto", sans-serif;
@@ -45,7 +45,8 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
-  background: $ui-background-gradient;
+  // background: $ui-background-gradient;
+  background-color: rgba(31, 55, 75, 0.336);
   background-repeat: no-repeat;
   background-size: cover;
 }
@@ -123,11 +124,10 @@ button:active {
 
 .common-container {
   position: fixed;
-  top: 55%;
+  top: 54%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 999;
-  background: $container-bg-gradient;
   border-radius: 18px;
   display: flex;
   flex-direction: column;
@@ -142,7 +142,6 @@ button:active {
   flex-direction: column;
   justify-content: space-between;
   min-width: 400px;
-
 }
 
 @keyframes fadeIn {
@@ -155,7 +154,8 @@ button:active {
 }
 
 .common-container-header {
-  background-color: $medium-grey;
+  // background-color: $medium-grey;
+  background-color: rgba(123, 146, 163, 0.8);
   border-top-left-radius: 18px;
   border-top-right-radius: 18px;
   width: 100%;
@@ -163,19 +163,20 @@ button:active {
   padding: 10px 0;
   display: flex;
   flex-shrink: 1;
-
 }
 
 .common-container-body {
-  padding: 20px;
-  flex: 1;
+  background-color: rgba(255, 255, 255, 0.699);
+  $container-bg-gradient: linear-gradient(180deg, #ffffff, #dee2eb);
+
+  width: 100%;
+  padding: 20px 0;  flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 80%;
   flex-grow: 1;
   overflow: auto;
-  
+
   &::-webkit-scrollbar {
     width: 8px;
   }
@@ -190,18 +191,18 @@ button:active {
   }
 
   &::-webkit-scrollbar-thumb:hover {
-    background-color: $dark-grey
+    background-color: $dark-grey;
   }
 
   & button {
     width: 300px;
     margin: 10px auto;
   }
-
 }
 
 .common-container-footer {
-  background-color: $medium-grey;
+  // background-color: $medium-grey;
+  background-color: rgba(123, 146, 163, 0.8);
   border-bottom-left-radius: 18px;
   border-bottom-right-radius: 18px;
   width: 100%;
@@ -232,7 +233,7 @@ select {
   width: 300px;
   margin-bottom: 10px;
   padding: 5px 30px;
-  border: 1px solid $medium-grey;
+  border: 1px solid #28596b;
   font-size: 18px;
   background: $main-button-gradient;
   color: $white;
@@ -349,7 +350,28 @@ p {
 }
 
 button:disabled {
-  background: #a2b2be; 
-  color: #bbcedb; 
-  cursor: not-allowed; 
+  background: #a2b2be;
+  color: #bbcedb;
+  cursor: not-allowed;
+}
+
+.app-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.particle-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -999;
+  overflow: hidden;
+}
+
+.content {
+  position: relative;
+  z-index: 1;
 }
