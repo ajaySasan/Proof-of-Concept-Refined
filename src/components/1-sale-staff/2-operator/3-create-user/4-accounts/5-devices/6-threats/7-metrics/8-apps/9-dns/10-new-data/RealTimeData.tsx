@@ -65,7 +65,7 @@ export const RealTimeData: React.FC<RealTimeDataProps> = ({
       "Are you sure you want to exit the demo?"
     );
     if (confirmExit) {
-      exitBtn();
+      window.location.reload();
       clearInterval(demoInterval);
       setDemoRunning(false);
       setLoading(false);
