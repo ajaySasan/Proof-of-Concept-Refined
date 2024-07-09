@@ -7,7 +7,7 @@ export function VortexDemoSecond() {
       <Vortex
         backgroundColor="1a6769"
         rangeY={800}
-        particleCount={500}
+        particleCount={25}
         baseHue={150}
       >
       </Vortex>
