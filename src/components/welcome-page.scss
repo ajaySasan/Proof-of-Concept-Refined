@@ -31,15 +31,13 @@
   justify-content: center;
 }
 
-#door {
-  font-size: 45px;
-  margin: 0;
-}
-#lightning {
-  font-size: 40px;
-  margin: 0;
+#door, #lightning {
+  margin: 20px;
 }
 
+#pen {
+  margin: 0 20px;
+}
 #beginBtn {
   padding: 10px 100px;
   border-radius: 80px;
