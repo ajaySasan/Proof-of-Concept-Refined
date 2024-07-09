@@ -32,8 +32,8 @@ export const WelcomePage: React.FC<WelcomePageProps> = ({ nextBtn, apiEnviroment
         src="/proof-of-concept-suite/BlackDiceCube.png"
         alt="Black Dice Logo"
         className="b-d-cube"
-        width={100}
-        height={120}
+        width={80}
+        height={100}
         onClick={handleImageClick}
         style={{ cursor: "pointer" }}
         />
