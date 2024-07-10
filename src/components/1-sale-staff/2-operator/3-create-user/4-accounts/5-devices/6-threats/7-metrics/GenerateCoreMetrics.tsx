@@ -225,8 +225,8 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     const deviceDetails = shuffledDeviceIds[idIndex];
 
     if (!deviceDetails) {
-      console.log("Failed generating metric data: deviceDetails is undefined");
-      toast.error("Failed generating metric data");
+      console.log("Failed to generate metric data");
+      toast.error("Failed to generate metric data");
       setIsButtonDisabled(true);
       setTimeout(() => {
         setLoading(false);
@@ -276,8 +276,8 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
       toast.success("Successfully generated metric data");
       setIsButtonDisabled(false);
     } catch (error) {
-      console.log(`Failed generating metric data: ${error}`);
-      toast.error("Failed generating metric data");
+      console.log(`Failed to generate metric data: ${error}`);
+      toast.error("Failed to generate metric data");
     } finally {
       setLoading(false);
     }

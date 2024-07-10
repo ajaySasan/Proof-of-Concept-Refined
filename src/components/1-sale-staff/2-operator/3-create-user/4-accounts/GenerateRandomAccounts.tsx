@@ -225,8 +225,8 @@ export const GenerateRandomAccounts: React.FC<GenerateRandomAccountsProps> = ({
       toast.success("Accounts generated successfully");
       setIsButtonDisabled(false);
     } catch (error) {
-      console.log(`Failed generating account`);
-      toast.error("Failed generating accounts");
+      console.log(`Failed to generate account`);
+      toast.error("Failed to generate accounts");
     } finally {
       setLoading(false);
     }

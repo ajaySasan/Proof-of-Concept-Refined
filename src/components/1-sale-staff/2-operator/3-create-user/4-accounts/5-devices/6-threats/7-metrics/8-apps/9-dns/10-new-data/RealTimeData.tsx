@@ -100,12 +100,12 @@ export const RealTimeData: React.FC<RealTimeDataProps> = ({
   const [currentDateTime, setCurrentDateTime] = useState("");
 
   function delay(ms: any) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+    return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
   // Handle submit
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    await delay(2000)
+    await delay(2000);
     const currentDate = new Date();
 
     const year = currentDate.getFullYear();
@@ -194,7 +194,7 @@ export const RealTimeData: React.FC<RealTimeDataProps> = ({
       if (!deviceId) {
         toast.error("Failed to generate real-time threat data");
       }
-      
+
       const newThreatData: Threats = {
         deviceId: deviceId.deviceId,
         threatType: randomThreat.threatType,
@@ -207,8 +207,6 @@ export const RealTimeData: React.FC<RealTimeDataProps> = ({
       threatData.push(newThreatData);
     }
 
-  
-
     try {
       const response = await axios.post(apiURL + endpointThreat, {
         threats: threatData,
@@ -220,7 +218,6 @@ export const RealTimeData: React.FC<RealTimeDataProps> = ({
       console.error("Error posting threat data:", error);
     }
 
-    
     console.log(threatData);
 
     // Metric Data

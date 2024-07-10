@@ -288,8 +288,8 @@ export const GenerateCoreThreats: React.FC<GenerateCoreThreatsProps> = ({
       toast.success("Successfully generated threat data");
       setIsButtonDisabled(false);
     } catch (error) {
-      console.log(`Failed generating threat data: ${error}`);
-      toast.error("Failed generating threat data");
+      console.log(`Failed to generate threat data: ${error}`);
+      toast.error("Failed to generate threat data");
     } finally {
       setLoading(false);
     }

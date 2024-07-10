@@ -316,8 +316,8 @@ export const GenerateRandomDevices: React.FC<GenerateRandomDevicesProps> = ({
       toast.success("Successfully generated devices");
       setIsButtonDisabled(false);
     } catch (error) {
-      console.log(`Failed geenrating devices: ${error}`);
-      toast.error("Failed geenrating devices");
+      console.log(`Failed to generate devices: ${error}`);
+      toast.error("Failed to generate devices");
     } finally {
       setLoading(false);
     }

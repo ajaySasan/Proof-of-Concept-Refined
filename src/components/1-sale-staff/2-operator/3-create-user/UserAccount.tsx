@@ -232,14 +232,14 @@ export const UserAccount: React.FC<UserAccountProps> = ({
       }
     } catch (error) {
       if (isBlackDiceChecked && isRetinaChecked) {
-        console.error("Failed generating accounts:", error);
-        toast.error("Failed generating accounts");
+        console.error("Failed to generate accounts:", error);
+        toast.error("Failed to generate accounts");
       } else if (isBlackDiceChecked) {
-        console.log("Failed generating BlackDice account:", error);
-        toast.error("Failed generating BlackDice account");
+        console.log("Failed to generate BlackDice account:", error);
+        toast.error("Failed to generate BlackDice account");
       } else if (isRetinaChecked) {
-        console.log("Failed generating Retina account:", error);
-        toast.error("Failed generating Retina account");
+        console.log("Failed to generate Retina account:", error);
+        toast.error("Failed to generate Retina account");
       }
     }
 

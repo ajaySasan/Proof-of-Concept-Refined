@@ -77,6 +77,16 @@ export const DnsHistory: React.FC<DnsHistoryProps> = ({
 
   const handleSubmit = async () => {
     setLoading(true);
+
+    if (deviceId.length === 0) {
+      toast.error("Failed to generate DNS History")
+      setIsButtonDisabled(true);
+      setTimeout(() => {
+        setLoading(false)
+      }, 500)
+      return;
+    }
+
     const newDnsRecords: any[] = [];
     const numberOfRecordsPerDevice = 33;
 
@@ -132,8 +142,8 @@ export const DnsHistory: React.FC<DnsHistoryProps> = ({
       toast.success("Successfully generated DNS Records");
       setIsButtonDisabled(false);
     } catch (err) {
-      console.log(`Failed generating DNS records: ${err}`);
-      toast.error("Failed generating DNS records");
+      console.log(`Failed to generate DNS records: ${err}`);
+      toast.error("Failed to generate DNS records");
     } finally {
       setLoading(false);
     }

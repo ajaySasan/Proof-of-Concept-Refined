@@ -95,45 +95,52 @@ export const AddApps: React.FC<AddAppsProps> = ({
   }, [deviceId, mobileApps, randomNum]);
 
   const handleSubmit = async () => {
-    setLoading(true);
+  setLoading(true);
 
-    if (!deviceId || !mobileApps || randomNum) {
-      console.log("Error generating device apps");
-      toast.error("Failed generating device apps");
-      setIsButtonDisabled(true);
-      setTimeout(() => {
-        setLoading(false);
-      }, 500);
-      return;
+  // Check if deviceId is empty
+  if (deviceId.length === 0) {
+    console.log("Faild to generate device apps");
+    toast.error("Faild to generate device apps");
+    setLoading(false); // Stop loading state
+    return;
+  }
+
+  // Check if mobileApps or randomNum are empty (although they should always be populated once useEffect fetches them)
+  if (mobileApps.length === 0 || randomNum === 0) {
+    console.log("Faild to generate device apps");
+    toast.error("Faild to generate device apps");
+    setLoading(false);
+    return;
+  }
+
+  const chunkSize = 100;
+  const chunks = [];
+  try {
+    for (let i = 0; i < deviceAppMapping.length; i += chunkSize) {
+      chunks.push(deviceAppMapping.slice(i, i + chunkSize));
     }
 
-    const chunkSize = 100;
-    const chunks = [];
-    try {
-      for (let i = 0; i < deviceAppMapping.length; i += chunkSize) {
-        chunks.push(deviceAppMapping.slice(i, i + chunkSize));
-      }
-
-      for (let i = 0; i < chunks.length; i++) {
-        const response = await axios.post(
-          `${apiURL}/v2/op/demo-suite/device-apps`,
-          chunks[i],
-          {
-            headers: header,
-          }
-        );
-        console.log("Successfully generated device apps: ");
-        console.log(response.data);
-      }
-      toast.success("Successfully generated device apps");
-      setIsButtonDisabled(false);
-    } catch (err) {
-      console.log(`Error generating device apps: ${err}`);
-      toast.error("Failed generating device apps");
-    } finally {
-      setLoading(false);
+    for (let i = 0; i < chunks.length; i++) {
+      const response = await axios.post(
+        `${apiURL}/v2/op/demo-suite/device-apps`,
+        chunks[i],
+        {
+          headers: header,
+        }
+      );
+      console.log("Successfully generated device apps: ");
+      console.log(response.data);
     }
-  };
+    toast.success("Successfully generated device apps");
+    setIsButtonDisabled(false);
+  } catch (err) {
+    console.log(`Faild to generate device apps: ${err}`);
+    toast.error("Failed to generate device apps");
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   useEffect(() => {}, [apiURL, token, deviceIdOperator, header]);
 
