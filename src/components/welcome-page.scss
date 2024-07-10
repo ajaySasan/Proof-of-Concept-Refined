@@ -44,6 +44,20 @@
   background: $button-gradient;
 }
 
+#beginBtn:hover {
+  border-color: $pale-green;
+  background: $button-gradient-hover;
+  color: $pale-green;
+  transform: scale(1.1);
+}
+
+#beginBtn:active {
+  border-color: $green;
+  background: $button-gradient-active;
+  color: $green;
+}
+
+
 i {
   padding: 10px 30px 0 30px;
   color: $medium-grey;
@@ -94,3 +108,4 @@ i {
     transform: scale(1);
   }
 }
+

@@ -374,3 +374,14 @@ button:disabled {
   position: relative;
   z-index: 1;
 }
+
+.customSelect {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.svg-flip {
+  transform: scale(-1, 1);
+}
+

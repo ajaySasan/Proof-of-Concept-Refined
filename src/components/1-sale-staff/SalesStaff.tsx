@@ -88,11 +88,12 @@ export const SalesStaff: React.FC<SalesStaffProps> = ({
 
         <select
           id="selectOption"
+          className="customSelect"
           value={staffNameInput}
           onChange={handleStaffName}
         >
           <option value="" disabled hidden>
-            NAME SELECTION
+            NAME SELECTION ▼
           </option>
           {names.map((name) => (
             <option key={name.value} value={name.value}>

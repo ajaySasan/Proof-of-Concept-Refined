@@ -4,6 +4,7 @@ import { useState } from "react";
 import "./welcome-page.scss";
 import Image from "next/image";
 import { Vortex } from "./ui/vortex";
+import toast from "react-hot-toast";
 
 interface WelcomePageProps {
   nextBtn: () => void;
@@ -14,7 +15,7 @@ export const WelcomePage: React.FC<WelcomePageProps> = ({
   nextBtn,
   apiEnviroment,
 }) => {
-  const [enviroment, setEnviroment] = useState<string>("dev");
+  const [enviroment, setEnviroment] = useState<string>("");
 
   const handleEnviromentChange = (
     event: React.ChangeEvent<HTMLSelectElement>
@@ -27,6 +28,18 @@ export const WelcomePage: React.FC<WelcomePageProps> = ({
   const handleImageClick = () => {
     window.location.reload();
   };
+
+  // const isButtonDisabled = !enviroment;
+  const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(false);
+  const handleSelectEnviroment = () => {
+  if (!enviroment) {
+    toast.error("Please select an enviroment")
+    setIsButtonDisabled(false)
+  } else {
+    setIsButtonDisabled(true)
+  }
+
+  }
 
   return (
     <div className="welcome-page">
@@ -58,7 +71,7 @@ export const WelcomePage: React.FC<WelcomePageProps> = ({
           width="40"
           height="40"
           fill="#7b92a3"
-          className="bi bi-door-open"
+          className="bi bi-door-open svg-flip"
           id="door"
           viewBox="0 0 16 16"
         >
@@ -76,7 +89,7 @@ export const WelcomePage: React.FC<WelcomePageProps> = ({
             width="40"
             height="40"
             fill="#7b92a3"
-            className="bi bi-lightning-charge"
+            className="bi bi-lightning-charge svg-flip"
             id="lightning"
             viewBox="0 0 16 16"
           >
@@ -88,7 +101,7 @@ export const WelcomePage: React.FC<WelcomePageProps> = ({
             width="40"
             height="40"
             fill="#7b92a3"
-            className="bi bi-lightning-charge"
+            className="bi bi-lightning-charge "
             id="lightning"
             viewBox="0 0 16 16"
           >
@@ -97,19 +110,24 @@ export const WelcomePage: React.FC<WelcomePageProps> = ({
         </div>
       </div>
       <div className="enviroment">
-        <select value={enviroment} onChange={handleEnviromentChange}>
+        <select
+          value={enviroment}
+          onChange={handleEnviromentChange}
+          className="customSelect"
+          id="custSelect"
+        >
+          <option value="" disabled hidden>Enviroment ▼</option>
           <option value="dev">Development</option>
-          {/* <option value="-stag">Staging</option> */}
           <option value="pov">POV</option>
         </select>
       </div>
-      <button onClick={nextBtn} id="beginBtn">
+      <button onClick={nextBtn} id="beginBtn" disabled={isButtonDisabled}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="20"
           height="20"
           fill="#7b92a3"
-          className="bi bi-pen"
+          className="bi bi-pen "
           id="pen"
           viewBox="0 0 16 16"
         >
@@ -122,7 +140,7 @@ export const WelcomePage: React.FC<WelcomePageProps> = ({
           height="20"
           fill="#7b92a3"
           id="pen"
-          className="bi bi-pen"
+          className="bi bi-pen svg-flip"
           viewBox="0 0 16 16"
         >
           <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z" />

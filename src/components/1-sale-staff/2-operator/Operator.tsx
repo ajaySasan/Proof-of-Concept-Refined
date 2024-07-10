@@ -211,9 +211,11 @@ export const Operator: React.FC<OperatorProps> = ({
               id="selectOption"
               value={selectedOperator ? selectedOperator.ID : ""}
               onChange={handleSelectedOperator}
+              className="customSelect"
+
             >
               <option value="" disabled hidden>
-                OPERATOR SELECTION
+                OPERATOR SELECTION ▼
               </option>
               {operatorList.map((operator) => (
                 <option key={operator.ID} value={operator.ID}>
