@@ -191,6 +191,10 @@ export const RealTimeData: React.FC<RealTimeDataProps> = ({
       const randomIndex = Math.floor(Math.random() * threat.length);
       const randomThreat = threat[randomIndex];
 
+      if (!deviceId) {
+        toast.error("Failed to generate real-time threat data");
+      }
+      
       const newThreatData: Threats = {
         deviceId: deviceId.deviceId,
         threatType: randomThreat.threatType,
@@ -203,6 +207,8 @@ export const RealTimeData: React.FC<RealTimeDataProps> = ({
       threatData.push(newThreatData);
     }
 
+  
+
     try {
       const response = await axios.post(apiURL + endpointThreat, {
         threats: threatData,
@@ -210,9 +216,11 @@ export const RealTimeData: React.FC<RealTimeDataProps> = ({
       console.log("Threat data posted:", response.data);
       toast.success("Successfully generated real-time threat data");
     } catch (error) {
-      console.error("Error posting threat data:", error);
       toast.error("Failed to generate real-time threat data");
+      console.error("Error posting threat data:", error);
     }
+
+    
     console.log(threatData);
 
     // Metric Data

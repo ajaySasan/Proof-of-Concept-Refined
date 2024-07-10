@@ -76,7 +76,7 @@ export const DnsHistory: React.FC<DnsHistoryProps> = ({
   };
 
   const handleSubmit = async () => {
-    setLoading(true)
+    setLoading(true);
     const newDnsRecords: any[] = [];
     const numberOfRecordsPerDevice = 33;
 
@@ -149,10 +149,10 @@ export const DnsHistory: React.FC<DnsHistoryProps> = ({
 
       <div className="common-container-body">
         <label>Add DNS history to devices</label>
+        <LoadingSpinner loading={loading} />
         <button type="button" onClick={handleSubmit}>
           ADD DNS HISTORY
         </button>
-        <LoadingSpinner loading={loading} />
       </div>
 
       <div className="common-container-footer">

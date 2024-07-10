@@ -212,37 +212,54 @@ export const GenerateCoreMetrics: React.FC<GenerateCoreMetricsProps> = ({
     return Math.floor(Math.random() * (-25 - -90 + 1)) + -90;
   };
 
-  // Handle submit
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setLoading(true);
+  // Handle submit// Handle submit
+const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+  setLoading(true);
 
-    const baseTime = randomTime();
+  const baseTime = randomTime();
+  const metricData: Metric[] = [];
 
-    const metricData: Metric[] = [];
+  for (let index = 0; index < dateAndTime.length; index++) {
+    const idIndex = index % shuffledDeviceIds.length;
+    const deviceDetails = shuffledDeviceIds[idIndex];
 
-    dateAndTime.forEach((dateTime, index) => {
-      const idIndex = index % shuffledDeviceIds.length;
-      const { deviceId, mac } = shuffledDeviceIds[idIndex];
-      const newTime = addRandomTime(baseTime);
-      const updatedAt = `${dateTime.split(" ")[0]} ${newTime}`;
+    if (!deviceDetails) {
+      console.log("Failed generating metric data: deviceDetails is undefined");
+      toast.error("Failed generating metric data");
+      setIsButtonDisabled(true);
+      setTimeout(() => {
+        setLoading(false);
+      }, 500);
+      return;
+    }
 
-      const newMetricData: Metric = {
-        deviceId: deviceId,
-        mac: mac,
-        signal: randomSignal(),
-        txBitrate: txBitrate(),
-        rxBitrate: rxBitrate(),
-        txBytes: txByte(),
-        rxBytes: rxByte(),
-        createdAt: dateTime,
-        updatedAt: updatedAt,
-        rxBitrateAverage: randomRxBitRateAverage(),
-        txBitrateAverage: randomTxBitRateAverage(),
-        signalNum: signalNum(),
-      };
-      metricData.push(newMetricData);
-    });
+    let { deviceId, mac } = deviceDetails;
+
+    // Check if mac is missing
+    if (!mac) {
+      deviceId = 0;
+    }
+
+    const newTime = addRandomTime(baseTime);
+    const updatedAt = `${dateAndTime[index].split(" ")[0]} ${newTime}`;
+
+    const newMetricData: Metric = {
+      deviceId: deviceId,
+      mac: mac,
+      signal: randomSignal(),
+      txBitrate: txBitrate(),
+      rxBitrate: rxBitrate(),
+      txBytes: txByte(),
+      rxBytes: rxByte(),
+      createdAt: dateAndTime[index],
+      updatedAt: updatedAt,
+      rxBitrateAverage: randomRxBitRateAverage(),
+      txBitrateAverage: randomTxBitRateAverage(),
+      signalNum: signalNum(),
+    };
+    metricData.push(newMetricData);
+  }
 
     const chunkSize = 100;
 
@@ -276,8 +293,8 @@ export const GenerateCoreMetrics: React.FC<GenerateCoreMetricsProps> = ({
 
       <form className="common-container-body" onSubmit={handleSubmit}>
         <label>Generate metric data for the past 60 days</label>
-        <button type="submit">GENERATE METRICS</button>
         <LoadingSpinner loading={loading} />
+        <button type="submit">GENERATE METRICS</button>
       </form>
 
       <div className="common-container-footer">

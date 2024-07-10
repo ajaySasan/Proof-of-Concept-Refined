@@ -213,7 +213,7 @@ export const GenerateRandomAccounts: React.FC<GenerateRandomAccountsProps> = ({
           pass: generatePassword(),
           serialNumber: serialNumber(),
           referer: operatorDomain,
-          state: 1
+          state: 1,
         };
         const response = await axios.post(
           apiURL + accountEndpoint,
@@ -246,8 +246,8 @@ export const GenerateRandomAccounts: React.FC<GenerateRandomAccountsProps> = ({
           value={numOfAccounts}
           onChange={handleNumOfAccounts}
         />
-        <button type="submit">GENERATE ACCOUNTS</button>
         <LoadingSpinner loading={loading} />
+        <button type="submit">GENERATE ACCOUNTS</button>
       </form>
 
       <div className="common-container-footer">

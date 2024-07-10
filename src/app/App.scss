@@ -239,14 +239,29 @@ select {
   cursor: pointer;
 }
 
+#custSelect {
+  background: $button-gradient;
+}
+
 select:hover {
   border-color: $pale-green;
   background: $button-gradient-hover;
   color: $pale-green;
-  transform: scale(1.1);
+}
+
+#custSelect:hover {
+  border-color: $pale-green;
+  background: $button-gradient-hover;
+  color: $pale-green;
 }
 
 select:active {
+  border-color: $green;
+  background: $button-gradient-active;
+  color: $green;
+}
+
+#custSelect:active {
   border-color: $green;
   background: $button-gradient-active;
   color: $green;
@@ -385,3 +400,6 @@ button:disabled {
   transform: scale(-1, 1);
 }
 
+.loading-spinner {
+  margin: 10px;
+}

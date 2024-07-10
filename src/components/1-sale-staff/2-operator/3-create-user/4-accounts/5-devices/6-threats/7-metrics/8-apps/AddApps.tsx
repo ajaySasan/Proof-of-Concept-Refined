@@ -95,7 +95,18 @@ export const AddApps: React.FC<AddAppsProps> = ({
   }, [deviceId, mobileApps, randomNum]);
 
   const handleSubmit = async () => {
-    setLoading(true)
+    setLoading(true);
+
+    if (!deviceId || !mobileApps || randomNum) {
+      console.log("Error generating device apps");
+      toast.error("Failed generating device apps");
+      setIsButtonDisabled(true);
+      setTimeout(() => {
+        setLoading(false);
+      }, 500);
+      return;
+    }
+
     const chunkSize = 100;
     const chunks = [];
     try {
@@ -134,10 +145,10 @@ export const AddApps: React.FC<AddAppsProps> = ({
 
       <div className="common-container-body">
         <label>Add apps to devices</label>
+        <LoadingSpinner loading={loading} />
         <button type="submit" onClick={handleSubmit}>
           ADD APPS
         </button>
-        <LoadingSpinner loading={loading} />
       </div>
 
       <div className="common-container-footer">

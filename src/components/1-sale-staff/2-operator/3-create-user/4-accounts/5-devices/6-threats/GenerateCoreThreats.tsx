@@ -274,6 +274,7 @@ export const GenerateCoreThreats: React.FC<GenerateCoreThreatsProps> = ({
     });
 
     const chunkSize = 100;
+    
     try {
       for (let i = 0; i < threatData.length; i += chunkSize) {
         const chunk = threatData.slice(i, i + chunkSize);
@@ -284,7 +285,6 @@ export const GenerateCoreThreats: React.FC<GenerateCoreThreatsProps> = ({
         console.log("Successfully generated threat data: ");
         console.log(chunk);
       }
-      console.log("Successfully generated threat data");
       toast.success("Successfully generated threat data");
       setIsButtonDisabled(false);
     } catch (error) {
@@ -305,8 +305,8 @@ export const GenerateCoreThreats: React.FC<GenerateCoreThreatsProps> = ({
 
       <form className="common-container-body" onSubmit={handleSubmit}>
         <label>Generate threat data for the past 60 days</label>
-        <button type="submit">GENERATE THREATS</button>
         <LoadingSpinner loading={loading} />
+        <button type="submit">GENERATE THREATS</button>
       </form>
 
       <div className="common-container-footer">

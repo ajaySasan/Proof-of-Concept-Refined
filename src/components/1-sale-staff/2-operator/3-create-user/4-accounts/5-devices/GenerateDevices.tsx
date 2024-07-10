@@ -337,8 +337,8 @@ export const GenerateRandomDevices: React.FC<GenerateRandomDevicesProps> = ({
           type="text"
           placeholder="devices"
         />
-        <button type="submit">GENERATE DEVICES</button>
         <LoadingSpinner loading={loading} />
+        <button type="submit">GENERATE DEVICES</button>
       </form>
 
       <div className="common-container-footer">
