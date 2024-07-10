@@ -116,7 +116,7 @@ export const WelcomePage: React.FC<WelcomePageProps> = ({
           className="customSelect"
           id="custSelect"
         >
-          <option value="" disabled hidden>Enviroment ▼</option>
+          <option value="" disabled hidden>ENVIROMENT ▼</option>
           <option value="dev">Development</option>
           <option value="pov">POV</option>
         </select>

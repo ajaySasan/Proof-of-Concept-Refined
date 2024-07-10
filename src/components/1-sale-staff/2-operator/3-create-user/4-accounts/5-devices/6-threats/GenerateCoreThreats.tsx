@@ -314,7 +314,7 @@ export const GenerateCoreThreats: React.FC<GenerateCoreThreatsProps> = ({
         <button onClick={nextBtn} type="submit" disabled={isButtonDisabled}>
           NEXT
         </button>
-        <button onClick={skipBtn}>Skip</button>
+        <button onClick={skipBtn}>SKIP</button>
       </div>
     </div>
   );
