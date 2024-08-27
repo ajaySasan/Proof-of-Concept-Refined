@@ -84,10 +84,10 @@ export const GenerateCoreThreats: React.FC<GenerateCoreThreatsProps> = ({
   // Date
   const todaysDate = new Date();
   const pastDates: string[] = [];
-  for (let i = 0; i < 60; i++) {
+  for (let i = 0; i <= 60; i++) {
     const date = new Date(todaysDate);
     date.setDate(todaysDate.getDate() - i);
-    pastDates.unshift(
+    pastDates.push(
       `${date.getFullYear()}-${(date.getMonth() + 1)
         .toString()
         .padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")}`
