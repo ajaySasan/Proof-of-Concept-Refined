@@ -105,7 +105,7 @@ export const DnsHistory: React.FC<DnsHistoryProps> = ({
 
         const randomPlatform = Math.floor(Math.random() * 2) === 0 ? 1000 : 2;
 
-        const profile = ["68hj1h1q7", "66ATCUL1C", "66atcul1c"];
+        const profile = ["39zjt07pc", "683fmwutc", "66atcul1c", "68hj1h1q7", "68h8xtxhb", "66q3y86bj", "68dskdxof"];
         const randomProfileIndex = Math.floor(Math.random() * profile.length);
         const randomProfile = profile[randomProfileIndex];
 
