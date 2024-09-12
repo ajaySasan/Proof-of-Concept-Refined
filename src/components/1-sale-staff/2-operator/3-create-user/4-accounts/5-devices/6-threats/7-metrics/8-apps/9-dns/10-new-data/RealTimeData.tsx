@@ -264,6 +264,11 @@ export const RealTimeData: React.FC<RealTimeDataProps> = ({
       const randomDeviceIndex = Math.floor(Math.random() * deviceInfo.length);
       const deviceId = deviceInfo[randomDeviceIndex];
 
+      if (!deviceId.mac) {
+        deviceId.deviceId = 1;
+        deviceId.mac = '88:64:40:58:05:ce';
+      }
+
       const newMetricData: Metric = {
         deviceId: deviceId.deviceId,
         mac: deviceId.mac,

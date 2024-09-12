@@ -238,12 +238,12 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 
     // Check if mac is missing
     if (!mac) {
-      deviceId = 0;
+      deviceId = 1;
+      mac = '88:64:40:58:05:ce';
     }
 
     const newTime = addRandomTime(baseTime);
     const updatedAt = `${dateAndTime[index].split(" ")[0]} ${newTime}`;
-
     const newMetricData: Metric = {
       deviceId: deviceId,
       mac: mac,
@@ -258,6 +258,8 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
       txBitrateAverage: randomTxBitRateAverage(),
       signalNum: signalNum(),
     };
+    console.log(newMetricData);
+
     metricData.push(newMetricData);
   }
 
