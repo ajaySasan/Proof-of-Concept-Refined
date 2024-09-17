@@ -50,7 +50,11 @@ const Home = () => {
     uiToken: string;
   } | null>(null);
 
-  const apiURL = `https://api-${apiEnviroment}.blackdice.ai`;
+  let apiURL = `https://api-${apiEnviroment}.blackdice.ai`;
+  
+  if( apiEnviroment === "localhost" ) {
+    apiURL = `http://localhost:3000`
+  }
 
   useEffect(() => {
     const fetchTokens = async () => {

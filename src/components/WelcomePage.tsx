@@ -32,14 +32,13 @@ export const WelcomePage: React.FC<WelcomePageProps> = ({
   // const isButtonDisabled = !enviroment;
   const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(false);
   const handleSelectEnviroment = () => {
-  if (!enviroment) {
-    toast.error("Please select an enviroment")
-    setIsButtonDisabled(false)
-  } else {
-    setIsButtonDisabled(true)
-  }
-
-  }
+    if (!enviroment) {
+      toast.error("Please select an enviroment");
+      setIsButtonDisabled(false);
+    } else {
+      setIsButtonDisabled(true);
+    }
+  };
 
   return (
     <div className="welcome-page">
@@ -116,7 +115,10 @@ export const WelcomePage: React.FC<WelcomePageProps> = ({
           className="customSelect"
           id="custSelect"
         >
-          <option value="" disabled hidden>ENVIROMENT ▼</option>
+          <option value="" disabled hidden>
+            ENVIROMENT ▼
+          </option>
+          <option value="localhost">Localhost</option>
           <option value="dev">Development</option>
           <option value="pov">POV</option>
         </select>
