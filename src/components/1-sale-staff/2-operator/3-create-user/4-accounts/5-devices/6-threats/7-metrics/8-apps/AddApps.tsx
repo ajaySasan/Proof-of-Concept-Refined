@@ -120,6 +120,8 @@ export const AddApps: React.FC<AddAppsProps> = ({
       chunks.push(deviceAppMapping.slice(i, i + chunkSize));
     }
 
+    const generatedData = [];
+
     for (let i = 0; i < chunks.length; i++) {
       const response = await axios.post(
         `${apiURL}/v2/op/demo-suite/device-apps`,
@@ -130,6 +132,19 @@ export const AddApps: React.FC<AddAppsProps> = ({
       );
       console.log("Successfully generated device apps: ");
       console.log(response.data);
+
+      generatedData.push(response.data);
+
+      try {
+        const cveThreats = await axios.post(`${apiURL}/v2/op/demo-suite/mobile-apps/${operatorId}`,
+          { data: generatedData },
+          { headers: header }
+        );
+
+        console.log("CVE Threats Created")
+      } catch (error) {
+        console.log("Error: ", error)
+      }
     }
     toast.success("Successfully generated device apps");
     setIsButtonDisabled(false);
