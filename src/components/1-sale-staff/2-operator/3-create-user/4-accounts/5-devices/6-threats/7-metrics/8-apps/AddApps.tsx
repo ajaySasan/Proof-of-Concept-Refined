@@ -35,7 +35,7 @@ export const AddApps: React.FC<AddAppsProps> = ({
     { deviceId: number; appName: string }[]
   >([]);
 
-  const randomNum = Math.floor(Math.random() * 30) + 15;
+  const randomNum = Math.floor(Math.random() * 5) + 10;
 
   const deviceIdOperator: any = `/op/operatordevices/${operatorId}?size=100000`;
 
