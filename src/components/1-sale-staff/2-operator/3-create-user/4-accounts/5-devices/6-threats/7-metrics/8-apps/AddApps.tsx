@@ -135,16 +135,16 @@ export const AddApps: React.FC<AddAppsProps> = ({
 
       generatedData.push(response.data);
 
-      try {
-        const cveThreats = await axios.post(`${apiURL}/v2/op/demo-suite/mobile-apps/${operatorId}`,
-          { data: generatedData },
-          { headers: header }
-        );
+      // try {
+      //   const cveThreats = await axios.post(`${apiURL}/v2/op/demo-suite/mobile-apps/${operatorId}`,
+      //     { data: generatedData },
+      //     { headers: header }
+      //   );
 
-        console.log("CVE Threats Created")
-      } catch (error) {
-        console.log("Error: ", error)
-      }
+      //   console.log("CVE Threats Created")
+      // } catch (error) {
+      //   console.log("Error: ", error)
+      // }
     }
     toast.success("Successfully generated device apps");
     setIsButtonDisabled(false);
