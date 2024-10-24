@@ -32,7 +32,7 @@ export const AddApps: React.FC<AddAppsProps> = ({
   const [mobileApps, setMobileApps] = useState<any[]>([]);
   const [deviceId, setDeviceId] = useState<number[]>([]);
   const [deviceAppMapping, setDeviceAppMapping] = useState<
-    { deviceId: number; appName: string }[]
+    { deviceId: number; mobileAppId: any }[]
   >([]);
 
   const randomNum = Math.floor(Math.random() * 5) + 10;
@@ -77,17 +77,16 @@ export const AddApps: React.FC<AddAppsProps> = ({
     if (deviceId.length > 0 && mobileApps.length > 0 && randomNum > 0) {
       const newDeviceAppMapping:
         | ((
-            prevState: { deviceId: number; appName: string; appType: string }[]
-          ) => { deviceId: number; appName: string; appType: string }[])
-        | { deviceId: number; appName: any; appType: string }[] = [];
+            prevState: { deviceId: number; mobileAppId: any; mobileAppRole: any }[]
+          ) => { deviceId: number; mobileAppId: any; mobileAppRole: any }[])
+        | { deviceId: number; mobileAppId: any; mobileAppRole: any }[] = [];
       deviceId.forEach((device) => {
         for (let i = 0; i < randomNum; i++) {
           const randomAppIndex = Math.floor(Math.random() * mobileApps.length);
           newDeviceAppMapping.push({
             deviceId: device,
-            appName: mobileApps[randomAppIndex].packageName,
-            appType: "user",
-          });
+            mobileAppId: mobileApps[randomAppIndex].id,
+          mobileAppRole: 2000          });
         }
       });
       setDeviceAppMapping(newDeviceAppMapping);
@@ -124,7 +123,7 @@ export const AddApps: React.FC<AddAppsProps> = ({
 
     for (let i = 0; i < chunks.length; i++) {
       const response = await axios.post(
-        `${apiURL}/v2/op/demo-suite/device-apps`,
+        `${apiURL}/v2/op/demo-suite/mobile-apps-cve`,
         chunks[i],
         {
           headers: header,
