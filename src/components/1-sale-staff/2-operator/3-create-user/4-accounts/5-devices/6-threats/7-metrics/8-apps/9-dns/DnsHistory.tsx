@@ -77,38 +77,53 @@ export const DnsHistory: React.FC<DnsHistoryProps> = ({
 
   const handleSubmit = async () => {
     setLoading(true);
-
+  
     if (deviceId.length === 0) {
-      toast.error("Failed to generate DNS History")
+      toast.error("Failed to generate DNS History");
       setIsButtonDisabled(true);
       setTimeout(() => {
-        setLoading(false)
-      }, 500)
+        setLoading(false);
+      }, 500);
       return;
     }
-
+  
     const newDnsRecords: any[] = [];
-    const numberOfRecordsPerDevice = 33;
-
+    const numberOfRecordsPerDevice = 26;
+  
+    // Utility function to get a random date within the past 30 days
+    const getRandomDate = () => {
+      const now = new Date();
+      const past = new Date();
+      past.setDate(now.getDate() - 120);
+  
+      const randomTimestamp = past.getTime() + Math.random() * (now.getTime() - past.getTime());
+      const randomDate = new Date(randomTimestamp);
+  
+      const year = randomDate.getFullYear();
+      const month = String(randomDate.getMonth() + 1).padStart(2, "0");
+      const day = String(randomDate.getDate()).padStart(2, "0");
+      const hours = String(randomDate.getHours()).padStart(2, "0");
+      const minutes = String(randomDate.getMinutes()).padStart(2, "0");
+      const seconds = String(randomDate.getSeconds()).padStart(2, "0");
+  
+      return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}.000`;
+    };
+  
     for (const id of deviceId) {
       for (let i = 0; i < numberOfRecordsPerDevice; i++) {
-        const randomMobileAppIndex = Math.floor(
-          Math.random() * mobileApps.length
-        );
+        const randomMobileAppIndex = Math.floor(Math.random() * mobileApps.length);
         const randomMobileApp = mobileApps[randomMobileAppIndex];
-
+  
         const categories = ["10005", "10005-10415", "10094", "10096-10115"];
-        const randomCategoryIndex = Math.floor(
-          Math.random() * categories.length
-        );
+        const randomCategoryIndex = Math.floor(Math.random() * categories.length);
         const randomCategory = categories[randomCategoryIndex];
-
+  
         const randomPlatform = Math.floor(Math.random() * 2) === 0 ? 1000 : 2;
-
+  
         const profile = ["39zjt07pc", "683fmwutc", "66atcul1c", "68hj1h1q7", "68h8xtxhb", "66q3y86bj", "68dskdxof"];
         const randomProfileIndex = Math.floor(Math.random() * profile.length);
         const randomProfile = profile[randomProfileIndex];
-
+  
         const allow = Math.floor(Math.random() * 2) === 0;
         const newDnsRecord = {
           requester: id,
@@ -118,15 +133,16 @@ export const DnsHistory: React.FC<DnsHistoryProps> = ({
           reason: randomPlatform,
           categories: randomCategory,
           tld: randomMobileApp.packageName,
+          created_at: getRandomDate(), // Add the generated random date here
         };
-
+  
         newDnsRecords.push(newDnsRecord);
       }
     }
-
+  
     const chunkSize = 100;
     const chunks = chunkArray(newDnsRecords, chunkSize);
-
+  
     try {
       for (const chunk of chunks) {
         const response = await axios.post(
