@@ -62,14 +62,14 @@ const Home = () => {
         const operatorTokenResponse = await axios.post(
           `${apiURL}/op/auth/login`,
           {
-            email: "operator@demo.com",
+            email: "ajay.sasan@blackdice.ai",
             pass: "123456",
           }
         );
 
         const uiTokenResponse = await axios.post(`${apiURL}/pa/auth`, {
-          email: "service-platform@demo.com",
-          pass: "123456",
+          email: "Leo.Moore@ajay.ai",
+          pass: "Dev@12345",
         });
 
         setTokens({
