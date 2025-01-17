@@ -88,13 +88,13 @@ export const DnsHistory: React.FC<DnsHistoryProps> = ({
     }
   
     const newDnsRecords: any[] = [];
-    const numberOfRecordsPerDevice = 26;
+    const numberOfRecordsPerDevice = 2000;
   
     // Utility function to get a random date within the past 30 days
     const getRandomDate = () => {
       const now = new Date();
       const past = new Date();
-      past.setDate(now.getDate() - 120);
+      past.setDate(now.getDate() - 30);
   
       const randomTimestamp = past.getTime() + Math.random() * (now.getTime() - past.getTime());
       const randomDate = new Date(randomTimestamp);
@@ -108,11 +108,31 @@ export const DnsHistory: React.FC<DnsHistoryProps> = ({
   
       return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}.000`;
     };
-  
+
     for (const id of deviceId) {
       for (let i = 0; i < numberOfRecordsPerDevice; i++) {
-        const randomMobileAppIndex = Math.floor(Math.random() * mobileApps.length);
-        const randomMobileApp = mobileApps[randomMobileAppIndex];
+        // const randomMobileApp = mobileApps[randomMobileAppIndex];
+        const fqdnArray = [
+          "example.com",
+          "api.example.com",
+          "mail.example.com",
+          "dev.example.com",
+          "staging.example.com",
+          "prod.example.com",
+          "example.org",
+          "www.example.org",
+          "blog.example.org",
+          "support.example.org",
+          "shop.example.net",
+          "cdn.example.net",
+          "test.example.net",
+          "internal.example.io",
+          "external.example.io"
+      ];
+      const randomMobileAppIndex = Math.floor(Math.random() * fqdnArray.length);
+
+      const randomMobileApp = fqdnArray[randomMobileAppIndex];
+
   
         const categories = ["10005", "10005-10415", "10094", "10096-10115"];
         const randomCategoryIndex = Math.floor(Math.random() * categories.length);
@@ -122,25 +142,27 @@ export const DnsHistory: React.FC<DnsHistoryProps> = ({
   
         const profile = ["39zjt07pc", "683fmwutc", "66atcul1c", "68hj1h1q7", "68h8xtxhb", "66q3y86bj", "68dskdxof"];
         const randomProfileIndex = Math.floor(Math.random() * profile.length);
+        const randomDeviceId = Math.floor(Math.random() * deviceId.length);
+
         const randomProfile = profile[randomProfileIndex];
-  
         const allow = Math.floor(Math.random() * 2) === 0;
         const newDnsRecord = {
-          requester: id,
-          fqdn: randomMobileApp.packageName,
+          requester: randomDeviceId,
+          fqdn: randomMobileApp,
           profile: randomProfile,
           allow: allow,
           reason: randomPlatform,
           categories: randomCategory,
-          tld: randomMobileApp.packageName,
+          tld: randomMobileApp,
           created_at: getRandomDate(), // Add the generated random date here
         };
   
-        newDnsRecords.push(newDnsRecord);
+        newDnsRecords.push(newDnsRecord);  
+
       }
     }
   
-    const chunkSize = 100;
+    const chunkSize = 250;
     const chunks = chunkArray(newDnsRecords, chunkSize);
   
     try {
@@ -158,7 +180,7 @@ export const DnsHistory: React.FC<DnsHistoryProps> = ({
       toast.success("Successfully generated DNS Records");
       setIsButtonDisabled(false);
     } catch (err) {
-      console.log(`Failed to generate DNS records: ${err}`);
+      console.error(`Failed to generate DNS records: ${err}`);
       toast.error("Failed to generate DNS records");
     } finally {
       setLoading(false);
