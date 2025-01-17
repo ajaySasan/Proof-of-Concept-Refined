@@ -50,7 +50,7 @@ const Home = () => {
     uiToken: string;
   } | null>(null);
 
-  let apiURL = `https://api-${apiEnviroment}.blackdice.ai`;
+  let apiURL = `http://localhost:3000`;
   
   if( apiEnviroment === "localhost" ) {
     apiURL = `http://localhost:3000`
@@ -62,14 +62,14 @@ const Home = () => {
         const operatorTokenResponse = await axios.post(
           `${apiURL}/op/auth/login`,
           {
-            email: "ajay.sasan@blackdice.ai",
+            email: "operator@demo.com",
             pass: "123456",
           }
         );
 
         const uiTokenResponse = await axios.post(`${apiURL}/pa/auth`, {
-          email: "Leo.Moore@ajay.ai",
-          pass: "Dev@12345",
+          email: "service-platform@demo.com",
+          pass: "123456",
         });
 
         setTokens({

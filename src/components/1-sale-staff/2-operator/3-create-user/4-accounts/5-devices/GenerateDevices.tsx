@@ -228,26 +228,26 @@ export const GenerateRandomDevices: React.FC<GenerateRandomDevicesProps> = ({
     return prefix + randomDigits.toString().substring(0, 9);
   };
 
-  // Get Haandle ID
-  const getHaandleId = `/op/${operatorId}/cpe_table?size=${numOfHaandles}&sort=id&order=desc`;
-  const fetchRandomId = async () => {
-    try {
-      const response = await axios.get(`${apiURL}${getHaandleId}`, {
-        headers: header,
-      });
-      const responseData = response.data.data;
-      const randomIndex = Math.floor(Math.random() * responseData.length);
-      const newRandomId = responseData[randomIndex].ID;
-      return newRandomId;
-    } catch (error) {
-      console.error("Error fetching random ID:", error);
-      return null;
-    }
-  };
+  // // Get Haandle ID
+  // const getHaandleId = `/op/${operatorId}/cpe_table?size=${numOfHaandles}&sort=id&order=desc`;
+  // const fetchRandomId = async () => {
+  //   try {
+  //     const response = await axios.get(`${apiURL}${getHaandleId}`, {
+  //       headers: header,
+  //     });
+  //     const responseData = response.data.data;
+  //     const randomIndex = Math.floor(Math.random() * responseData.length);
+  //     const newRandomId = responseData[randomIndex].ID;
+  //     return newRandomId;
+  //   } catch (error) {
+  //     console.error("Error fetching random ID:", error);
+  //     return null;
+  //   }
+  // };
 
-  useEffect(() => {
-    fetchRandomId();
-  }, [fetchRandomId]);
+  // useEffect(() => {
+  //   fetchRandomId();
+  // }, [fetchRandomId]);
 
   // 75% confirmed, 25% unconfirmed
   const threat75Percentage = 0.75;
@@ -259,67 +259,42 @@ export const GenerateRandomDevices: React.FC<GenerateRandomDevicesProps> = ({
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
-
-    const haandles: number[] = [];
-    const numHaandles = Math.ceil(numOfDevices / 3);
-
-    for (let i = 0; i < numHaandles; i++) {
-      const newRandomId = await fetchRandomId();
-      haandles.push(newRandomId);
-    }
-    const devicesPerHaandle = Math.floor(numOfDevices / haandles.length);
-    let remainingDevices = numOfDevices % haandles.length;
+  
     try {
-      for (let i = 0; i < haandles.length; i++) {
-        let devicesForThisHaandle = devicesPerHaandle;
-
-        if (remainingDevices > 0) {
-          const deviceAdd = Math.floor(Math.random() * 4);
-          const deviceSubtract = Math.floor(Math.random() * 4);
-
-          if (
-            deviceAdd !== 0 &&
-            devicesForThisHaandle + deviceAdd <= numOfDevices
-          ) {
-            devicesForThisHaandle += deviceAdd;
-            remainingDevices -= deviceAdd;
-          } else if (
-            deviceSubtract !== 0 &&
-            devicesForThisHaandle - deviceSubtract >= 2
-          ) {
-            devicesForThisHaandle -= deviceSubtract;
-            remainingDevices += deviceSubtract;
-          }
-        }
-
-        for (let j = 0; j < devicesForThisHaandle; j++) {
-          const randomDeviceDescription = getRandomDeviceDescription();
-
-          const deviceData: Device = {
-            name: `${getRandomDeviceName()} ${randomDeviceDescription.type}`,
-            description: randomDeviceDescription.type,
-            macAddress: serialNumber(),
-            phoneNumber: generatePhoneNumber(),
-            deviceCategoryId: randomDeviceDescription.cat,
-            webFilter: getRandomAgeGroup(),
-            rules: [],
-            haandle: haandles[i],
-          };
-
-          const response = await axios.post(apiURL + endpoint, deviceData, {
+      const totalDevicesToCreate = 61275; // Number of devices to create
+  
+      for (let j = 0; j < totalDevicesToCreate; j++) {
+        const randomDeviceDescription = getRandomDeviceDescription();
+  
+        const deviceData: Device = {
+          name: `${getRandomDeviceName()} ${randomDeviceDescription.type}`,
+          description: randomDeviceDescription.type,
+          macAddress: serialNumber(),
+          phoneNumber: generatePhoneNumber(),
+          deviceCategoryId: randomDeviceDescription.cat,
+          webFilter: getRandomAgeGroup(),
+          rules: [],
+          haandle: 14, // Ensure this `i` variable is defined or replace it accordingly
+        };
+  
+        try {
+          const response = await axios.post(apiURL + endpointThreat25, deviceData, {
             headers: header,
           });
-          console.log("Successfully generated device: ");
-          console.log(response.data);
+          console.log("Successfully generated device: ", response.data);
+        } catch (error) {
+          console.error(`Failed to generate device ${j + 1}: ${error}`);
+          toast.error(`Failed to generate device ${j + 1}`);
         }
       }
-      toast.success("Successfully generated devices");
-      setIsButtonDisabled(false);
+  
+      toast.success("Successfully generated all devices");
     } catch (error) {
       console.log(`Failed to generate devices: ${error}`);
       toast.error("Failed to generate devices");
     } finally {
       setLoading(false);
+      setIsButtonDisabled(false); // Re-enable the button after all devices are processed
     }
   };
 

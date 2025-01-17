@@ -130,7 +130,7 @@ export const GenerateRandomAccounts: React.FC<GenerateRandomAccountsProps> = ({
     const lastNameResult: string = lastNames[randomLastName];
 
     const emailSyntax: string = Array.from(
-      { length: Math.floor(Math.random() * 5) + 1 },
+      { length: Math.floor(Math.random() * 5) + 4 },
       () => {
         const chars = "0123456789!-_";
         return chars[Math.floor(Math.random() * chars.length)];
